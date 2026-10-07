@@ -5,9 +5,9 @@ import Faq from '../../components/Faq.astro';
 import TrustBlock from '../../components/TrustBlock.astro';
 import { site } from '../../data/site';
 
-const title = 'Mouse DPI Analyzer — Find Your Real DPI | SensForge';
+const title = 'Mouse DPI Analyzer: Find Your Real DPI | SensForge';
 const description =
-  'Find your mouse\'s true DPI without drivers: move a measured distance and the tool counts sensor steps. No uploads, no sign-up — runs in your browser.';
+  'Find your mouse\'s true DPI without drivers: move a measured distance and the tool counts sensor steps. No uploads, no sign-up, runs in your browser.';
 
 const jsonLd = [
   {
@@ -44,15 +44,15 @@ const faq = [
   },
   {
     q: 'How accurate is the result?',
-    a: 'With a ruler, a slow steady drag, and acceleration off, typical accuracy is within ±2–3% — good enough to confirm whether you are really on 400/800/1600 DPI. Repeat the measurement three times and average for the best number.',
+    a: 'With a ruler, a slow steady drag, and acceleration off, typical accuracy is within ±2–3%, good enough to confirm whether you are really on 400/800/1600 DPI. Repeat the measurement three times and average for the best number.',
   },
   {
     q: 'Does this work with my brand of mouse?',
-    a: 'Yes — any mouse works, because the tool reads counts the operating system reports. It measures effective DPI (post-driver). Logitech, Razer, SteelSeries, Pulsar, Zowie and generic mice are all fine.',
+    a: 'Yes, any mouse works, because the tool reads counts the operating system reports. It measures effective DPI (post-driver). Logitech, Razer, SteelSeries, Pulsar, Zowie and generic mice are all fine.',
   },
   {
     q: 'Why does the counter need to keep the pointer locked?',
-    a: 'Pointer lock keeps your cursor from hitting the screen edge — the classic problem when measuring long distances. While measuring, your cursor is hidden and the tool tallies every step; press Stop (or Esc) to finish.',
+    a: 'Pointer lock keeps your cursor from hitting the screen edge, which is the classic problem when measuring long distances. While measuring, your cursor is hidden and the tool tallies every step; press Stop (or Esc) to finish.',
   },
 ];
 
@@ -77,7 +77,7 @@ const wired = [
     <div class="hero">
       <h1>Mouse DPI Analyzer</h1>
       <p class="value-line">
-        Find out what DPI your mouse <em>actually</em> outputs — no driver software, no downloads.
+        Find out what DPI your mouse <em>actually</em> outputs, no driver software, no downloads.
         Count sensor steps over a measured distance and get your real value.
       </p>
       <ul class="trust-microline">
@@ -91,7 +91,7 @@ const wired = [
       <div class="callout-title">Before you start (30 seconds)</div>
       <ul class="mb-0">
         <li>Turn <strong>off</strong> mouse acceleration: Windows → Mouse settings → Pointer Options → uncheck "Enhance pointer precision".</li>
-        <li>Keep in-game sensitivity out of it — this measures hardware, not software settings.</li>
+        <li>Keep in-game sensitivity out of it. This measures hardware, not software settings.</li>
         <li>Have a ruler or tape measure ready (cm or inches).</li>
       </ul>
     </div>
@@ -109,7 +109,7 @@ const wired = [
             </select>
           </div>
           <div class="field">
-            <label>Step 1 — Record the movement</label>
+            <label>Step 1: Record the movement</label>
             <div class="chips" style="margin:0">
               <button class="btn btn-primary" type="button" id="start-btn">● Start measuring</button>
               <button class="btn btn-secondary" type="button" id="stop-btn" disabled>■ Stop</button>
@@ -117,15 +117,15 @@ const wired = [
             <span class="helper" id="live-status">Click Start, then drag your mouse steadily in a straight line. Press Stop when done.</span>
           </div>
           <div class="field">
-            <label for="counts-readout">Step 2 — Counts recorded</label>
-            <input type="text" id="counts-readout" readonly value="—" style="font-family:var(--font-mono)" />
+            <label for="counts-readout">Step 2: Counts recorded</label>
+            <input type="text" id="counts-readout" readonly value="-" style="font-family:var(--font-mono)" />
             <span class="helper">Sensor steps captured (system-reported counts).</span>
           </div>
         </div>
 
         <div>
           <div class="field">
-            <label for="distance">Step 3 — Physical distance moved</label>
+            <label for="distance">Step 3: Physical distance moved</label>
             <input type="number" id="distance" inputmode="decimal" min="1" max="1000" step="0.1" placeholder="e.g. 30" />
             <span class="helper" id="dist-unit-hint">Distance in centimetres (measure start → end with a ruler).</span>
           </div>
@@ -137,8 +137,8 @@ const wired = [
             </select>
           </div>
           <div class="field">
-            <label>Result — your effective DPI</label>
-            <div class="result-value" id="dpi-out" style="font-size:2rem">—</div>
+            <label>Result: your effective DPI</label>
+            <div class="result-value" id="dpi-out" style="font-size:2rem">-</div>
             <span class="helper" id="dpi-hint">Appears once counts and distance are entered.</span>
           </div>
         </div>
@@ -147,10 +147,10 @@ const wired = [
       <div class="result-panel">
         <div class="small muted">Repeat test for accuracy</div>
         <div class="result-meta">
-          <div class="kv"><div class="k">Measurement 1</div><div class="v" id="m1">—</div></div>
-          <div class="kv"><div class="k">Measurement 2</div><div class="v" id="m2">—</div></div>
-          <div class="kv"><div class="k">Measurement 3</div><div class="v" id="m3">—</div></div>
-          <div class="kv"><div class="k">Average</div><div class="v" id="mavg" style="color:var(--green)">—</div></div>
+          <div class="kv"><div class="k">Measurement 1</div><div class="v" id="m1">-</div></div>
+          <div class="kv"><div class="k">Measurement 2</div><div class="v" id="m2">-</div></div>
+          <div class="kv"><div class="k">Measurement 3</div><div class="v" id="m3">-</div></div>
+          <div class="kv"><div class="k">Average</div><div class="v" id="mavg" style="color:var(--green)">-</div></div>
         </div>
         <div class="result-actions">
           <button class="btn btn-secondary" type="button" id="save-btn">Save current as measurement</button>
@@ -172,7 +172,7 @@ const wired = [
         A mouse reporting 800 DPI sends 800 counts per inch of physical travel. The browser's pointer
         lock exposes the counts your operating system receives (movementX/Y), so a straight measured drag
         gives you a direct read of effective DPI. With acceleration off, this matches the number your mouse
-        driver reports — and reveals what it actually is when the label and driver disagree.
+        driver reports, and reveals what it actually is when the label and driver disagree.
       </p>
       <p class="small muted">Common reasons a measured value differs from the box: wrong driver profile, acceleration on, or sensor variance (≤ ±3%).</p>
     </section>
@@ -227,7 +227,7 @@ const wired = [
       const dist = parseFloat(($('distance') as HTMLInputElement).value);
       const unit = ($('unit') as HTMLSelectElement).value;
       if (!(c > 0) || !(dist > 0)) {
-        $('dpi-out').textContent = '—';
+        $('dpi-out').textContent = '-';
         return;
       }
       const inches = unit === 'cm' ? dist / 2.54 : dist;
@@ -239,13 +239,13 @@ const wired = [
 
     function refreshSaved() {
       for (let i = 0; i < 3; i++) {
-        $('m' + (i + 1)).textContent = saved[i] ? fmt(saved[i]) : '—';
+        $('m' + (i + 1)).textContent = saved[i] ? fmt(saved[i]) : '-';
       }
       if (saved.length) {
         const avg = saved.reduce((a, b) => a + b, 0) / saved.length;
         $('mavg').textContent = `${fmt(avg)} (n=${saved.length})`;
       } else {
-        $('mavg').textContent = '—';
+        $('mavg').textContent = '-';
       }
     }
 
@@ -277,7 +277,7 @@ const wired = [
       document.exitPointerLock?.();
       $('start-btn').removeAttribute('disabled');
       $('stop-btn').setAttribute('disabled', 'true');
-      $('live-status').textContent = 'Done — now measure the physical distance you moved and enter it in Step 3.';
+      $('live-status').textContent = 'Done: now measure the physical distance you moved and enter it in Step 3.';
       updateResult();
     });
 
@@ -297,8 +297,8 @@ const wired = [
     $('reset-btn').addEventListener('click', () => {
       saved.length = 0;
       counts = 0;
-      $('counts-readout').value = '—';
-      $('dpi-out').textContent = '—';
+      $('counts-readout').value = '-';
+      $('dpi-out').textContent = '-';
       ($('distance') as HTMLInputElement).value = '';
       refreshSaved();
     });

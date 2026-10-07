@@ -6,7 +6,7 @@ import TrustBlock from '../../components/TrustBlock.astro';
 import { games } from '../../data/games';
 import { site } from '../../data/site';
 
-const title = 'cm/360 Calculator — Mouse Distance Per Turn | SensForge';
+const title = 'cm/360 Calculator: Mouse Distance Per Turn | SensForge';
 const description =
   'Calculate your cm/360 from any FPS: how far your mouse travels per 360° turn. Compare across 13 games and fit your mousepad. Free, in-browser.';
 
@@ -16,7 +16,7 @@ const jsonLd = [
     '@id': `${site.url}/cm-360-calculator/#app`,
     name: 'cm/360 Calculator',
     url: `${site.url}/cm-360-calculator/`,
-    description: 'Convert sensitivity and DPI into cm/360 — the physical mouse distance per full turn — across 13 FPS games.',
+    description: 'Convert sensitivity and DPI into cm/360 (the physical mouse distance per full turn) across 13 FPS games.',
     applicationCategory: 'GameApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -36,7 +36,7 @@ const faq = [
   },
   {
     q: 'How do I measure my cm/360?',
-    a: 'Enter your sensitivity, DPI and game above — or measure it physically: place your mouse on a mousepad, do a slow full 360° turn, and mark where the mouse started and ended with a ruler.',
+    a: 'Enter your sensitivity, DPI and game above, or measure it physically: place your mouse on a mousepad, do a slow full 360° turn, and mark where the mouse started and ended with a ruler.',
   },
   {
     q: 'What cm/360 should I use?',
@@ -48,7 +48,7 @@ const faq = [
   },
   {
     q: 'Does DPI affect cm/360?',
-    a: 'Yes. cm/360 is inversely proportional to (sens × DPI × yaw). If you double your DPI without changing in-game sensitivity, your cm/360 halves — that is why conversions must always include DPI.',
+    a: 'Yes. cm/360 is inversely proportional to (sens × DPI × yaw). If you double your DPI without changing in-game sensitivity, your cm/360 halves. That is why conversions must always include DPI.',
   },
 ];
 
@@ -68,7 +68,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
     <div class="hero">
       <h1>cm/360 Calculator</h1>
       <p class="value-line">
-        Find the exact physical distance your mouse travels for a full 360° turn in any of 13 FPS games —
+        Find the exact physical distance your mouse travels for a full 360° turn in any of 13 FPS games,
         and check it against your mousepad before you blame your aim.
       </p>
       <ul class="trust-microline">
@@ -107,11 +107,11 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
         <div class="result-empty" id="result-empty">Enter your settings to see your cm/360.</div>
         <div id="result-body" hidden>
           <div class="small muted">Your cm/360 (physical distance per full turn)</div>
-          <div class="result-value" id="result-value">—</div>
+          <div class="result-value" id="result-value">-</div>
           <div class="result-meta">
-            <div class="kv"><div class="k">Inches/360</div><div class="v" id="out-inches">—</div></div>
-            <div class="kv"><div class="k">eDPI</div><div class="v" id="out-edpi">—</div></div>
-            <div class="kv"><div class="k">Mousepad coverage</div><div class="v" id="out-pad">—</div></div>
+            <div class="kv"><div class="k">Inches/360</div><div class="v" id="out-inches">-</div></div>
+            <div class="kv"><div class="k">eDPI</div><div class="v" id="out-edpi">-</div></div>
+            <div class="kv"><div class="k">Mousepad coverage</div><div class="v" id="out-pad">-</div></div>
           </div>
           <div class="result-actions">
             <button class="btn btn-primary" type="button" id="copy-btn"><span class="normal-label">Copy result</span><span class="copied-label">✓ Copied</span></button>
@@ -142,7 +142,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
         <table>
           <thead><tr><th>cm/360</th><th>Example setting (CS2 / 800 DPI)</th><th>Mousepad need</th></tr></thead>
           <tbody>
-            <tr><td>20 cm</td><td>~2.60 sens</td><td>Small pad (25×21 cm) is enough — standard office pad</td></tr>
+            <tr><td>20 cm</td><td>~2.60 sens</td><td>Small pad (25×21 cm) is enough, standard office pad</td></tr>
             <tr><td>30 cm</td><td>~1.73 sens</td><td>Medium pad (32×27 cm) comfortable</td></tr>
             <tr><td>40 cm</td><td>~1.30 sens</td><td>Medium–large pad recommended</td></tr>
             <tr><td>52 cm</td><td>~1.0 sens</td><td>Large pad (45×40 cm) recommended</td></tr>

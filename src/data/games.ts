@@ -5,7 +5,7 @@
  * sensitivity slider multiplies). Conversion: sensA × DPI_A × yawA = sensB × DPI_B × yawB
  *
  * Sources for yaw values (accessed 2026-10-07):
- * - Valve documented m_yaw default (CS2/CS:GO = 0.022) — game's own cvar
+ * - Valve documented m_yaw default (CS2/CS:GO = 0.022): game's own cvar
  * - DCPROSENS complete yaw reference (cross-referenced 2+ independent sources):
  *   https://dcprosens.com/blog/complete-fps-yaw-value-reference/
  * - veronicalynn0528/fps-sensitivity-formulas (MIT reference tables)
@@ -43,7 +43,7 @@ export interface Game {
   sensDecimals: number;
 }
 
-/** Canonical order used in dropdowns — most searched first. */
+/** Canonical order used in dropdowns, most searched first. */
 export const games: Game[] = [
   {
     id: 'valorant',
@@ -183,7 +183,7 @@ export const games: Game[] = [
     short: 'EFT',
     yaw: 0.113636,
     confidence: 'single-source',
-    yawNote: 'Single technical source — treat as a starting point',
+    yawNote: 'Single technical source, treat as a starting point',
     typicalSens: '0.2 – 1.0',
     defaultSens: 0.5,
     sensDecimals: 3,

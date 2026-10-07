@@ -3,7 +3,7 @@
  *
  * Curated, not programmatic mass-generation: every pair below has documented
  * search demand (Google Autocomplete research run 2026-10-07, worker-02/03)
- * and unique content — different input systems, direction-specific tables,
+ * and unique content: different input systems, direction-specific tables,
  * pair-specific caveats. No template-swapped filler.
  */
 
@@ -35,21 +35,21 @@ export const pairPages: PairPage[] = [
     toId: 'cs2',
     fromName: 'Valorant',
     toName: 'CS2',
-    title: 'Valorant to CS2 Sensitivity Converter — 1:1 cm/360',
+    title: 'Valorant to CS2 Sensitivity Converter: 1:1 cm/360',
     description:
       'Convert your Valorant sensitivity to CS2 exactly: same cm/360, worked conversion table for every sens value, and the reverse direction. Free, instant.',
     h1: 'Valorant to CS2 Sensitivity Converter',
     intro: [
-      'Same muscle memory, new game: convert your Valorant sensitivity to an exact CS2 match — with a full worked table for every common sens value, and reverse conversion built in.',
+      'Same muscle memory, new game: convert your Valorant sensitivity to an exact CS2 match, with a full worked table for every common sens value, and reverse conversion built in.',
     ],
     sections: [
       {
         heading: 'Why the numbers differ so much',
-        body: 'Both games rotate the camera <code>sensitivity × yaw</code> degrees per mouse count. Valorant\'s yaw is <strong>0.07</strong>; CS2\'s is <strong>0.022</strong> (its documented <code>m_yaw</code> default). Because CS2 rotates less per count, it needs a bigger slider number for the same physical hand movement — hence the ≈ 3.18× ratio. The <a href="/guides/cm-360-explained/">cm/360 guide</a> explains the underlying model, and the <a href="/methodology/">methodology page</a> lists the sources for both constants.',
+        body: 'Both games rotate the camera <code>sensitivity × yaw</code> degrees per mouse count. Valorant\'s yaw is <strong>0.07</strong>; CS2\'s is <strong>0.022</strong> (its documented <code>m_yaw</code> default). Because CS2 rotates less per count, it needs a bigger slider number for the same physical hand movement, hence the ≈ 3.18× ratio. The <a href="/guides/cm-360-explained/">cm/360 guide</a> explains the underlying model, and the <a href="/methodology/">methodology page</a> lists the sources for both constants.',
       },
       {
         heading: 'Playing 4:3 stretched in CS2?',
-        body: 'Stretched resolution changes on-screen feel, not the rotation maths. If you use <code>m_yaw 0.0165</code> (the 4:3 stretched convention), multiply the converted CS2 value by 0.022/0.0165 ≈ 1.333 — or keep the default <code>m_yaw 0.022</code> and use the value as shown. See the <a href="/fov-calculator/">FOV calculator</a> for the screen-space factor.',
+        body: 'Stretched resolution changes on-screen feel, not the rotation maths. If you use <code>m_yaw 0.0165</code> (the 4:3 stretched convention), multiply the converted CS2 value by 0.022/0.0165 ≈ 1.333, or keep the default <code>m_yaw 0.022</code> and use the value as shown. See the <a href="/fov-calculator/">FOV calculator</a> for the screen-space factor.',
       },
     ],
     faq: [
@@ -59,15 +59,15 @@ export const pairPages: PairPage[] = [
       },
       {
         q: 'Does this work if I play on 4:3 stretched in CS2?',
-        a: 'Stretched resolution changes on-screen feel, not the rotation maths. If you use <code>m_yaw 0.0165</code> (the 4:3 stretched convention), multiply the converted CS2 value by 0.022/0.0165 ≈ 1.333 — or keep the default <code>m_yaw 0.022</code> and use the value as shown.',
+        a: 'Stretched resolution changes on-screen feel, not the rotation maths. If you use <code>m_yaw 0.0165</code> (the 4:3 stretched convention), multiply the converted CS2 value by 0.022/0.0165 ≈ 1.333, or keep the default <code>m_yaw 0.022</code> and use the value as shown.',
       },
       {
         q: 'Should I convert with different DPI on each game?',
-        a: 'Use the full converter on the <a href="/sensitivity-converter/">sensitivity converter page</a> — it accepts a separate target DPI and handles the maths. This page assumes the same DPI both sides (800 in the table).',
+        a: 'Use the full converter on the <a href="/sensitivity-converter/">sensitivity converter page</a>. It accepts a separate target DPI and handles the maths. This page assumes the same DPI both sides (800 in the table).',
       },
       {
         q: 'Is the conversion exact?',
-        a: 'Yes for rotation: both games use fixed yaw constants (Valorant 0.07, CS2 m_yaw 0.022), so the conversion is deterministic. What can still differ: field of view, weapon-specific scope behaviour and movement-scaled accuracy — adjust visually after converting.',
+        a: 'Yes for rotation: both games use fixed yaw constants (Valorant 0.07, CS2 m_yaw 0.022), so the conversion is deterministic. What can still differ: field of view, weapon-specific scope behaviour and movement-scaled accuracy, adjust visually after converting.',
       },
       {
         q: 'How do I go the other way (CS2 to Valorant)?',
@@ -84,21 +84,21 @@ export const pairPages: PairPage[] = [
     toId: 'valorant',
     fromName: 'CS2',
     toName: 'Valorant',
-    title: 'CS2 to Valorant Sensitivity Converter — Exact Yaw Maths',
+    title: 'CS2 to Valorant Sensitivity Converter: Exact Yaw Maths',
     description:
       'Convert CS2 sensitivity to Valorant with exact yaw maths (0.022 → 0.07). Worked table, cm/360 preserved, reverse included. Free, in-browser.',
     h1: 'CS2 to Valorant Sensitivity Converter',
     intro: [
-      'Moving from CS2 to Valorant? Convert your slider value so your physical turn distance — cm/360 — is preserved exactly. The two games rotate at different rates (0.022 vs 0.07 degrees per mouse count), so the numbers never look similar; the table below fixes that in one glance.',
+      'Moving from CS2 to Valorant? Convert your slider value so your physical turn distance (cm/360) is preserved exactly. The two games rotate at different rates (0.022 vs 0.07 degrees per mouse count), so the numbers never look similar; the table below fixes that in one glance.',
     ],
     sections: [
       {
         heading: 'What carries over, and what does not',
-        body: 'Rotation rate carries over exactly — that is what this conversion matches. What does not: Valorant locks its FOV at 103 horizontal, so a CS2 player coming from 4:3 stretched or unusual FOVs will notice the world looks different (motion appears faster at higher FOV). Aim consistency is unaffected once your cm/360 matches; the on-screen difference fades after a few matches.',
+        body: 'Rotation rate carries over exactly. That is what this conversion matches. What does not: Valorant locks its FOV at 103 horizontal, so a CS2 player coming from 4:3 stretched or unusual FOVs will notice the world looks different (motion appears faster at higher FOV). Aim consistency is unaffected once your cm/360 matches; the on-screen difference fades after a few matches.',
       },
       {
         heading: 'Aiming style differences to expect',
-        body: 'CS2 rewards precise, low-frequency flicks — few bullets, high damage. Valorant\'s longer TTK and abilities layer more tracking and strafe-aim onto the same core mechanic. Your converted sensitivity is the right starting point for both; resist the urge to change sens again during your first week while adapting.',
+        body: 'CS2 rewards precise, low-frequency flicks, few bullets, high damage. Valorant\'s longer TTK and abilities layer more tracking and strafe-aim onto the same core mechanic. Your converted sensitivity is the right starting point for both; resist the urge to change sens again during your first week while adapting.',
       },
     ],
     faq: [
@@ -112,11 +112,11 @@ export const pairPages: PairPage[] = [
       },
       {
         q: 'Can I keep using my CS2 DPI and mouse?',
-        a: 'Yes — keep the DPI identical on both sides and the table applies directly. If you change mice mid-migration, use the <a href="/sensitivity-converter/">full converter</a> which takes separate source and target DPI.',
+        a: 'Yes, keep the DPI identical on both sides and the table applies directly. If you change mice mid-migration, use the <a href="/sensitivity-converter/">full converter</a> which takes separate source and target DPI.',
       },
       {
         q: 'Do I need to change anything for Valorant scopes?',
-        a: 'No — convert the hipfire value (that is what every converter matches), then adjust Valorant\'s per-scope multipliers to taste. They are preference settings, not part of the cross-game rotation maths.',
+        a: 'No, convert the hipfire value (that is what every converter matches), then adjust Valorant\'s per-scope multipliers to taste. They are preference settings, not part of the cross-game rotation maths.',
       },
       {
         q: 'How do I go the other way (Valorant to CS2)?',
@@ -138,12 +138,12 @@ export const pairPages: PairPage[] = [
       'Convert Valorant sensitivity to Overwatch 2 exactly (yaw 0.07 → 0.0066). Worked table, cm/360 preserved, scope notes included. Free converter.',
     h1: 'Valorant to Overwatch 2 Sensitivity Converter',
     intro: [
-      'Overwatch 2\'s slider values look big next to Valorant\'s — a Valorant 0.35 is around Overwatch 6.67 — because Overwatch rotates far less per mouse count (yaw 0.0066 vs 0.07). This converter matches your physical cm/360 exactly, so your flick timing transfers even though the numbers look worlds apart.',
+      'Overwatch 2\'s slider values look big next to Valorant\'s (a Valorant 0.35 is around Overwatch 6.67), because Overwatch rotates far less per mouse count (yaw 0.0066 vs 0.07). This converter matches your physical cm/360 exactly, so your flick timing transfers even though the numbers look worlds apart.',
     ],
     sections: [
       {
         heading: 'Overwatch 2 specifics that affect feel',
-        body: 'Overwatch 2 lets you set per-hero and scoped sensitivities, and its default FOV (103 horizontal) happens to match Valorant\'s fixed value — a happy coincidence that makes the transition smoother than most cross-game moves. Set your global value from the table, leave hero overrides alone initially, and give it a week before adjusting anything.',
+        body: 'Overwatch 2 lets you set per-hero and scoped sensitivities, and its default FOV (103 horizontal) happens to match Valorant\'s fixed value, a happy coincidence that makes the transition smoother than most cross-game moves. Set your global value from the table, leave hero overrides alone initially, and give it a week before adjusting anything.',
       },
       {
         heading: 'Why players convert with the same DPI first',
@@ -161,11 +161,11 @@ export const pairPages: PairPage[] = [
       },
       {
         q: 'Should I set per-hero sensitivities in Overwatch?',
-        a: 'Most players start with the global value only. The common exception is setting a different scope sensitivity for Widowmaker/Ashe-style scopes — tune those by feel after converting your base value.',
+        a: 'Most players start with the global value only. The common exception is setting a different scope sensitivity for Widowmaker/Ashe-style scopes, tune those by feel after converting your base value.',
       },
       {
         q: 'Does 103 FOV in both games mean identical on-screen movement?',
-        a: 'Same FOV, same aspect ratio means very similar screen-space motion at the same cm/360 — one of the closest cross-game matches available. Confirm you play both at the same aspect ratio to keep it that way.',
+        a: 'Same FOV, same aspect ratio means very similar screen-space motion at the same cm/360, one of the closest cross-game matches available. Confirm you play both at the same aspect ratio to keep it that way.',
       },
     ],
     related: ['cs2-to-valorant-sensitivity', 'valorant-to-cs2-sensitivity', 'marvel-rivals-to-overwatch-2-sensitivity'],
@@ -183,7 +183,7 @@ export const pairPages: PairPage[] = [
       'Convert Fortnite X% sensitivity to CS2 values exactly. Handles the percentage system (yaw 0.005555 per 1%), worked table, cm/360 maths. Free tool.',
     h1: 'Fortnite to CS2 Sensitivity Converter',
     intro: [
-      'Fortnite measures sensitivity in percent (1–100), CS2 in a decimal slider — converting needs the percentage maths, which this tool handles: Fortnite 7% ≈ CS2 1.77 at the same DPI. It also applies to KovaK\'s and Aim Lab, which use the same percentage convention as Fortnite.',
+      'Fortnite measures sensitivity in percent (1–100), CS2 in a decimal slider, converting needs the percentage maths, which this tool handles: Fortnite 7% ≈ CS2 1.77 at the same DPI. It also applies to KovaK\'s and Aim Lab, which use the same percentage convention as Fortnite.',
     ],
     sections: [
       {
@@ -192,7 +192,7 @@ export const pairPages: PairPage[] = [
       },
       {
         heading: 'X, Y and build/edit: which value to convert',
-        body: 'Convert your <strong>X (horizontal)</strong> percentage — that is the aim value all converters match. Leave the Y slider and the separate build/edit multipliers for in-game tuning; they are personal preference and are not part of the cross-game rotation maths.',
+        body: 'Convert your <strong>X (horizontal)</strong> percentage. That is the aim value all converters match. Leave the Y slider and the separate build/edit multipliers for in-game tuning; they are personal preference and are not part of the cross-game rotation maths.',
       },
     ],
     faq: [
@@ -206,11 +206,11 @@ export const pairPages: PairPage[] = [
       },
       {
         q: 'Does this work for Fortnite\'s controller settings?',
-        a: 'No — controller sensitivity is a different system (stick response curves, aim assist). These conversions apply to mouse input; the numbers assume a mouse with raw input.',
+        a: 'No, controller sensitivity is a different system (stick response curves, aim assist). These conversions apply to mouse input; the numbers assume a mouse with raw input.',
       },
       {
         q: 'Why is my CS2 number roughly a quarter of my Fortnite percentage?',
-        a: 'Because the per-1% yaw (0.005555) is about a quarter of CS2\'s yaw (0.022) — the ratio 0.2525 is the whole conversion for equal DPI. DPI changes scale it from there.',
+        a: 'Because the per-1% yaw (0.005555) is about a quarter of CS2\'s yaw (0.022), the ratio 0.2525 covers the whole conversion for equal DPI. DPI changes scale it from there.',
       },
     ],
     related: ['cs2-to-valorant-sensitivity', 'valorant-to-cs2-sensitivity', 'cs2-to-valorant-sensitivity'],
@@ -228,16 +228,16 @@ export const pairPages: PairPage[] = [
       'Convert Apex Legends sensitivity to Valorant exactly (both via yaw maths). Worked table, cm/360 matched, ADS notes included. Free, in-browser.',
     h1: 'Apex Legends to Valorant Sensitivity Converter',
     intro: [
-      'Apex and Valorant feel nothing alike — Apex is tracking-heavy with a separate ADS scale; Valorant is precision-first with a fixed FOV — but the rotation maths between them is simple: Apex 1.5 ≈ Valorant 0.471 at the same DPI. Match your cm/360 first, then adapt your technique.',
+      'Apex and Valorant feel nothing alike (Apex is tracking-heavy with a separate ADS scale; Valorant is precision-first with a fixed FOV), but the rotation maths between them is simple: Apex 1.5 ≈ Valorant 0.471 at the same DPI. Match your cm/360 first, then adapt your technique.',
     ],
     sections: [
       {
         heading: 'ADS is not part of this conversion',
-        body: 'Apex\'s ADS sensitivity uses its own multiplier scale (per optic) layered on top of hipfire. This converter matches <strong>hipfire</strong> turn distance — the only apples-to-apples number between games. Set Apex ADS to taste separately; most players scale it with optic zoom.',
+        body: 'Apex\'s ADS sensitivity uses its own multiplier scale (per optic) layered on top of hipfire. This converter matches <strong>hipfire</strong> turn distance, the only apples-to-apples number between games. Set Apex ADS to taste separately; most players scale it with optic zoom.',
       },
       {
         heading: 'From tracking to precision: adjusting technique',
-        body: 'Apex players moving to Valorant commonly feel their sens is "too fast" in the first days — not because the conversion is wrong, but because Valorant targets change direction less and demand precise first bullets. Keep the converted value for two weeks; the perception settles as your crosshair habits change.',
+        body: 'Apex players moving to Valorant commonly feel their sens is "too fast" in the first days, not because the conversion is wrong, but because Valorant targets change direction less and demand precise first bullets. Keep the converted value for two weeks; the perception settles as your crosshair habits change.',
       },
     ],
     faq: [
@@ -247,14 +247,14 @@ export const pairPages: PairPage[] = [
       },
       {
         q: 'Is Apex sensitivity the same as CS2?',
-        a: 'Yes for hipfire — both use yaw 0.022, so Apex values transfer to CS2 1:1 at the same DPI. From there, CS2→Valorant follows the usual 0.314 ratio.',
+        a: 'Yes for hipfire: both use yaw 0.022, so Apex values transfer to CS2 1:1 at the same DPI. From there, CS2→Valorant follows the usual 0.314 ratio.',
       },
       {
         q: 'Do I need to convert my Apex ADS values too?',
-        a: 'No — ADS scales are game-specific and not part of cross-game maths. Convert the hipfire value, then rebuild ADS preferences in Valorant\'s scope settings (they were always personal).',
+        a: 'No, ADS scales are game-specific and not part of cross-game maths. Convert the hipfire value, then rebuild ADS preferences in Valorant\'s scope settings (they were always personal).',
       },
       {
-        q: 'My Apex FOV is 110 — does that change the conversion?',
+        q: 'My Apex FOV is 110: does that change the conversion?',
         a: 'No. FOV changes how motion appears on screen, not the rotation rate. Your cm/360 holds at any FOV; see the <a href="/fov-calculator/">FOV calculator</a> for how FOV and aspect interact.',
       },
     ],
@@ -278,11 +278,11 @@ export const pairPages: PairPage[] = [
     sections: [
       {
         heading: 'Two hero shooters, one conversion',
-        body: 'The games sit on different engines (UE5 vs Overwatch\'s own) with different FOV defaults — Rivals exposes a FOV slider, Overwatch sets 103 horizontal on PC. Match sensitivity first via the table, then set FOV to your preference in Rivals; Overwatch\'s fixed 103 means "FOV feel" differences remain even after conversion. That is expected, not an error.',
+        body: 'The games sit on different engines (UE5 vs Overwatch\'s own) with different FOV defaults: Rivals exposes a FOV slider, Overwatch sets 103 horizontal on PC. Match sensitivity first via the table, then set FOV to your preference in Rivals; Overwatch\'s fixed 103 means "FOV feel" differences remain even after conversion. That is expected, not an error.',
       },
       {
         heading: 'Hero-specific values stay personal',
-        body: 'Neither game needs per-hero sensitivities to feel right. Set the global value from this conversion, play a full session, and only add per-hero overrides if a specific pick still feels off — that is a preference layer on top of correct maths.',
+        body: 'Neither game needs per-hero sensitivities to feel right. Set the global value from this conversion, play a full session, and only add per-hero overrides if a specific pick still feels off. That is a preference layer on top of correct maths.',
       },
     ],
     faq: [
@@ -292,7 +292,7 @@ export const pairPages: PairPage[] = [
       },
       {
         q: 'Do Marvel Rivals and Overwatch sensitivity scales match at all?',
-        a: 'No direct match: Rivals uses yaw 0.022, Overwatch 0.0066 — a ~3.33× difference. The conversion normalises for that so your physical turn distance is identical.',
+        a: 'No direct match: Rivals uses yaw 0.022, Overwatch 0.0066, a ~3.33× difference. The conversion normalises for that so your physical turn distance is identical.',
       },
       {
         q: 'Should I convert my Marvel Rivals crosshair too?',

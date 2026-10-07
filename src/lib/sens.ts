@@ -57,7 +57,7 @@ export function sensForCm360(targetCm: number, dpi: number, yaw: number): number
 }
 
 /**
- * FOV scaling helper — horizontal FOV of game B that keeps the focal length
+ * FOV scaling helper: horizontal FOV of game B that keeps the focal length
  * consistent when viewing angle changes ("monitor distance match" horizontal).
  */
 export function fovScaleFactor(

@@ -5,7 +5,7 @@ import Faq from '../../components/Faq.astro';
 import TrustBlock from '../../components/TrustBlock.astro';
 import { site } from '../../data/site';
 
-const title = 'Crosshair Generator — Design & Export | SensForge';
+const title = 'Crosshair Generator: Design & Export | SensForge';
 const description =
   'Design a custom FPS crosshair: dot, lines, gap, thickness and color with live preview. Copy values or export PNG. Free, no sign-up, in-browser.';
 
@@ -32,23 +32,23 @@ const breadcrumbs = [
 const faq = [
   {
     q: 'How do I use this crosshair generator?',
-    a: 'Adjust dot, line gap, thickness, length and color on the left and watch the live preview. When you are happy, copy the style values out — or download a transparent PNG you can use as a desktop overlay.',
+    a: 'Adjust dot, line gap, thickness, length and color on the left and watch the live preview. When you are happy, copy the style values out, or download a transparent PNG you can use as a desktop overlay.',
   },
   {
     q: 'Will these settings transfer to my game?',
-    a: 'The values map to the common crosshair settings most shooters expose (center dot, inner lines gap/thickness/length, outline). Field names differ per game (Valorant: "Inner Lines / Outer Lines"; CS2: "cl_crosshairsize" etc.), but the visual grammar is the same — use the copy button and match the numbers in your game settings.',
+    a: 'The values map to the common crosshair settings most shooters expose (center dot, inner lines gap/thickness/length, outline). Field names differ per game (Valorant: "Inner Lines / Outer Lines"; CS2: "cl_crosshairsize" etc.), but the visual grammar is the same, use the copy button and match the numbers in your game settings.',
   },
   {
     q: 'What is the best crosshair color?',
     a: 'The one with the most contrast against your maps. Competitive players most often pick green or cyan because those hues appear least in natural map palettes; outlines (black) are the standard fix for bright scenes.',
   },
   {
-    q: 'Dot vs cross — which is better?',
+    q: 'Dot vs cross: which is better?',
     a: 'Dots give an exact aim reference for precision weapons; lines give more peripheral guidance and are the default for spray-heavy games. Many pros use a cross with a subtle dot or a small cross with a gap.',
   },
   {
     q: 'Can I download my crosshair as a picture?',
-    a: 'Yes — the Download PNG button renders your crosshair at 512×512 with a transparent background, ready for use as a custom overlay or a thumbnail.',
+    a: 'Yes, the Download PNG button renders your crosshair at 512×512 with a transparent background, ready for use as a custom overlay or a thumbnail.',
   },
 ];
 
@@ -186,7 +186,7 @@ const presets = [
           </tbody>
         </table>
       </div>
-      <p class="small muted" style="margin-top:10px">Names are representative; check your current patch's settings screen. Values do not map 1:1 numerically — match visually with the preview next to the settings menu.</p>
+      <p class="small muted" style="margin-top:10px">Names are representative; check your current patch's settings screen. Values do not map 1:1 numerically, match visually with the preview next to the settings menu.</p>
     </section>
 
     <Faq items={faq} />
@@ -202,7 +202,7 @@ const presets = [
       <h2 id="related">Related tools</h2>
       <ul class="related-grid" style="list-style:none;padding:0">
         <li><a class="tool-card" href="/sensitivity-converter/"><span class="tc-title">Sensitivity Converter</span><p class="tc-desc">Pair your new crosshair with matched aim across games.</p></a></li>
-        <li><a class="tool-card" href="/fov-calculator/"><span class="tc-title">FOV Calculator</span><p class="tc-desc">Crosshairs look different at every FOV — check your view first.</p></a></li>
+        <li><a class="tool-card" href="/fov-calculator/"><span class="tc-title">FOV Calculator</span><p class="tc-desc">Crosshairs look different at every FOV, check your view first.</p></a></li>
         <li><a class="tool-card" href="/edpi-calculator/"><span class="tc-title">eDPI Calculator</span><p class="tc-desc">Round out your settings with your effective DPI.</p></a></li>
       </ul>
     </section>

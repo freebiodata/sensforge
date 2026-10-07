@@ -6,7 +6,7 @@ import TrustBlock from '../../components/TrustBlock.astro';
 import { games } from '../../data/games';
 import { site } from '../../data/site';
 
-const title = 'Sensitivity Randomizer — Train With Varied Sens | SensForge';
+const title = 'Sensitivity Randomizer: Train With Varied Sens | SensForge';
 const description =
   'Generate random sensitivities around your main value for aim training. Roll history, game conversion, crypto-random. Free in-browser drill tool.';
 
@@ -17,7 +17,7 @@ const jsonLd = [
     name: 'Sensitivity Randomizer',
     url: `${site.url}/sens-randomizer/`,
     description:
-      'Creates random sensitivities within a chosen deviation band of your main value — a training aid used to build mouse-control adaptability.',
+      'Creates random sensitivities within a chosen deviation band of your main value, a training aid used to build mouse-control adaptability.',
     applicationCategory: 'GameApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -33,15 +33,15 @@ const breadcrumbs = [
 const faq = [
   {
     q: 'What is a sensitivity randomizer for?',
-    a: 'It generates a random sensitivity within ±X% of your main value. Aim-training communities use small variations (±3–8%) to force your brain to continuously re-calibrate instead of relying on pure muscle memory — the goal is control, not the specific number. Some players also use it to find a fresh comfortable value after plateauing.',
+    a: 'It generates a random sensitivity within ±X% of your main value. Aim-training communities use small variations (±3–8%) to force your brain to continuously re-calibrate instead of relying on pure muscle memory; the goal is control, not the specific number. Some players also use it to find a fresh comfortable value after plateauing.',
   },
   {
     q: 'How much should I randomize?',
-    a: 'Typical practice bands: ±3–5% for subtle recalibration within a session; ±8–12% for new-mouse adaptation; ±15–25% only for occasional "deep practice" — beyond that you are training a different skill, not refining your default.',
+    a: 'Typical practice bands: ±3–5% for subtle recalibration within a session; ±8–12% for new-mouse adaptation; ±15–25% only for occasional "deep practice", beyond that you are training a different skill, not refining your default.',
   },
   {
     q: 'Will randomizing ruin my muscle memory?',
-    a: 'Short sessions with small deviations are the standard recommendation — 10–20 minutes, then back to your normal value. Long-term, players report better control and faster adaptation. This is a training opinion from the aim community, not a scientific guarantee; test it against your own results.',
+    a: 'Short sessions with small deviations are the standard recommendation, 10–20 minutes, then back to your normal value. Long-term, players report better control and faster adaptation. This is a training opinion from the aim community, not a scientific guarantee; test it against your own results.',
   },
   {
     q: 'How do I apply a roll to my game?',
@@ -49,7 +49,7 @@ const faq = [
   },
   {
     q: 'Is the roll truly random?',
-    a: 'Yes — values come from your browser\'s cryptographic random generator (crypto.getRandomValues), so there is no hidden pattern. Refresh rolls as often as you like.',
+    a: 'Yes, values come from your browser\'s cryptographic random generator (crypto.getRandomValues), so there is no hidden pattern. Refresh rolls as often as you like.',
   },
 ];
 
@@ -69,7 +69,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
     <div class="hero">
       <h1>Sensitivity Randomizer</h1>
       <p class="value-line">
-        Roll a random sensitivity within a chosen band around your main value — a drill used by aim
+        Roll a random sensitivity within a chosen band around your main value, a drill used by aim
         training communities to sharpen mouse control and adaptation.
       </p>
       <ul class="trust-microline">
@@ -100,11 +100,11 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
           <div class="field">
             <label for="spread">Random spread</label>
             <select id="spread">
-              <option value="3">±3% — subtle recalibration</option>
-              <option value="5" selected>±5% — standard drill</option>
-              <option value="8">±8% — adaptation</option>
-              <option value="12">±12% — new mouse break-in</option>
-              <option value="20">±20% — deep practice</option>
+              <option value="3">±3%: subtle recalibration</option>
+              <option value="5" selected>±5%: standard drill</option>
+              <option value="8">±8%: adaptation</option>
+              <option value="12">±12%: new mouse break-in</option>
+              <option value="20">±20%: deep practice</option>
             </select>
           </div>
           <button class="btn btn-primary" type="button" id="roll-btn" style="width:100%">🎲 Roll sensitivity</button>
@@ -113,10 +113,10 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
         <div>
           <div class="result-panel" style="margin-top:0;min-height:150px">
             <div class="small muted" id="roll-caption">Your randomized value appears here</div>
-            <div class="result-value" id="roll-value">—</div>
+            <div class="result-value" id="roll-value">-</div>
             <div class="result-meta">
-              <div class="kv"><div class="k">Roll range</div><div class="v" id="roll-range">—</div></div>
-              <div class="kv"><div class="k">Deviation</div><div class="v" id="roll-dev">—</div></div>
+              <div class="kv"><div class="k">Roll range</div><div class="v" id="roll-range">-</div></div>
+              <div class="kv"><div class="k">Deviation</div><div class="v" id="roll-dev">-</div></div>
             </div>
             <div class="result-actions">
               <button class="btn btn-secondary" type="button" id="copy-roll"><span class="normal-label">Copy value</span><span class="copied-label">✓ Copied</span></button>
@@ -135,17 +135,17 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
       <h2 id="how">How randomizing helps training</h2>
       <p>
         Pure repetition on one sensitivity lets your hand autopilot. Small random perturbations force active
-        correction — each session becomes a control exercise rather than a reflex loop. The community
+        correction, each session becomes a control exercise rather than a reflex loop. The community
         method is simple:
       </p>
       <ol class="steps">
         <li><strong>Start with your normal value.</strong> Warm up 5 minutes so the baseline is honest.</li>
         <li><strong>Roll ±5% and play 10–20 minutes.</strong> Focus on tracking smoothness, not score.</li>
-        <li><strong>Return to your main value.</strong> It should feel instantly familiar — that contrast is the training effect.</li>
+        <li><strong>Return to your main value.</strong> It should feel instantly familiar. That contrast is the training effect.</li>
         <li><strong>Repeat a few times a week.</strong> Keep sessions short; this is a supplement, not your main practice.</li>
       </ol>
       <p class="small muted">
-        This is an aim-training convention, not a scientific claim — keep what measurably helps your own accuracy.
+        This is an aim-training convention, not a scientific claim, keep what measurably helps your own accuracy.
       </p>
     </section>
 

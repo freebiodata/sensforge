@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import TrustBlock from '../../components/TrustBlock.astro';
 
-const title = 'Sensitivity Glossary — eDPI, cm/360, Yaw & More | SensForge';
+const title = 'Sensitivity Glossary: eDPI, cm/360, Yaw & More | SensForge';
 const description =
   'Every term behind mouse sensitivity calculators, defined plainly: DPI, eDPI, cm/360, yaw, polling rate, ADS, FOV, mouse acceleration and more.';
 
@@ -16,7 +16,7 @@ const terms: { id: string; term: string; def: string; link?: { href: string; lab
   {
     id: 'dpi',
     term: 'DPI (dots per inch)',
-    def: 'How many sensor counts your mouse reports per inch of physical movement. A hardware property set in your mouse driver. Higher DPI is not "better aim" — it just trades against in-game sensitivity.',
+    def: 'How many sensor counts your mouse reports per inch of physical movement. A hardware property set in your mouse driver. Higher DPI is not "better aim". It just trades against in-game sensitivity.',
     link: { href: '/dpi-analyzer/', label: 'Measure your DPI' },
   },
   {
@@ -40,7 +40,7 @@ const terms: { id: string; term: string; def: string; link?: { href: string; lab
   {
     id: 'sensitivity',
     term: 'In-game sensitivity',
-    def: 'The game\'s slider value multiplied against yaw to produce rotation. Meaningless to compare between games without converting — the same "2.0" can be three different physical speeds.',
+    def: 'The game\'s slider value multiplied against yaw to produce rotation. Meaningless to compare between games without converting: the same "2.0" can be three different physical speeds.',
   },
   {
     id: 'raw-input',
@@ -55,12 +55,12 @@ const terms: { id: string; term: string; def: string; link?: { href: string; lab
   {
     id: 'polling-rate',
     term: 'Polling rate',
-    def: 'How often per second your mouse reports position to the PC (500 Hz, 1000 Hz, 4000 Hz...). Affects input latency and smoothness — not DPI, not sensitivity. Convert nothing when changing it.',
+    def: 'How often per second your mouse reports position to the PC (500 Hz, 1000 Hz, 4000 Hz...). Affects input latency and smoothness, not DPI, not sensitivity. Convert nothing when changing it.',
   },
   {
     id: 'fov',
     term: 'FOV (field of view)',
-    def: 'The angle of the game camera — how much of the scene is visible. Changes perceived speed of motion but not rotation maths. Games define it vertically or horizontally (not always clearly), and it interacts with aspect ratio.',
+    def: 'The angle of the game camera, how much of the scene is visible. Changes perceived speed of motion but not rotation maths. Games define it vertically or horizontally (not always clearly), and it interacts with aspect ratio.',
     link: { href: '/fov-calculator/', label: 'Convert FOV between aspect ratios' },
   },
   {
@@ -71,12 +71,12 @@ const terms: { id: string; term: string; def: string; link?: { href: string; lab
   {
     id: 'hipfire',
     term: 'Hipfire',
-    def: 'Aiming without scoping — the state all cross-game sensitivity conversions match, because it uses the base yaw × sensitivity rotation with no scope multipliers in the way.',
+    def: 'Aiming without scoping, the state all cross-game sensitivity conversions match, because it uses the base yaw × sensitivity rotation with no scope multipliers in the way.',
   },
   {
     id: 'monitor-match',
     term: 'Screen-space match factor',
-    def: 'A multiplier (<code>tan(hFOV_target ÷ 2) ÷ tan(hFOV_source ÷ 2)</code>) applied when changing aspect ratio, keeping the same on-screen mouse feel near the crosshair. For 16:9 → 4:3 it is 0.750 — the same maths behind the classic <code>m_yaw 0.0165</code> convention.',
+    def: 'A multiplier (<code>tan(hFOV_target ÷ 2) ÷ tan(hFOV_source ÷ 2)</code>) applied when changing aspect ratio, keeping the same on-screen mouse feel near the crosshair. For 16:9 → 4:3 it is 0.750, the same maths behind the classic <code>m_yaw 0.0165</code> convention.',
     link: { href: '/fov-calculator/', label: 'Get your factor' },
   },
   {
@@ -92,7 +92,7 @@ const terms: { id: string; term: string; def: string; link?: { href: string; lab
   {
     id: 'ads-time',
     term: 'm_yaw',
-    def: 'The Source-engine console variable controlling horizontal degrees per count (CS2 default 0.022). Communities change it to 0.0165 for 4:3 stretched to equalise on-screen x/y speed — a deliberate alteration of the yaw constant itself.',
+    def: 'The Source-engine console variable controlling horizontal degrees per count (CS2 default 0.022). Communities change it to 0.0165 for 4:3 stretched to equalise on-screen x/y speed, a deliberate alteration of the yaw constant itself.',
     link: { href: '/valorant-to-cs2-sensitivity/', label: 'Valorant ↔ CS2 conversion' },
   },
   {
@@ -109,7 +109,7 @@ const terms: { id: string; term: string; def: string; link?: { href: string; lab
 
     <h1>Sensitivity glossary</h1>
     <p class="lead">
-      The vocabulary behind every calculator on this site — plain definitions, the formula where one
+      The vocabulary behind every calculator on this site, plain definitions, the formula where one
       exists, and the tool that uses it. Terms are alphabetical.
     </p>
 
@@ -130,7 +130,7 @@ const terms: { id: string; term: string; def: string; link?: { href: string; lab
 
     <TrustBlock>
       <p class="mb-0">
-        Missing a term you keep seeing in guides? <a href="/contact/">Suggest it</a> — glossary additions
+        Missing a term you keep seeing in guides? <a href="/contact/">Suggest it</a>, glossary additions
         ship with the next changelog entry.
       </p>
     </TrustBlock>

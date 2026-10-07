@@ -99,10 +99,10 @@ const related = page.relatedGames.map((s) => gamePageBySlug[s]).filter(Boolean);
 
       <div class="result-panel" aria-live="polite">
         <div class="small muted" id="g-caption">Your converted sensitivity</div>
-        <div class="result-value" id="g-value">—</div>
+        <div class="result-value" id="g-value">-</div>
         <div class="result-meta">
-          <div class="kv"><div class="k">cm/360</div><div class="v" id="g-cm">—</div></div>
-          <div class="kv"><div class="k">eDPI</div><div class="v" id="g-edpi">—</div></div>
+          <div class="kv"><div class="k">cm/360</div><div class="v" id="g-cm">-</div></div>
+          <div class="kv"><div class="k">eDPI</div><div class="v" id="g-edpi">-</div></div>
         </div>
         <div class="result-actions">
           <button class="btn btn-primary" type="button" id="g-copy"><span class="normal-label">Copy converted value</span><span class="copied-label">✓ Copied</span></button>
@@ -110,7 +110,7 @@ const related = page.relatedGames.map((s) => gamePageBySlug[s]).filter(Boolean);
         </div>
       </div>
       <p class="small muted" style="margin-top:12px">
-        Local math only — nothing is uploaded. Need a different target DPI or more games? Use the
+        Local math only. Nothing is uploaded. Need a different target DPI or more games? Use the
         <a href={`/sensitivity-converter/?sg=${page.gameId}`}>full sensitivity converter</a>.
       </p>
     </section>
@@ -169,7 +169,7 @@ const related = page.relatedGames.map((s) => gamePageBySlug[s]).filter(Boolean);
       <p class="mb-0">
         <strong>Accuracy note:</strong> conversions use {page.name}'s yaw constant ({game.yaw}, {game.confidence}).
         Values are exact within the yaw model; feel differences from movement, scopes and FOV are yours to tune.
-        Spotted a wrong constant? <a href="/contact/">Report it</a> — corrections ship with credit.
+        Spotted a wrong constant? <a href="/contact/">Report it</a>, corrections ship with credit.
       </p>
     </TrustBlock>
 
@@ -213,7 +213,7 @@ const related = page.relatedGames.map((s) => gamePageBySlug[s]).filter(Boolean);
       if (!validS) $('g-sens').closest('.field').classList.add('invalid');
       if (!validD) $('g-dpi').closest('.field').classList.add('invalid');
       if (!validS || !validD || !target) {
-        $('g-value').textContent = '—';
+        $('g-value').textContent = '-';
         return;
       }
       const converted = (sens * SOURCE_YAW) / target.yaw;

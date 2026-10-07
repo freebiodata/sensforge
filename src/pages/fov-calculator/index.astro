@@ -5,9 +5,9 @@ import Faq from '../../components/Faq.astro';
 import TrustBlock from '../../components/TrustBlock.astro';
 import { site } from '../../data/site';
 
-const title = 'FOV Calculator — Convert Between Aspect Ratios | SensForge';
+const title = 'FOV Calculator: Convert Between Aspect Ratios | SensForge';
 const description =
-  'Convert FOV between 16:9, 4:3, 21:9 and more — plus horizontal & vertical FOV, degrees per pixel and screen-space match factors. Free.';
+  'Convert FOV between 16:9, 4:3, 21:9 and more: horizontal & vertical FOV, degrees per pixel and screen-space match factors. Free.';
 
 const jsonLd = [
   {
@@ -32,7 +32,7 @@ const breadcrumbs = [
 const faq = [
   {
     q: 'What is FOV in games?',
-    a: 'FOV (field of view) is the angle of the virtual camera — how much of the world you see on screen. A higher FOV shows more of the scene but makes targets look smaller; a lower FOV zooms in for precision but narrows your peripheral vision.',
+    a: 'FOV (field of view) is the angle of the virtual camera, how much of the world you see on screen. A higher FOV shows more of the scene but makes targets look smaller; a lower FOV zooms in for precision but narrows your peripheral vision.',
   },
   {
     q: 'Why does FOV change when I change resolution or aspect ratio?',
@@ -44,11 +44,11 @@ const faq = [
   },
   {
     q: 'Does FOV affect sensitivity?',
-    a: 'Turning distance (cm/360) is unaffected by FOV. Perception of speed is not — a high FOV makes the world move past faster at the same sensitivity. When pros say "FOV changes your aim," they mean perception and target size, not the rotation maths.',
+    a: 'Turning distance (cm/360) is unaffected by FOV. Perception of speed is not, a high FOV makes the world move past faster at the same sensitivity. When pros say "FOV changes your aim," they mean perception and target size, not the rotation maths.',
   },
   {
     q: 'What is the screen-space match factor?',
-    a: 'It is <code>tan(hFOV_target ÷ 2) ÷ tan(hFOV_source ÷ 2)</code> — the multiplier you apply to your sensitivity when changing aspect ratio to keep the same on-screen mouse feel at the crosshair. For 16:9 → 4:3 it is 0.750, which is why 4:3 stretched players use <code>m_yaw 0.0165</code> (= 0.022 × 0.75). See the worked example in the "How FOV conversion works" section.',
+    a: 'It is <code>tan(hFOV_target ÷ 2) ÷ tan(hFOV_source ÷ 2)</code>, the multiplier you apply to your sensitivity when changing aspect ratio to keep the same on-screen mouse feel at the crosshair. For 16:9 → 4:3 it is 0.750, which is why 4:3 stretched players use <code>m_yaw 0.0165</code> (= 0.022 × 0.75). See the worked example in the "How FOV conversion works" section.',
   },
 ];
 
@@ -75,7 +75,7 @@ const aspects = [
     <div class="hero">
       <h1>FOV Calculator &amp; Converter</h1>
       <p class="value-line">
-        Convert your field of view between 16:9, 4:3, 21:9 and more — see horizontal &amp; vertical FOV,
+        Convert your field of view between 16:9, 4:3, 21:9 and more, see horizontal &amp; vertical FOV,
         degrees per pixel, and the exact mouse-match factor when you change aspect ratios.
       </p>
       <ul class="trust-microline">
@@ -129,12 +129,12 @@ const aspects = [
           </div>
           <div class="field">
             <label>Screen-space match factor</label>
-            <div class="result-value" id="match-factor" style="font-size:1.5rem">—</div>
-            <span class="helper">Multiply your sensitivity (or m_yaw) by this when switching from the source to the target aspect, to keep the same center-screen mouse feel. Example: 16:9 → 4:3 gives 0.750 — the classic m_yaw 0.022 → 0.0165 adjustment.</span>
+            <div class="result-value" id="match-factor" style="font-size:1.5rem">-</div>
+            <span class="helper">Multiply your sensitivity (or m_yaw) by this when switching from the source to the target aspect, to keep the same center-screen mouse feel. Example: 16:9 → 4:3 gives 0.750, the classic m_yaw 0.022 → 0.0165 adjustment.</span>
           </div>
           <div class="field">
             <label>Horizontal image stretch</label>
-            <div class="result-value" id="stretch-out" style="font-size:1.5rem">—</div>
+            <div class="result-value" id="stretch-out" style="font-size:1.5rem">-</div>
             <span class="helper" id="factor-note">The stretch factor resolution guides quote.</span>
           </div>
         </div>
@@ -143,12 +143,12 @@ const aspects = [
       <div class="result-panel" aria-live="polite">
         <div id="result-body">
           <div class="small muted">Converted FOV</div>
-          <div class="result-value" id="result-value">—</div>
+          <div class="result-value" id="result-value">-</div>
           <div class="result-meta">
-            <div class="kv"><div class="k">Horizontal FOV (source)</div><div class="v" id="out-h-src">—</div></div>
-            <div class="kv"><div class="k">Vertical FOV (source)</div><div class="v" id="out-v-src">—</div></div>
-            <div class="kv"><div class="k">Horizontal FOV (target)</div><div class="v" id="out-h-dst">—</div></div>
-            <div class="kv"><div class="k">Degrees per pixel</div><div class="v" id="out-dpp">—</div></div>
+            <div class="kv"><div class="k">Horizontal FOV (source)</div><div class="v" id="out-h-src">-</div></div>
+            <div class="kv"><div class="k">Vertical FOV (source)</div><div class="v" id="out-v-src">-</div></div>
+            <div class="kv"><div class="k">Horizontal FOV (target)</div><div class="v" id="out-h-dst">-</div></div>
+            <div class="kv"><div class="k">Degrees per pixel</div><div class="v" id="out-dpp">-</div></div>
           </div>
           <div class="result-actions">
             <a class="btn btn-secondary" href="/sens-randomizer/">Try the sens randomizer →</a>
@@ -174,7 +174,7 @@ const aspects = [
         Example: 16:9 → 4:3 gives <code>0.750</code>. CS players apply exactly this by setting
         <code>m_yaw 0.0165</code> (= 0.022 × 0.75) when they play 4:3 stretched, keeping horizontal and
         vertical screen speed identical. Read the other way, the horizontal image appears
-        <code>1.333×</code> wider — the "stretch factor" you see quoted in resolution guides.
+        <code>1.333×</code> wider, the "stretch factor" you see quoted in resolution guides.
       </p>
     </section>
 

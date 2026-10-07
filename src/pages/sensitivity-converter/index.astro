@@ -6,9 +6,9 @@ import TrustBlock from '../../components/TrustBlock.astro';
 import { games } from '../../data/games';
 import { site } from '../../data/site';
 
-const title = 'Mouse Sensitivity Converter — 13 Games, Free | SensForge';
+const title = 'Mouse Sensitivity Converter: 13 Games, Free | SensForge';
 const description =
-  'Convert mouse sensitivity between Valorant, CS2, Apex, Overwatch 2, Fortnite and more. Match cm/360 and eDPI exactly — free, in your browser, no sign-up.';
+  'Convert mouse sensitivity between Valorant, CS2, Apex, Overwatch 2, Fortnite and more. Match cm/360 and eDPI exactly, free, in your browser, no sign-up.';
 
 const jsonLd = [
   {
@@ -33,15 +33,15 @@ const breadcrumbs = [
 const faq = [
   {
     q: 'How does the sensitivity converter work?',
-    a: 'It uses each game\'s yaw value — the degrees of camera rotation per mouse count — to keep your physical cm/360 constant. If you move your mouse 40 cm for a full turn in CS2, you will move it 40 cm for a full turn in Valorant too.',
+    a: 'It uses each game\'s yaw value (the degrees of camera rotation per mouse count) to keep your physical cm/360 constant. If you move your mouse 40 cm for a full turn in CS2, you will move it 40 cm for a full turn in Valorant too.',
   },
   {
     q: 'Why can\'t I just copy the same number between games?',
-    a: 'Because yaw values differ. CS2 rotates 0.022° per mouse count while Valorant rotates 0.07° — nearly the same slider number produces completely different aim. Converting via cm/360 removes the guesswork.',
+    a: 'Because yaw values differ. CS2 rotates 0.022° per mouse count while Valorant rotates 0.07°: nearly the same slider number produces completely different aim. Converting via cm/360 removes the guesswork.',
   },
   {
     q: 'Should I convert with the same DPI or a different one?',
-    a: 'Either works — enter your actual DPI for each mouse setup. The tool factors DPI in, so converting from 800 DPI to 1600 DPI at the same physical feel is handled automatically.',
+    a: 'Either works, enter your actual DPI for each mouse setup. The tool factors DPI in, so converting from 800 DPI to 1600 DPI at the same physical feel is handled automatically.',
   },
   {
     q: 'What is cm/360 and why does it matter?',
@@ -53,7 +53,7 @@ const faq = [
   },
   {
     q: 'Is my input data stored anywhere?',
-    a: 'No. Every calculation runs entirely in your browser with JavaScript. Nothing is sent to our servers — there is no sign-up, and the values you enter are not tracked.',
+    a: 'No. Every calculation runs entirely in your browser with JavaScript. Nothing is sent to our servers. There is no sign-up, and the values you enter are not tracked.',
   },
 ];
 
@@ -74,7 +74,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
       <h1>Mouse Sensitivity Converter</h1>
       <p class="value-line">
         Convert your sensitivity between Valorant, CS2, Apex Legends, Overwatch 2, Fortnite and 7 more
-        games — matching <strong>cm/360</strong> so your aim feels identical. Free, no sign-up.
+        games, matching <strong>cm/360</strong> so your aim feels identical. Free, no sign-up.
       </p>
       <ul class="trust-microline">
         <li class="badge badge-green">Runs in your browser</li>
@@ -179,17 +179,17 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
       <!-- Result panel (space reserved to avoid CLS) -->
       <div class="result-panel" id="result" aria-live="polite">
         <div class="result-empty" id="result-empty">
-          Enter your sensitivity on the left — the converted value appears here instantly.
+          Enter your sensitivity on the left, the converted value appears here instantly.
         </div>
 
         <div id="result-body" hidden>
           <div class="small muted" id="result-caption">Your Valorant sensitivity</div>
-          <div class="result-value" id="result-value">—</div>
+          <div class="result-value" id="result-value">-</div>
           <div class="result-meta">
-            <div class="kv"><div class="k">cm/360 (both games)</div><div class="v" id="out-cm360">—</div></div>
-            <div class="kv"><div class="k">eDPI (from)</div><div class="v" id="out-edpi-src">—</div></div>
-            <div class="kv"><div class="k">eDPI (to)</div><div class="v" id="out-edpi-dst">—</div></div>
-            <div class="kv"><div class="k">360° distance</div><div class="v" id="out-inches">—</div></div>
+            <div class="kv"><div class="k">cm/360 (both games)</div><div class="v" id="out-cm360">-</div></div>
+            <div class="kv"><div class="k">eDPI (from)</div><div class="v" id="out-edpi-src">-</div></div>
+            <div class="kv"><div class="k">eDPI (to)</div><div class="v" id="out-edpi-dst">-</div></div>
+            <div class="kv"><div class="k">360° distance</div><div class="v" id="out-inches">-</div></div>
           </div>
           <div class="result-actions">
             <button class="btn btn-primary" type="button" id="copy-btn">
@@ -216,7 +216,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
       <h2 id="how-to">How to use the sensitivity converter</h2>
       <ol class="steps">
         <li><strong>Pick your current game.</strong> Choose the game you play now and type the sensitivity number from its settings menu (for CS2, that is the slider value like <code>2.0</code>).</li>
-        <li><strong>Enter your mouse DPI.</strong> Find it in your mouse driver software. Not sure? Use common presets — most players run 400, 800 or 1600 DPI.</li>
+        <li><strong>Enter your mouse DPI.</strong> Find it in your mouse driver software. Not sure? Use common presets; most players run 400, 800 or 1600 DPI.</li>
         <li><strong>Pick the target game.</strong> Select the game you are switching to. If you changed mice, update the target DPI too.</li>
         <li><strong>Read the result.</strong> The converted value keeps your cm/360 identical, so your flick muscle memory carries over from day one.</li>
         <li><strong>Fine-tune in game.</strong> Wear-in tip: play one deathmatch, then adjust by ±2% only if the turn distance feels slightly off.</li>
@@ -232,13 +232,13 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
       </p>
       <p><code>target sens = (source sens × source DPI × source yaw) ÷ (target DPI × target yaw)</code></p>
       <p>
-        The tool also computes <strong>cm/360</strong> — the physical distance your mouse travels for one
-        full turn — because it is the only cross-game metric that matches muscle memory directly:
+        The tool also computes <strong>cm/360</strong>, the physical distance your mouse travels for one
+        full turn, because it is the only cross-game metric that matches muscle memory directly:
       </p>
       <p><code>cm/360 = 360 ÷ (sens × DPI × yaw) × 2.54</code></p>
       <p class="small muted">
         Yaw values come from game documentation and cross-referenced community measurements; each is labelled
-        with a confidence level on the <a href="/methodology/">methodology page</a>. Aiming feel is personal — treat
+        with a confidence level on the <a href="/methodology/">methodology page</a>. Aiming feel is personal, treat
         the result as your exact starting point, not a rule you must never tweak.
       </p>
     </section>
@@ -275,9 +275,9 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
 
     <TrustBlock>
       <p class="mb-0">
-        <strong>Built how?</strong> The converter runs entirely client-side — no uploads, no accounts.
+        <strong>Built how?</strong> The converter runs entirely client-side, no uploads, no accounts.
         The yaw constants and formulas used here are documented on the <a href="/methodology/">methodology page</a>,
-        with confidence labels for every game value. Found a wrong value? <a href="/contact/">Tell us</a> — corrections ship with credit.
+        with confidence labels for every game value. Found a wrong value? <a href="/contact/">Tell us</a>, corrections ship with credit.
       </p>
     </TrustBlock>
 
@@ -314,7 +314,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
     const copyBtn = $('copy-btn');
     const swapBtn = $('swap-btn');
 
-    const fmt = (n: number, d: number) => (Number.isFinite(n) ? n.toFixed(d) : '—');
+    const fmt = (n: number, d: number) => (Number.isFinite(n) ? n.toFixed(d) : '-');
 
     function compute() {
       const gs = byId[srcGame.value];
@@ -380,7 +380,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
       const s = srcSens.value;
       const d = srcDpi.value;
       // carry converted value back as new source where reasonable
-      if ((window as any).__converted && (window as any).__converted !== '—') {
+      if ((window as any).__converted && (window as any).__converted !== '-') {
         srcSens.value = (window as any).__converted;
       } else {
         srcSens.value = s;
@@ -505,7 +505,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note
       origCompute();
       saveState();
       const cv = (window as any).__converted;
-      const desc = cv && cv !== '—' ? `${byId[srcGame.value].short} ${srcSens.value} → ${byId[dstGame.value].short} ${cv}` : '';
+      const desc = cv && cv !== '-' ? `${byId[srcGame.value].short} ${srcSens.value} → ${byId[dstGame.value].short} ${cv}` : '';
       if (desc && desc !== lastPushed) {
         setTimeout(() => {
           if (desc !== lastPushed) {

@@ -6,7 +6,7 @@ import TrustBlock from '../../components/TrustBlock.astro';
 import { games } from '../../data/games';
 import { site } from '../../data/site';
 
-const title = 'eDPI Calculator — Effective DPI for FPS Games | SensForge';
+const title = 'eDPI Calculator: Effective DPI for FPS Games | SensForge';
 const description =
   'Calculate your eDPI (effective DPI) from sensitivity and DPI, see your cm/360, and compare against typical FPS ranges. Free, instant, in-browser.';
 
@@ -32,7 +32,7 @@ const breadcrumbs = [
 const faq = [
   {
     q: 'What is eDPI in gaming?',
-    a: 'eDPI (effective dots per inch) is your in-game sensitivity multiplied by your mouse DPI. It shows how far your cursor or crosshair travels per inch of mouse movement. Two players with different DPI can have the same eDPI — which is why eDPI is the fair way to compare aim settings. See the full <a href="/guides/what-is-edpi/">eDPI guide</a>.',
+    a: 'eDPI (effective dots per inch) is your in-game sensitivity multiplied by your mouse DPI. It shows how far your cursor or crosshair travels per inch of mouse movement. Two players with different DPI can have the same eDPI, which is why eDPI is the fair way to compare aim settings. See the full <a href="/guides/what-is-edpi/">eDPI guide</a>.',
   },
   {
     q: 'Is eDPI the same as cm/360?',
@@ -40,7 +40,7 @@ const faq = [
   },
   {
     q: 'What is a good eDPI for Valorant or CS2?',
-    a: 'Common competitive ranges: Valorant roughly 200–450 eDPI, CS2 roughly 600–1,600 eDPI at 400–800 DPI. These are starting ranges — the right eDPI is the one that keeps your cm/360 stable between games and comfortable on your mousepad.',
+    a: 'Common competitive ranges: Valorant roughly 200–450 eDPI, CS2 roughly 600–1,600 eDPI at 400–800 DPI. These are starting ranges, the right eDPI is the one that keeps your cm/360 stable between games and comfortable on your mousepad.',
   },
   {
     q: 'Why do pros use low eDPI?',
@@ -48,7 +48,7 @@ const faq = [
   },
   {
     q: 'Does changing DPI change my eDPI?',
-    a: 'Yes — if you double DPI and halve sensitivity, eDPI stays the same and in-game feel is unchanged (assuming raw input). This calculator lets you confirm the exact numbers before deviating.',
+    a: 'Yes, if you double DPI and halve sensitivity, eDPI stays the same and in-game feel is unchanged (assuming raw input). This calculator lets you confirm the exact numbers before deviating.',
   },
 ];
 
@@ -68,7 +68,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
     <div class="hero">
       <h1>eDPI Calculator</h1>
       <p class="value-line">
-        Enter your sensitivity and DPI to get your <strong>eDPI</strong> — plus cm/360 and a band
+        Enter your sensitivity and DPI to get your <strong>eDPI</strong> plus cm/360 and a band
         comparison showing how your settings sit against typical competitive ranges.
       </p>
       <ul class="trust-microline">
@@ -111,11 +111,11 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
         <div class="result-empty" id="result-empty">Enter your settings to see your eDPI instantly.</div>
         <div id="result-body" hidden>
           <div class="small muted">Your effective DPI (eDPI)</div>
-          <div class="result-value" id="result-value">—</div>
+          <div class="result-value" id="result-value">-</div>
           <div class="result-meta">
-            <div class="kv"><div class="k">cm/360</div><div class="v" id="out-cm360">—</div></div>
-            <div class="kv"><div class="k">360° type</div><div class="v" id="out-type">—</div></div>
-            <div class="kv"><div class="k">Band</div><div class="v" id="out-band">—</div></div>
+            <div class="kv"><div class="k">cm/360</div><div class="v" id="out-cm360">-</div></div>
+            <div class="kv"><div class="k">360° type</div><div class="v" id="out-type">-</div></div>
+            <div class="kv"><div class="k">Band</div><div class="v" id="out-band">-</div></div>
           </div>
           <div class="result-actions">
             <button class="btn btn-primary" type="button" id="copy-btn">
@@ -133,7 +133,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
       <p>
         eDPI normalizes DPI differences: 1600 DPI at 0.5 sens and 800 DPI at 1.0 sens both equal
         800 eDPI. Because it ignores the game's yaw constant, always pair eDPI with cm/360 when
-        comparing across games — this tool shows both.
+        comparing across games. This tool shows both.
       </p>
     </section>
 
@@ -154,7 +154,7 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
         </table>
       </div>
       <p class="small muted" style="margin-top:10px">
-        Bands are approximate reference points, not rules — aim feel is personal and pros exist in most bands.
+        Bands are approximate reference points, not rules, aim feel is personal and pros exist in most bands.
       </p>
     </section>
 
