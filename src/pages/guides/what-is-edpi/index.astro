@@ -1,0 +1,135 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import Faq from '../../../components/Faq.astro';
+import TrustBlock from '../../../components/TrustBlock.astro';
+import { site } from '../../../data/site';
+
+const title = 'What Is eDPI? Effective DPI Explained for FPS Players';
+const description =
+  'eDPI = sensitivity × DPI. What it normalizes, why it is not the same as cm/360, and how to use both numbers to compare aim settings fairly.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides', href: '/guides/' },
+  { name: 'What is eDPI?' },
+];
+
+const faq = [
+  {
+    q: 'Is eDPI the same as DPI?',
+    a: 'No. DPI is a hardware property of the mouse; eDPI is DPI multiplied by in-game sensitivity, so the same mouse can produce any eDPI depending on the game slider.',
+  },
+  {
+    q: 'Can I compare eDPI between different games?',
+    a: 'Only loosely. eDPI ignores the game\'s yaw constant, so 800 eDPI in Valorant and 800 eDPI in CS2 are not the same physical sensitivity. Use cm/360 for cross-game comparison and eDPI for same-game comparison.',
+  },
+  {
+    q: 'Why do all eDPI calculators give the same number?',
+    a: 'Because the formula is trivial (sens × DPI). The value of a calculator is the surrounding context: bands, cm/360, and converting the number across games — which is what our tool adds.',
+  },
+];
+
+const related = [
+  { href: '/edpi-calculator/', title: 'eDPI Calculator', desc: 'Get your number plus cm/360 and band context.' },
+  { href: '/guides/cm-360-explained/', title: 'cm/360 explained', desc: 'The cross-game metric that eDPI cannot replace.' },
+  { href: '/sensitivity-converter/', title: 'Sensitivity Converter', desc: 'Apply matched aim across 13 games.' },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+  canonical="/guides/what-is-edpi/"
+  type="article"
+  jsonLd={[
+    {
+      '@type': 'Article',
+      headline: 'What Is eDPI? Effective DPI Explained for FPS Players',
+      datePublished: '2026-10-07',
+      dateModified: '2026-10-07',
+      author: { '@type': 'Organization', name: site.name, url: `${site.url}/about/` },
+    },
+  ]}
+>
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>What is eDPI? Effective DPI explained</h1>
+    <p class="lead">
+      eDPI (effective DPI) is your in-game sensitivity multiplied by your mouse DPI. It removes DPI
+      differences from comparisons — and nothing more. Here is what it is good for, and where it stops
+      being useful.
+    </p>
+
+    <p class="small muted">Published 07 Oct 2026 · By the SensForge team</p>
+
+    <section class="section">
+      <h2 id="answer">Quick answer</h2>
+      <p>
+        <code>eDPI = in-game sensitivity × mouse DPI</code>. It lets two players with different DPI
+        compare aim settings in one number. For example, 0.5 sens at 1600 DPI and 1.0 sens at 800 DPI are
+        both 800 eDPI. Calculate yours with the <a href="/edpi-calculator/">eDPI calculator</a>.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="why">What eDPI actually normalizes</h2>
+      <p>
+        Because sensitivity and DPI multiply together, doubling one and halving the other keeps your
+        effective movement per inch identical. eDPI collapses that pairing into a single figure — useful
+        when discussing settings with someone who runs a different DPI step.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Player</th><th class="num">DPI</th><th class="num">Sens</th><th class="num">eDPI</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td class="num">800</td><td class="num">1.0</td><td class="num">800</td></tr>
+            <tr><td>B</td><td class="num">1600</td><td class="num">0.5</td><td class="num">800</td></tr>
+            <tr><td>C</td><td class="num">400</td><td class="num">2.0</td><td class="num">800</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">Same eDPI across three DPI steps — assuming raw input and no acceleration.</p>
+    </section>
+
+    <section class="section">
+      <h2 id="limit">The catch: eDPI does not cross games</h2>
+      <p>
+        Each game converts mouse counts to rotation with its own yaw constant. eDPI contains no yaw term,
+        so identical eDPI values produce different physical turns in different games. If you switch games,
+        the number to preserve is <a href="/guides/cm-360-explained/">cm/360</a> — eDPI alone will mislead
+        you. That is why our eDPI calculator shows both.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="use">How to use eDPI well</h2>
+      <ul>
+        <li><strong>Use it within a game</strong> to compare settings with teammates — quickly and fairly.</li>
+        <li><strong>Pair it with cm/360</strong> whenever the conversation crosses games.</li>
+        <li><strong>Treat bands as conventions.</strong> Most competitive players sit in 200–1,600 eDPI depending on title and role; outliers on both ends win tournaments.</li>
+        <li><strong>Change one variable at a time</strong> if you experiment — DPI or sens, not both — so you know what caused the difference.</li>
+      </ul>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        Formula is arithmetic; no empirical claims are made on this page. For yaw sources used in the
+        cross-game conversion, see the <a href="/methodology/">methodology page</a>.
+      </p>
+    </TrustBlock>
+
+    <section class="section">
+      <h2 id="next">Next steps</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        {related.map((r) => (
+          <li><a class="tool-card" href={r.href}><span class="tc-title">{r.title}</span><p class="tc-desc">{r.desc}</p></a></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>

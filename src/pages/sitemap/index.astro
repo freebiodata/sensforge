@@ -1,0 +1,122 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { games } from '../../data/games';
+import { site } from '../../data/site';
+
+const title = 'HTML Sitemap — All Pages on SensForge';
+const description = 'Every page on SensForge in one crawlable list: tools, guides, and site pages.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Sitemap' },
+];
+
+const toolLinks = [
+  ['/sensitivity-converter/', 'Mouse Sensitivity Converter'],
+  ['/edpi-calculator/', 'eDPI Calculator'],
+  ['/cm-360-calculator/', 'cm/360 Calculator'],
+  ['/dpi-analyzer/', 'Mouse DPI Analyzer'],
+  ['/fov-calculator/', 'FOV Calculator'],
+  ['/crosshair-generator/', 'Crosshair Generator'],
+  ['/sens-randomizer/', 'Sensitivity Randomizer'],
+];
+
+const gameLinks = [
+  ['/games/', 'All game converters'],
+  ['/games/cs2/', 'CS2 converter'],
+  ['/games/valorant/', 'Valorant converter'],
+  ['/games/overwatch-2/', 'Overwatch 2 converter'],
+  ['/games/apex-legends/', 'Apex Legends converter'],
+  ['/games/fortnite/', 'Fortnite converter'],
+  ['/games/marvel-rivals/', 'Marvel Rivals converter'],
+  ['/games/rainbow-six-siege/', 'Rainbow Six Siege converter'],
+  ['/games/deadlock/', 'Deadlock converter'],
+  ['/games/escape-from-tarkov/', 'Escape from Tarkov converter'],
+  ['/games/the-finals/', 'The Finals converter'],
+  ['/games/halo-infinite/', 'Halo Infinite converter'],
+  ['/games/destiny-2/', 'Destiny 2 converter'],
+  ['/games/call-of-duty/', 'Call of Duty converter'],
+];
+
+const pairLinks = [
+  ['/valorant-to-cs2-sensitivity/', 'Valorant → CS2'],
+  ['/cs2-to-valorant-sensitivity/', 'CS2 → Valorant'],
+  ['/valorant-to-overwatch-2-sensitivity/', 'Valorant → Overwatch 2'],
+  ['/fortnite-to-cs2-sensitivity/', 'Fortnite → CS2'],
+  ['/apex-to-valorant-sensitivity/', 'Apex → Valorant'],
+  ['/marvel-rivals-to-overwatch-2-sensitivity/', 'Marvel Rivals → Overwatch 2'],
+];
+
+const guideLinks = [
+  ['/guides/', 'Guides index'],
+  ['/guides/cm-360-explained/', 'cm/360 explained'],
+  ['/guides/what-is-edpi/', 'What is eDPI?'],
+  ['/guides/how-to-choose-sensitivity/', 'How to choose a sensitivity'],
+  ['/guides/how-to-test-mouse-dpi/', 'How to test your mouse DPI'],
+  ['/glossary/', 'Sensitivity glossary'],
+];
+
+const siteLinks = [
+  ['/about/', 'About'],
+  ['/methodology/', 'Methodology & editorial policy'],
+  ['/contact/', 'Contact'],
+  ['/changelog/', 'Changelog'],
+  ['/privacy/', 'Privacy policy'],
+  ['/terms/', 'Terms of use'],
+  ['/tools/', 'All tools'],
+];
+---
+
+<Base title={title} description={description} breadcrumbs={breadcrumbs} canonical="/sitemap/">
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>HTML sitemap</h1>
+    <p class="lead">Everything on SensForge, grouped for humans and crawlers alike.</p>
+
+    <section class="section">
+      <h2 id="tools">Tools</h2>
+      <ul>
+        {toolLinks.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="games">Game converters</h2>
+      <ul>
+        {gameLinks.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="pairs">Conversion pairs</h2>
+      <ul>
+        {pairLinks.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="guides">Guides</h2>
+      <ul>
+        {guideLinks.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="site-pages">Site</h2>
+      <ul>
+        {[...siteLinks, ['/glossary/', 'Glossary']].map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="games">Supported games</h2>
+      <p class="small muted">
+        {games.map((g, i) => (
+          <>{i > 0 && ' · '}<span>{g.name}</span></>
+        ))}
+      </p>
+    </section>
+  </div>
+</Base>

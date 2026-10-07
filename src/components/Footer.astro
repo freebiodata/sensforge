@@ -1,0 +1,78 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-cols">
+      <div>
+        <h3>Converters</h3>
+        <ul>
+          <li><a href="/sensitivity-converter/">Sensitivity converter</a></li>
+          <li><a href="/edpi-calculator/">eDPI calculator</a></li>
+          <li><a href="/cm-360-calculator/">cm/360 calculator</a></li>
+          <li><a href="/dpi-analyzer/">DPI analyzer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Aiming &amp; display</h3>
+        <ul>
+          <li><a href="/fov-calculator/">FOV calculator</a></li>
+          <li><a href="/crosshair-generator/">Crosshair generator</a></li>
+          <li><a href="/sens-randomizer/">Sensitivity randomizer</a></li>
+          <li><a href="/tools/">All tools</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Game converters</h3>
+        <ul>
+          <li><a href="/games/cs2/">CS2</a></li>
+          <li><a href="/games/valorant/">Valorant</a></li>
+          <li><a href="/games/overwatch-2/">Overwatch 2</a></li>
+          <li><a href="/games/apex-legends/">Apex Legends</a></li>
+          <li><a href="/games/">All games →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Popular conversions</h3>
+        <ul>
+          <li><a href="/valorant-to-cs2-sensitivity/">Valorant → CS2</a></li>
+          <li><a href="/cs2-to-valorant-sensitivity/">CS2 → Valorant</a></li>
+          <li><a href="/valorant-to-overwatch-2-sensitivity/">Valorant → OW2</a></li>
+          <li><a href="/fortnite-to-cs2-sensitivity/">Fortnite → CS2</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Learn</h3>
+        <ul>
+          <li><a href="/guides/">Guides</a></li>
+          <li><a href="/guides/cm-360-explained/">cm/360 explained</a></li>
+          <li><a href="/guides/what-is-edpi/">What is eDPI?</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Site</h3>
+        <ul>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/methodology/">Methodology</a></li>
+          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/sitemap/">Sitemap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/privacy/">Privacy</a></li>
+          <li><a href="/terms/">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} {site.name}. Free tools, no sign-up.</span>
+      <span>All calculations run in your browser — nothing is uploaded.</span>
+    </div>
+  </div>
+</footer>

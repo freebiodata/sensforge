@@ -1,0 +1,134 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import Faq from '../../../components/Faq.astro';
+import TrustBlock from '../../../components/TrustBlock.astro';
+import { site } from '../../../data/site';
+
+const title = 'How to Choose an FPS Sensitivity You Can Keep';
+const description =
+  'A practical method for picking your FPS sensitivity: the cm/360 band to start from, how to test properly, and when to stop changing it. Free guide.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides', href: '/guides/' },
+  { name: 'How to choose your sensitivity' },
+];
+
+const faq = [
+  {
+    q: 'How long should I keep one sensitivity before changing?',
+    a: 'At least two weeks of regular play. Sensitivity changes cost you adaptation time; constant changes mean you are always adapting and never consolidating. After two weeks, change only with a specific reason (e.g. new mousepad, new role) — not because of one bad session.',
+  },
+  {
+    q: 'Should I switch to a pro\'s exact sensitivity?',
+    a: 'No. Use pro values as evidence of what is workable, not as targets. Your mousepad, grip, desk space and role decide your band; within it, any value works if you train it. Copying a pro\'s number changes nothing if your setup cannot physically execute it.',
+  },
+  {
+    q: 'What if my mousepad is small?',
+    a: 'Then very slow sensitivities (60+ cm/360) will force mid-turn mouse resets, which is a real handicap. Use the <a href="/cm-360-calculator/">cm/360 calculator</a> mousepad check before choosing; a 20–30 cm/360 band is comfortable on small pads.',
+  },
+];
+
+const bandTable = [
+  ['15–25 cm', 'Very fast', 'Small pads, wrist aim, movement-heavy roles', 'Low precision margin on small targets'],
+  ['25–40 cm', 'Balanced', 'Most players, most roles, most pads', 'The crowded middle — no downsides to start'],
+  ['40–60 cm', 'Precision', 'Tac-shooter rifle roles, large pads, arm aim', 'Needs pad space; slower 180° turns'],
+  ['60 cm+', 'Very low', 'Extreme precision specialists', 'Frequent mouse lifts; demanding setup'],
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+  canonical="/guides/how-to-choose-sensitivity/"
+  type="article"
+  jsonLd={[
+    {
+      '@type': 'Article',
+      headline: 'How to Choose an FPS Sensitivity You Can Keep',
+      datePublished: '2026-10-07',
+      dateModified: '2026-10-07',
+      author: { '@type': 'Organization', name: site.name, url: `${site.url}/about/` },
+    },
+  ]}
+>
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>How to choose an FPS sensitivity you can keep</h1>
+    <p class="lead">
+      Sensitivity shopping is the most common aim trap: you cannot feel whether a sens is right in one
+      session, so every change feels wrong at first and right later — or vice versa. Here is a method
+      that sidesteps the loop.
+    </p>
+    <p class="small muted">Published 07 Oct 2026 · By the SensForge team</p>
+
+    <section class="section">
+      <h2 id="method">The method in five steps</h2>
+      <ol class="steps">
+        <li><strong>Pick your band from your setup, not your feelings.</strong> Estimate your usable mousepad width (mouse travel area, not total pad size). A 30 cm travel width comfortably supports a 25–40 cm/360 sensitivity. Check yours with the <a href="/cm-360-calculator/">cm/360 calculator</a>.</li>
+        <li><strong>Take the middle of the band.</strong> Start at ~32–35 cm/360. It sits in the balanced zone, matches most players' muscle behaviour, and leaves room to adjust in either direction.</li>
+        <li><strong>Convert it into every game you play.</strong> Use the <a href="/sensitivity-converter/">sensitivity converter</a> so the same physical feel follows you between titles. This is the step most players skip — then they wonder why switching games feels like starting over.</li>
+        <li><strong>Hold it for two weeks minimum.</strong> Play every session, including the bad ones, on the same value. Improvement curves need a stable reference; your crosshair will lie to you during adaptation.</li>
+        <li><strong>Adjust once, in small steps, then hold again.</strong> If something still feels wrong after two weeks — usually "too fast for small targets" or "too slow for close turns" — move by ±5 cm/360 (not more), convert everywhere, and begin another two-week block.</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 id="bands">The bands, and what they are good for</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>cm/360</th><th>Zone</th><th>Works for</th><th>Trade-off</th></tr></thead>
+          <tbody>
+            {bandTable.map(([cm, zone, works, tradeoff]) => (
+              <tr><td class="num" style="text-align:left">{cm}</td><td>{zone}</td><td>{works}</td><td>{tradeoff}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">Bands are community conventions for orientation, not rules — pro players exist outside every row.</p>
+    </section>
+
+    <section class="section">
+      <h2 id="testing">How to test without fooling yourself</h2>
+      <ul>
+        <li><strong>Use one drill, ignore the score.</strong> A tracking drill and a flick drill tell different stories; pick one, run it for a set time, repeat after a week. The score barely matters — the feel of control does.</li>
+        <li><strong>Judge after warm-up, not before.</strong> First-session feel of any change is dominated by novelty. Give it 20 minutes minimum.</li>
+        <li><strong>Change one variable at a time.</strong> When experimenting, move cm/360 or DPI — never both, and never at the same time as a new mouse or pad.</li>
+        <li><strong>Write it down.</strong> Record the value, date, and one sentence on the feel. Without notes, you will cycle the same two values for months (the randomizer's <a href="/sens-randomizer/">history feature</a> can serve as this log).</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="pergame">Should a single cm/360 serve every game?</h2>
+      <p>
+        Yes as the default — consistency is the point. The accepted exceptions: games that demand
+        heavy tracking (slightly faster) or pure precision sniping (slightly slower), and aim trainers
+        where you may deliberately train outside your match value. Keep deviations under 15%, and
+        always convert properly: a "small change" in raw numbers can be large in physical distance
+        once yaw differences are applied.
+      </p>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        This guide is method advice from a player perspective, not a scientific study — the numbers are
+        conventions, and your results decide. For the exact maths behind conversions, see
+        <a href="/guides/cm-360-explained/">cm/360 explained</a> and the <a href="/methodology/">methodology page</a>.
+      </p>
+    </TrustBlock>
+
+    <section class="section">
+      <h2 id="next">Next steps</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/cm-360-calculator/"><span class="tc-title">cm/360 Calculator</span><p class="tc-desc">See your current physical distance and pad coverage.</p></a></li>
+        <li><a class="tool-card" href="/sensitivity-converter/"><span class="tc-title">Sensitivity Converter</span><p class="tc-desc">Apply your chosen value across 13 games.</p></a></li>
+        <li><a class="tool-card" href="/edpi-calculator/"><span class="tc-title">eDPI Calculator</span><p class="tc-desc">Log and compare the numbers with friends.</p></a></li>
+      </ul>
+    </section>
+  </div>
+</Base>

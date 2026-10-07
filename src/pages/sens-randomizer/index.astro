@@ -1,0 +1,228 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+import { games } from '../../data/games';
+import { site } from '../../data/site';
+
+const title = 'Sensitivity Randomizer — Train With Varied Sens | SensForge';
+const description =
+  'Generate random sensitivities around your main value for aim training. Roll history, game conversion, crypto-random. Free in-browser drill tool.';
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    '@id': `${site.url}/sens-randomizer/#app`,
+    name: 'Sensitivity Randomizer',
+    url: `${site.url}/sens-randomizer/`,
+    description:
+      'Creates random sensitivities within a chosen deviation band of your main value — a training aid used to build mouse-control adaptability.',
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Aiming & display', href: '/tools/' },
+  { name: 'Sensitivity randomizer' },
+];
+
+const faq = [
+  {
+    q: 'What is a sensitivity randomizer for?',
+    a: 'It generates a random sensitivity within ±X% of your main value. Aim-training communities use small variations (±3–8%) to force your brain to continuously re-calibrate instead of relying on pure muscle memory — the goal is control, not the specific number. Some players also use it to find a fresh comfortable value after plateauing.',
+  },
+  {
+    q: 'How much should I randomize?',
+    a: 'Typical practice bands: ±3–5% for subtle recalibration within a session; ±8–12% for new-mouse adaptation; ±15–25% only for occasional "deep practice" — beyond that you are training a different skill, not refining your default.',
+  },
+  {
+    q: 'Will randomizing ruin my muscle memory?',
+    a: 'Short sessions with small deviations are the standard recommendation — 10–20 minutes, then back to your normal value. Long-term, players report better control and faster adaptation. This is a training opinion from the aim community, not a scientific guarantee; test it against your own results.',
+  },
+  {
+    q: 'How do I apply a roll to my game?',
+    a: 'Roll a value, then use the sensitivity converter to translate it to each game you practice in (the roll respects your DPI). Copy the result directly into the game settings.',
+  },
+  {
+    q: 'Is the roll truly random?',
+    a: 'Yes — values come from your browser\'s cryptographic random generator (crypto.getRandomValues), so there is no hidden pattern. Refresh rolls as often as you like.',
+  },
+];
+
+const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defaultSens: g.defaultSens, decimals: g.sensDecimals }));
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+  canonical="/sens-randomizer/"
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>Sensitivity Randomizer</h1>
+      <p class="value-line">
+        Roll a random sensitivity within a chosen band around your main value — a drill used by aim
+        training communities to sharpen mouse control and adaptation.
+      </p>
+      <ul class="trust-microline">
+        <li class="badge badge-green">Cryptographic random</li>
+        <li class="badge">Free · No sign-up</li>
+        <li class="badge">Roll history</li>
+      </ul>
+    </div>
+
+    <section class="tool" aria-labelledby="tool-heading">
+      <h2 id="tool-heading" class="visually-hidden">Sensitivity randomizer tool</h2>
+
+      <div class="tool-grid cols-2">
+        <div>
+          <div class="field">
+            <label for="game">Game</label>
+            <select id="game">
+              {gameOptions.map((g) => (
+                <option value={g.id} selected={g.id === 'valorant'}>{g.name}</option>
+              ))}
+            </select>
+          </div>
+          <div class="field">
+            <label for="base-sens">Your main sensitivity</label>
+            <input type="number" id="base-sens" inputmode="decimal" min="0.001" step="0.001" value="0.35" />
+            <span class="error" role="alert">Enter a sensitivity greater than 0.</span>
+          </div>
+          <div class="field">
+            <label for="spread">Random spread</label>
+            <select id="spread">
+              <option value="3">±3% — subtle recalibration</option>
+              <option value="5" selected>±5% — standard drill</option>
+              <option value="8">±8% — adaptation</option>
+              <option value="12">±12% — new mouse break-in</option>
+              <option value="20">±20% — deep practice</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="button" id="roll-btn" style="width:100%">🎲 Roll sensitivity</button>
+        </div>
+
+        <div>
+          <div class="result-panel" style="margin-top:0;min-height:150px">
+            <div class="small muted" id="roll-caption">Your randomized value appears here</div>
+            <div class="result-value" id="roll-value">—</div>
+            <div class="result-meta">
+              <div class="kv"><div class="k">Roll range</div><div class="v" id="roll-range">—</div></div>
+              <div class="kv"><div class="k">Deviation</div><div class="v" id="roll-dev">—</div></div>
+            </div>
+            <div class="result-actions">
+              <button class="btn btn-secondary" type="button" id="copy-roll"><span class="normal-label">Copy value</span><span class="copied-label">✓ Copied</span></button>
+              <a class="btn btn-secondary" href="/sensitivity-converter/">Convert to another game →</a>
+            </div>
+          </div>
+          <div class="field" style="margin-top:14px">
+            <label>Roll history <span class="muted small">(last 8)</span></label>
+            <div id="history" class="small muted" style="font-family:var(--font-mono);line-height:1.8">No rolls yet.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="how">
+      <h2 id="how">How randomizing helps training</h2>
+      <p>
+        Pure repetition on one sensitivity lets your hand autopilot. Small random perturbations force active
+        correction — each session becomes a control exercise rather than a reflex loop. The community
+        method is simple:
+      </p>
+      <ol class="steps">
+        <li><strong>Start with your normal value.</strong> Warm up 5 minutes so the baseline is honest.</li>
+        <li><strong>Roll ±5% and play 10–20 minutes.</strong> Focus on tracking smoothness, not score.</li>
+        <li><strong>Return to your main value.</strong> It should feel instantly familiar — that contrast is the training effect.</li>
+        <li><strong>Repeat a few times a week.</strong> Keep sessions short; this is a supplement, not your main practice.</li>
+      </ol>
+      <p class="small muted">
+        This is an aim-training convention, not a scientific claim — keep what measurably helps your own accuracy.
+      </p>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        <strong>Local only.</strong> Rolls are generated with the browser's crypto random API and never
+        leave your device.
+      </p>
+    </TrustBlock>
+
+    <section class="section" aria-labelledby="related">
+      <h2 id="related">Related tools</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/sensitivity-converter/"><span class="tc-title">Sensitivity Converter</span><p class="tc-desc">Translate each roll to every game you practice.</p></a></li>
+        <li><a class="tool-card" href="/cm-360-calculator/"><span class="tc-title">cm/360 Calculator</span><p class="tc-desc">See what each roll means in physical distance.</p></a></li>
+        <li><a class="tool-card" href="/edpi-calculator/"><span class="tc-title">eDPI Calculator</span><p class="tc-desc">Track how the roll compares to your baseline eDPI.</p></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    import { games } from '../../data/games';
+    const byId = Object.fromEntries(games.map((g) => [g.id, g]));
+    const $ = (id: string) => document.getElementById(id)!;
+    const history: string[] = [];
+
+    function randFloat() {
+      const buf = new Uint32Array(1);
+      crypto.getRandomValues(buf);
+      return buf[0] / 4294967296;
+    }
+
+    function roll() {
+      const g = byId[($('game') as HTMLSelectElement).value];
+      const base = parseFloat(($('base-sens') as HTMLInputElement).value);
+      const spreadPct = parseFloat(($('spread') as HTMLSelectElement).value);
+
+      const valid = Number.isFinite(base) && base > 0;
+      ($('base-sens') as HTMLInputElement).closest('.field')!.classList.toggle('invalid', !valid);
+      if (!valid) return;
+
+      const delta = (randFloat() * 2 - 1) * (spreadPct / 100);
+      const value = base * (1 + delta);
+      const lo = base * (1 - spreadPct / 100);
+      const hi = base * (1 + spreadPct / 100);
+
+      $('roll-caption').textContent = `Randomized ${g.name} sensitivity (±${spreadPct}%)`;
+      $('roll-value').textContent = value.toFixed(g.sensDecimals);
+      $('roll-range').textContent = `${lo.toFixed(g.sensDecimals)} – ${hi.toFixed(g.sensDecimals)}`;
+      $('roll-dev').textContent = `${delta >= 0 ? '+' : ''}${(delta * 100).toFixed(1)}%`;
+
+      (window as any).__roll = value.toFixed(g.sensDecimals);
+
+      history.unshift(`${value.toFixed(g.sensDecimals)}  (${delta >= 0 ? '+' : ''}${(delta * 100).toFixed(1)}%)`);
+      if (history.length > 8) history.pop();
+      $('history').textContent = history.map((h) => `• ${h}`).join('\n');
+      ($('history') as HTMLElement).style.whiteSpace = 'pre-line';
+    }
+
+    $('roll-btn').addEventListener('click', roll);
+
+    $('copy-roll').addEventListener('click', async () => {
+      const v = (window as any).__roll;
+      if (!v) return;
+      try { await navigator.clipboard.writeText(v); } catch {
+        const ta = document.createElement('textarea');
+        ta.value = v; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+      }
+      const btn = $('copy-roll');
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1800);
+    });
+
+    ($('game') as HTMLSelectElement).addEventListener('change', () => {
+      ($('base-sens') as HTMLInputElement).value = String(byId[($('game') as HTMLSelectElement).value].defaultSens);
+    });
+  </script>
+</Base>

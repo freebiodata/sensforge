@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { gamePages } from '../../data/gamePages';
+import { gameById } from '../../data/games';
+import { site } from '../../data/site';
+
+const title = 'Game Sensitivity Converters — 13 FPS Titles | SensForge';
+const description =
+  'Per-game sensitivity converters for CS2, Valorant, Overwatch 2, Apex, Fortnite, R6 and more — each with conversion tables and sourced yaw maths. Free.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Games' },
+];
+
+const confidenceClass: Record<string, string> = {
+  confirmed: 'badge-green',
+  corroborated: 'badge-blue',
+  'single-source': 'badge-amber',
+};
+---
+
+<Base title={title} description={description} breadcrumbs={breadcrumbs} canonical="/games/">
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>Game sensitivity converters</h1>
+      <p class="value-line">
+        One worked page per game: conversion tables, key facts, FAQs — and a built-in converter that
+        knows the game's yaw constant. Every constant is confidence-labelled on the
+        <a href="/methodology/">methodology page</a>.
+      </p>
+    </div>
+
+    <section class="section" aria-labelledby="list">
+      <h2 id="list" class="visually-hidden">All game converters</h2>
+      <ul class="tool-cards">
+        {gamePages.map((g) => {
+          const game = gameById[g.gameId as keyof typeof gameById]!;
+          return (
+            <li>
+              <a class="tool-card" href={`/games/${g.slug}/`}>
+                <span class="tc-title">{g.name}</span>
+                <p class="tc-desc">{g.description.split('.')[0]}.</p>
+                <span class={`badge ${confidenceClass[game.confidence]} tc-badge`}>yaw {game.yaw} · {game.confidence}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="why">
+      <h2 id="why">Why per-game pages?</h2>
+      <p>
+        Sensitivity maths is game-specific: each title applies its own yaw constant, input scale and
+        scope model. These pages document those details for the games we support, so the numbers you copy
+        are verifiable rather than copied from a generic calculator. For one-off conversions between any
+        two games, the <a href="/sensitivity-converter/">full converter</a> is faster.
+      </p>
+    </section>
+  </div>
+</Base>

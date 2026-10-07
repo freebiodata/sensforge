@@ -1,0 +1,140 @@
+---
+import Base from '../layouts/Base.astro';
+import ToolCard from '../components/ToolCard.astro';
+import { site } from '../data/site';
+
+const title = 'SensForge — Free FPS Sensitivity, eDPI & FOV Calculators';
+const description =
+  'Free browser calculators for competitive FPS: convert sensitivity between 13 games, calculate eDPI and cm/360, convert FOV, design crosshairs. No sign-up.';
+
+const tools = [
+  {
+    href: '/sensitivity-converter/',
+    title: 'Sensitivity Converter',
+    desc: 'Move your aim between 13 FPS games — Valorant, CS2, Apex, Overwatch 2, Fortnite and more — with cm/360 matching.',
+    badge: 'Most used',
+  },
+  {
+    href: '/edpi-calculator/',
+    title: 'eDPI Calculator',
+    desc: 'Your effective DPI in one click, with band comparison against typical competitive ranges.',
+  },
+  {
+    href: '/cm-360-calculator/',
+    title: 'cm/360 Calculator',
+    desc: 'The physical distance your mouse travels per full turn — the one number that survives game swaps.',
+  },
+  {
+    href: '/fov-calculator/',
+    title: 'FOV Calculator',
+    desc: 'Convert field of view between 16:9, 4:3, 21:9 and more, with monitor-match factors.',
+  },
+  {
+    href: '/dpi-analyzer/',
+    title: 'Mouse DPI Analyzer',
+    desc: 'Measure what your mouse actually outputs — no driver software, straight from sensor counts.',
+  },
+  {
+    href: '/crosshair-generator/',
+    title: 'Crosshair Generator',
+    desc: 'Design your crosshair with a live preview; copy style values or export a transparent PNG.',
+    badge: 'New',
+  },
+  {
+    href: '/sens-randomizer/',
+    title: 'Sensitivity Randomizer',
+    desc: 'Roll practice sensitivities within a chosen band to sharpen mouse control and adaptation.',
+    badge: 'New',
+  },
+];
+
+const guides = [
+  {
+    href: '/guides/cm-360-explained/',
+    title: 'cm/360 explained',
+    desc: 'Why physical turn distance is the only cross-game sensitivity metric, and how to use it.',
+  },
+  {
+    href: '/guides/what-is-edpi/',
+    title: 'What is eDPI?',
+    desc: 'Effective DPI explained — what it normalizes, and where it quietly misleads you.',
+  },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  canonical="/"
+>
+  <div class="wrap">
+    <div class="hero" style="padding-top:40px">
+      <h1>Free FPS sensitivity &amp; aiming calculators</h1>
+      <p class="value-line" style="font-size:1.15rem">
+        Convert your aim between 13 games, measure your true DPI, calculate cm/360 and eDPI, convert FOV,
+        and design crosshairs — all in your browser. <strong>No sign-up, nothing uploaded.</strong>
+      </p>
+      <ul class="trust-microline">
+        <li class="badge badge-green">100% client-side math</li>
+        <li class="badge">13 games supported</li>
+        <li class="badge">No accounts · no watermarks</li>
+      </ul>
+      <div class="result-actions" style="margin-top:22px">
+        <a class="btn btn-primary" href="/sensitivity-converter/" style="padding:12px 24px;font-size:1.05rem">
+          Convert my sensitivity →
+        </a>
+        <a class="btn btn-secondary" href="/tools/" style="padding:12px 24px;font-size:1.05rem">Browse all tools</a>
+      </div>
+    </div>
+
+    <section class="section" aria-labelledby="tools-heading">
+      <h2 id="tools-heading">The toolkit</h2>
+      <ul class="tool-cards">
+        {tools.map((t) => (
+          <ToolCard href={t.href} title={t.title} desc={t.desc} badge={t.badge} />
+        ))}
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="why">
+      <h2 id="why">Why SensForge</h2>
+      <div class="card">
+        <ul style="margin:0">
+          <li><strong>Yaw-based math, not guesswork.</strong> Every conversion uses each game's documented rotation constant, with confidence labels on the <a href="/methodology/">methodology page</a>.</li>
+          <li><strong>Everything runs locally.</strong> No uploads, no accounts, no tracking of the settings you enter. Close the tab and nothing persists.</li>
+          <li><strong>Built for the way players actually measure.</strong> cm/360, eDPI and DPI analysis — the metrics the aim community uses — not vanity numbers.</li>
+          <li><strong>Honest limits.</strong> Where a yaw value is only single-source or approximate, we say so instead of pretending precision.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="guides-heading">
+      <h2 id="guides-heading">Learn the numbers</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        {guides.map((g) => (
+          <li>
+            <a class="tool-card" href={g.href}>
+              <span class="tc-title">{g.title}</span>
+              <p class="tc-desc">{g.desc}</p>
+            </a>
+          </li>
+        ))}
+        <li>
+          <a class="tool-card" href="/guides/">
+            <span class="tc-title">All guides →</span>
+            <p class="tc-desc">Short, practical explainers for FPS aiming metrics.</p>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="about-summ">
+      <h2 id="about-summ">Who runs this site</h2>
+      <p class="lead">
+        SensForge is an independent, player-run toolset. We build the calculators we wanted while switching
+        between competitive shooters ourselves — <a href="/about/">read the full story</a> or check the
+        <a href="/methodology/">methodology</a> behind every formula.
+      </p>
+    </section>
+  </div>
+</Base>

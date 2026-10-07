@@ -1,0 +1,136 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import Faq from '../../../components/Faq.astro';
+import TrustBlock from '../../../components/TrustBlock.astro';
+import { site } from '../../../data/site';
+
+const title = 'How to Test Your Mouse DPI (Without Drivers)';
+const description =
+  'Three ways to find your mouse DPI: driver software, the count method with a ruler, and the sensor-spec route. Honest accuracy notes for each. Free guide.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides', href: '/guides/' },
+  { name: 'How to test mouse DPI' },
+];
+
+const faq = [
+  {
+    q: 'What is DPI actually measuring?',
+    a: 'DPI (dots per inch) is how many sensor counts your mouse reports per inch of physical movement. A 800 DPI mouse reports 800 counts per inch — the operating system then turns those counts into cursor movement, and your game turns them into camera rotation.',
+  },
+  {
+    q: 'Why measure instead of trusting the sticker?',
+    a: 'The number on the box is a nominal value: driver profiles override it, dual-mode mice switch it with a button, and sensors vary ±1–3%. Measuring takes one minute with a ruler and removes all doubt — especially after a driver update or profile import.',
+  },
+  {
+    q: 'Does DPI higher than 1600 make my aim better?',
+    a: 'No. Once raw input is on, DPI and in-game sensitivity trade off exactly: 1600 DPI at half sensitivity equals 800 DPI at full. Higher DPI only reduces sensor smoothing at the low end or lets you use finer slider steps. Pick a clean value and convert properly.',
+  },
+  {
+    q: 'Does Windows sensitivity change my DPI?',
+    a: 'It changes the cursor speed, not the mouse\'s report rate. For games with raw input (all competitive shooters today), the game reads the counts directly — but leave Windows at 6/11 and acceleration off, because some overlay and menu paths still use the OS path.',
+  },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+  canonical="/guides/how-to-test-mouse-dpi/"
+  type="article"
+  jsonLd={[
+    {
+      '@type': 'Article',
+      headline: 'How to Test Your Mouse DPI (Without Drivers)',
+      datePublished: '2026-10-07',
+      dateModified: '2026-10-07',
+      author: { '@type': 'Organization', name: site.name, url: `${site.url}/about/` },
+    },
+  ]}
+>
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>How to test your mouse DPI (without drivers)</h1>
+    <p class="lead">
+      DPI is the foundation every sensitivity number sits on: get it wrong by 20% and every conversion
+      you make is wrong by 20% too. Here are the three reliable ways to find your true value, cheapest first.
+    </p>
+    <p class="small muted">Published 07 Oct 2026 · By the SensForge team</p>
+
+    <section class="section">
+      <h2 id="method-1">Method 1 — Read it from your driver (30 seconds)</h2>
+      <p>
+        If your mouse came with software (Logitech G Hub, Razer Synapse, SteelSeries GG, etc.), open it and
+        check the active profile's DPI setting. Two traps: (1) some drivers show <em>per-profile</em> values,
+        and the stored on-board profile may differ from the on-screen one; (2) DPI-cycle buttons change the
+        value without updating the window you were looking at. Read it, note it, then verify with Method 2 —
+        the two should agree.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="method-2">Method 2 — The count method (2 minutes, works for any mouse)</h2>
+      <ol class="steps">
+        <li><strong>Turn off acceleration.</strong> Windows: Mouse settings → Additional options → Pointer Options → uncheck "Enhance pointer precision". Also check your driver for any acceleration or angle-snapping feature.</li>
+        <li><strong>Open the <a href="/dpi-analyzer/">DPI analyzer</a>.</strong> It counts sensor steps (mouse counts) your system reports while you drag the mouse in a straight line.</li>
+        <li><strong>Drag a measured distance.</strong> Place a ruler on the desk, drag slowly along it (a consistent 20–30 cm), press stop.</li>
+        <li><strong>Enter the distance.</strong> The tool divides counts by the distance in inches: <code>DPI = counts ÷ inches</code>. Repeat three times and average; a good result repeats within ±3%.</li>
+      </ol>
+      <p class="small muted">
+        Why this works: with acceleration off, every inch of movement produces a fixed number of counts —
+        that rate <em>is</em> your effective DPI, measured post-driver and post-OS.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="method-3">Method 3 — cm/360 cross-check (indirect, needs a game)</h2>
+      <p>
+        In any supported game, do a slow full 360° turn and measure the physical distance it took
+        (see <a href="/guides/cm-360-explained/">cm/360 explained</a>). Then solve
+        <code>DPI = 360 ÷ (cm/360 ÷ 2.54 × sens × yaw)</code> — or just enter your values in the
+        <a href="/cm-360-calculator/">cm/360 calculator</a> and adjust DPI until the number matches what
+        you physically measured. This method checks the whole chain (sensor → driver → game) at once,
+        which makes it the best final validation but the worst first measurement (a single wobble skews it).
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="accuracy">Accuracy expectations</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Typical accuracy</th><th>Best for</th></tr></thead>
+          <tbody>
+            <tr><td>Driver readout</td><td>Depends on profile state</td><td>A quick start; verify it</td></tr>
+            <tr><td>Count method + ruler</td><td>±2–3%</td><td>Confirmation and new mice with no software</td></tr>
+            <tr><td>cm/360 cross-check</td><td>±3–5% single try</td><td>End-to-end validation before tournaments</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">Any of these beats guessing — and all three agree when your setup is clean.</p>
+    </section>
+
+    <section class="section">
+      <h2 id="mistakes">Common DPI mistakes</h2>
+      <ul>
+        <li><strong>Confusing DPI with sensitivity.</strong> DPI is hardware; sensitivity is the game multiplier. They combine into eDPI — see <a href="/guides/what-is-edpi/">what is eDPI</a>.</li>
+        <li><strong>Chasing huge DPI numbers.</strong> 3200+ DPI only helps if your game supports raw input and you convert sensitivity down properly; otherwise it just amplifies noise.</li>
+        <li><strong>Testing with acceleration on.</strong> The single most common cause of "my measurement is 30% off" reports.</li>
+        <li><strong>Forgetting polling rate exists.</strong> Polling rate (1000 Hz etc.) affects input latency, not DPI — don't mix them up when troubleshooting.</li>
+      </ul>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        The count method's maths is arithmetic (<code>DPI = counts/inch</code>), reproduced in the
+        <a href="/dpi-analyzer/">DPI analyzer</a> tool. Accuracy ranges above are practical expectations
+        from the described method, not lab guarantees. Questions? <a href="/contact/">Contact us</a>.
+      </p>
+    </TrustBlock>
+  </div>
+</Base>

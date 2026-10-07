@@ -1,0 +1,524 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+import { games } from '../../data/games';
+import { site } from '../../data/site';
+
+const title = 'Mouse Sensitivity Converter — 13 Games, Free | SensForge';
+const description =
+  'Convert mouse sensitivity between Valorant, CS2, Apex, Overwatch 2, Fortnite and more. Match cm/360 and eDPI exactly — free, in your browser, no sign-up.';
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    '@id': `${site.url}/sensitivity-converter/#app`,
+    name: 'Mouse Sensitivity Converter',
+    url: `${site.url}/sensitivity-converter/`,
+    description:
+      'Convert mouse sensitivity between 13 FPS games by matching cm/360 (physical mouse distance per 360° turn).',
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Converters', href: '/tools/' },
+  { name: 'Sensitivity converter' },
+];
+
+const faq = [
+  {
+    q: 'How does the sensitivity converter work?',
+    a: 'It uses each game\'s yaw value — the degrees of camera rotation per mouse count — to keep your physical cm/360 constant. If you move your mouse 40 cm for a full turn in CS2, you will move it 40 cm for a full turn in Valorant too.',
+  },
+  {
+    q: 'Why can\'t I just copy the same number between games?',
+    a: 'Because yaw values differ. CS2 rotates 0.022° per mouse count while Valorant rotates 0.07° — nearly the same slider number produces completely different aim. Converting via cm/360 removes the guesswork.',
+  },
+  {
+    q: 'Should I convert with the same DPI or a different one?',
+    a: 'Either works — enter your actual DPI for each mouse setup. The tool factors DPI in, so converting from 800 DPI to 1600 DPI at the same physical feel is handled automatically.',
+  },
+  {
+    q: 'What is cm/360 and why does it matter?',
+    a: 'cm/360 is the physical distance your mouse travels for one full in-game turn. It is the one number that means the same thing in every game, which is why keeping it constant preserves your muscle memory. See the <a href="/guides/cm-360-explained/">cm/360 guide</a> for more.',
+  },
+  {
+    q: 'Which games are supported?',
+    a: 'Valorant, Counter-Strike 2, Apex Legends, Overwatch 2, Fortnite, Rainbow Six Siege, Call of Duty (Warzone/MW), Marvel Rivals, The Finals, Destiny 2, Halo Infinite and Deadlock. Each yaw value is labelled with its confidence level on the <a href="/methodology/">methodology page</a>.',
+  },
+  {
+    q: 'Is my input data stored anywhere?',
+    a: 'No. Every calculation runs entirely in your browser with JavaScript. Nothing is sent to our servers — there is no sign-up, and the values you enter are not tracked.',
+  },
+];
+
+const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, note: g.yawNote, typical: g.typicalSens, decimals: g.sensDecimals, defaultSens: g.defaultSens }));
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+  canonical="/sensitivity-converter/"
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>Mouse Sensitivity Converter</h1>
+      <p class="value-line">
+        Convert your sensitivity between Valorant, CS2, Apex Legends, Overwatch 2, Fortnite and 7 more
+        games — matching <strong>cm/360</strong> so your aim feels identical. Free, no sign-up.
+      </p>
+      <ul class="trust-microline">
+        <li class="badge badge-green">Runs in your browser</li>
+        <li class="badge">Free · No sign-up</li>
+        <li class="badge">13 games · yaw-based math</li>
+      </ul>
+    </div>
+
+    <!-- ============ THE TOOL ============ -->
+    <section class="tool" aria-labelledby="tool-heading" id="converter">
+      <h2 id="tool-heading" class="visually-hidden">Sensitivity converter tool</h2>
+
+      <div class="tool-grid cols-2">
+        <div>
+          <div class="field">
+            <label for="src-game">From game</label>
+            <select id="src-game" name="src-game">
+              {gameOptions.map((g) => (
+                <option value={g.id} selected={g.id === 'cs2'}>{g.name}</option>
+              ))}
+            </select>
+            <span class="helper" id="src-yaw-note">CS2 sensitivity (e.g. 2.0)</span>
+          </div>
+
+          <div class="field">
+            <label for="src-sens">Your sensitivity</label>
+            <input
+              type="number"
+              id="src-sens"
+              name="src-sens"
+              inputmode="decimal"
+              min="0.001"
+              step="0.001"
+              value="2"
+              autocomplete="off"
+            />
+            <span class="helper" id="src-sens-helper">Typical range: 0.4 – 3.5</span>
+            <span class="error" id="src-sens-error" role="alert">Enter a sensitivity greater than 0.</span>
+          </div>
+
+          <div class="field">
+            <label for="src-dpi">Mouse DPI</label>
+            <input
+              type="number"
+              id="src-dpi"
+              name="src-dpi"
+              inputmode="numeric"
+              min="50"
+              max="12000"
+              step="50"
+              value="800"
+              autocomplete="off"
+            />
+            <span class="helper">Drivers → DPI, or use the <a href="/dpi-analyzer/">DPI analyzer</a> if unsure.</span>
+            <span class="error" id="src-dpi-error" role="alert">Enter a DPI between 50 and 12,000.</span>
+          </div>
+
+          <div class="chips" aria-label="Common DPI presets">
+            <button class="chip" type="button" data-dpi="400">400 DPI</button>
+            <button class="chip" type="button" data-dpi="800">800 DPI</button>
+            <button class="chip" type="button" data-dpi="1600">1600 DPI</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label for="dst-game">To game</label>
+            <select id="dst-game" name="dst-game">
+              {gameOptions.map((g) => (
+                <option value={g.id} selected={g.id === 'valorant'}>{g.name}</option>
+              ))}
+            </select>
+            <span class="helper" id="dst-yaw-note">Valorant sensitivity</span>
+          </div>
+
+          <div class="field">
+            <label for="dst-dpi">Target mouse DPI</label>
+            <input
+              type="number"
+              id="dst-dpi"
+              name="dst-dpi"
+              inputmode="numeric"
+              min="50"
+              max="12000"
+              step="50"
+              value="800"
+              autocomplete="off"
+            />
+            <span class="helper">Leave equal to source DPI for a straight conversion.</span>
+            <span class="error" id="dst-dpi-error" role="alert">Enter a DPI between 50 and 12,000.</span>
+          </div>
+
+          <div class="field">
+            <label>Swap direction</label>
+            <button class="btn btn-secondary" type="button" id="swap-btn">
+              ⇆ Swap from / to
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result panel (space reserved to avoid CLS) -->
+      <div class="result-panel" id="result" aria-live="polite">
+        <div class="result-empty" id="result-empty">
+          Enter your sensitivity on the left — the converted value appears here instantly.
+        </div>
+
+        <div id="result-body" hidden>
+          <div class="small muted" id="result-caption">Your Valorant sensitivity</div>
+          <div class="result-value" id="result-value">—</div>
+          <div class="result-meta">
+            <div class="kv"><div class="k">cm/360 (both games)</div><div class="v" id="out-cm360">—</div></div>
+            <div class="kv"><div class="k">eDPI (from)</div><div class="v" id="out-edpi-src">—</div></div>
+            <div class="kv"><div class="k">eDPI (to)</div><div class="v" id="out-edpi-dst">—</div></div>
+            <div class="kv"><div class="k">360° distance</div><div class="v" id="out-inches">—</div></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-primary" type="button" id="copy-btn">
+              <span class="normal-label">Copy converted sensitivity</span>
+              <span class="copied-label">✓ Copied</span>
+            </button>
+            <button class="btn btn-secondary" type="button" id="share-btn">
+              <span class="normal-label">Copy share link</span>
+              <span class="copied-label">✓ Link copied</span>
+            </button>
+            <a class="btn btn-secondary" href="/edpi-calculator/">Check your eDPI →</a>
+          </div>
+          <p class="small muted" style="margin:10px 0 0" id="history-line" hidden></p>
+        </div>
+      </div>
+
+      <p class="small muted" style="margin-top:12px">
+        All math runs locally in your browser. Nothing you type is uploaded, logged or stored.
+      </p>
+    </section>
+
+    <!-- How to use -->
+    <section class="section" aria-labelledby="how-to">
+      <h2 id="how-to">How to use the sensitivity converter</h2>
+      <ol class="steps">
+        <li><strong>Pick your current game.</strong> Choose the game you play now and type the sensitivity number from its settings menu (for CS2, that is the slider value like <code>2.0</code>).</li>
+        <li><strong>Enter your mouse DPI.</strong> Find it in your mouse driver software. Not sure? Use common presets — most players run 400, 800 or 1600 DPI.</li>
+        <li><strong>Pick the target game.</strong> Select the game you are switching to. If you changed mice, update the target DPI too.</li>
+        <li><strong>Read the result.</strong> The converted value keeps your cm/360 identical, so your flick muscle memory carries over from day one.</li>
+        <li><strong>Fine-tune in game.</strong> Wear-in tip: play one deathmatch, then adjust by ±2% only if the turn distance feels slightly off.</li>
+      </ol>
+    </section>
+
+    <!-- How it works -->
+    <section class="section" aria-labelledby="how-works">
+      <h2 id="how-works">How the math works</h2>
+      <p>
+        Every FPS converts mouse counts to camera rotation with a game-specific constant called
+        <strong>yaw</strong>. The formula that preserves your physical aim is:
+      </p>
+      <p><code>target sens = (source sens × source DPI × source yaw) ÷ (target DPI × target yaw)</code></p>
+      <p>
+        The tool also computes <strong>cm/360</strong> — the physical distance your mouse travels for one
+        full turn — because it is the only cross-game metric that matches muscle memory directly:
+      </p>
+      <p><code>cm/360 = 360 ÷ (sens × DPI × yaw) × 2.54</code></p>
+      <p class="small muted">
+        Yaw values come from game documentation and cross-referenced community measurements; each is labelled
+        with a confidence level on the <a href="/methodology/">methodology page</a>. Aiming feel is personal — treat
+        the result as your exact starting point, not a rule you must never tweak.
+      </p>
+    </section>
+
+    <!-- Examples table -->
+    <section class="section" aria-labelledby="examples">
+      <h2 id="examples">Example conversions (800 DPI, same DPI both games)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>From</th>
+              <th class="num">Sens</th>
+              <th>To</th>
+              <th class="num">Converted sens</th>
+              <th class="num">cm/360</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>CS2</td><td class="num">2.0</td><td>Valorant</td><td class="num">0.629</td><td class="num">26.0 cm</td></tr>
+            <tr><td>Valorant</td><td class="num">0.4</td><td>CS2</td><td class="num">1.273</td><td class="num">40.8 cm</td></tr>
+            <tr><td>CS2</td><td class="num">1.5</td><td>Apex Legends</td><td class="num">1.5</td><td class="num">34.6 cm</td></tr>
+            <tr><td>Overwatch 2</td><td class="num">5.0</td><td>Valorant</td><td class="num">0.471</td><td class="num">34.6 cm</td></tr>
+            <tr><td>Fortnite</td><td class="num">8.0</td><td>CS2</td><td class="num">2.02</td><td class="num">25.7 cm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">
+        Values are calculated with the same formulas the tool uses (800 DPI, identical DPI on both sides).
+      </p>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        <strong>Built how?</strong> The converter runs entirely client-side — no uploads, no accounts.
+        The yaw constants and formulas used here are documented on the <a href="/methodology/">methodology page</a>,
+        with confidence labels for every game value. Found a wrong value? <a href="/contact/">Tell us</a> — corrections ship with credit.
+      </p>
+    </TrustBlock>
+
+    <section class="section" aria-labelledby="related">
+      <h2 id="related">Related tools</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/edpi-calculator/"><span class="tc-title">eDPI Calculator</span><p class="tc-desc">Work out your effective DPI and see how it compares across ranks.</p></a></li>
+        <li><a class="tool-card" href="/cm-360-calculator/"><span class="tc-title">cm/360 Calculator</span><p class="tc-desc">Measure your mousepad distance per turn from any game.</p></a></li>
+        <li><a class="tool-card" href="/fov-calculator/"><span class="tc-title">FOV Calculator</span><p class="tc-desc">Convert field of view between aspect ratios and games.</p></a></li>
+        <li><a class="tool-card" href="/guides/cm-360-explained/"><span class="tc-title">Guide: cm/360 explained</span><p class="tc-desc">Why physical distance beats slider numbers for muscle memory.</p></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    import { games } from '../../data/games';
+
+    const byId = Object.fromEntries(games.map((g) => [g.id, g]));
+    const $ = (id: string) => document.getElementById(id)!;
+
+    const srcGame = $('src-game') as HTMLSelectElement;
+    const dstGame = $('dst-game') as HTMLSelectElement;
+    const srcSens = $('src-sens') as HTMLInputElement;
+    const srcDpi = $('src-dpi') as HTMLInputElement;
+    const dstDpi = $('dst-dpi') as HTMLInputElement;
+    const resultEmpty = $('result-empty');
+    const resultBody = $('result-body');
+    const resultCaption = $('result-caption');
+    const resultValue = $('result-value');
+    const outCm360 = $('out-cm360');
+    const outEdpiSrc = $('out-edpi-src');
+    const outEdpiDst = $('out-edpi-dst');
+    const outInches = $('out-inches');
+    const copyBtn = $('copy-btn');
+    const swapBtn = $('swap-btn');
+
+    const fmt = (n: number, d: number) => (Number.isFinite(n) ? n.toFixed(d) : '—');
+
+    function compute() {
+      const gs = byId[srcGame.value];
+      const gt = byId[dstGame.value];
+      const sens = parseFloat(srcSens.value);
+      const dpiS = parseFloat(srcDpi.value);
+      const dpiT = parseFloat(dstDpi.value);
+
+      $('src-sens-helper').textContent = `Typical range: ${gs.typicalSens}`;
+      $('src-yaw-note').textContent = `${gs.name} sensitivity (e.g. 2.0)`;
+      $('dst-yaw-note').textContent = `${gt.name} sensitivity`;
+
+      const sensValid = Number.isFinite(sens) && sens > 0;
+      const dpiSValid = Number.isFinite(dpiS) && dpiS >= 50 && dpiS <= 12000;
+      const dpiTValid = Number.isFinite(dpiT) && dpiT >= 50 && dpiT <= 12000;
+
+      document.querySelectorAll('.field').forEach((f) => f.classList.remove('invalid'));
+      if (!sensValid) srcSens.closest('.field')!.classList.add('invalid');
+      if (!dpiSValid) srcDpi.closest('.field')!.classList.add('invalid');
+      if (!dpiTValid) dstDpi.closest('.field')!.classList.add('invalid');
+
+      if (!sensValid || !dpiSValid || !dpiTValid) {
+        resultEmpty.hidden = false;
+        resultBody.hidden = true;
+        return;
+      }
+
+      const converted = (sens * dpiS * gs.yaw) / (dpiT * gt.yaw);
+      const cm = (360 / (sens * dpiS * gs.yaw)) * 2.54;
+      const cmTarget = (360 / (converted * dpiT * gt.yaw)) * 2.54;
+
+      resultEmpty.hidden = true;
+      resultBody.hidden = false;
+      resultCaption.textContent = `Your ${gt.name} sensitivity`;
+      resultValue.textContent = fmt(converted, gt.sensDecimals);
+      outCm360.textContent = `${fmt(cm, 1)} cm`;
+      outEdpiSrc.textContent = fmt(sens * dpiS, 0);
+      outEdpiDst.textContent = fmt(converted * dpiT, 0);
+      outInches.textContent = `${fmt(cm / 2.54, 1)} in`;
+      (window as any).__converted = fmt(converted, gt.sensDecimals);
+      (window as any).__dstName = gt.name;
+    }
+
+    srcGame.addEventListener('change', () => {
+      const g = byId[srcGame.value];
+      srcSens.value = String(g.defaultSens);
+      compute();
+    });
+    dstGame.addEventListener('change', compute);
+    [srcSens, srcDpi, dstDpi].forEach((el) => el.addEventListener('input', compute));
+
+    document.querySelectorAll('.chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        srcDpi.value = (chip as HTMLElement).dataset.dpi!;
+        compute();
+      });
+    });
+
+    swapBtn.addEventListener('click', () => {
+      const a = srcGame.value;
+      srcGame.value = dstGame.value;
+      dstGame.value = a;
+      const s = srcSens.value;
+      const d = srcDpi.value;
+      // carry converted value back as new source where reasonable
+      if ((window as any).__converted && (window as any).__converted !== '—') {
+        srcSens.value = (window as any).__converted;
+      } else {
+        srcSens.value = s;
+      }
+      srcDpi.value = dstDpi.value;
+      dstDpi.value = d;
+      compute();
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const v = (window as any).__converted;
+      if (!v) return;
+      await copyText(v);
+      copyBtn.classList.add('copied');
+      setTimeout(() => copyBtn.classList.remove('copied'), 1800);
+    });
+
+    // ---- share link (state in URL params; tool result states stay out of the index) ----
+    function buildShareUrl(): string {
+      const params = new URLSearchParams();
+      params.set('sg', srcGame.value);
+      params.set('ss', srcSens.value);
+      params.set('sd', srcDpi.value);
+      params.set('dg', dstGame.value);
+      params.set('dd', dstDpi.value);
+      return `${location.origin}${location.pathname}?${params.toString()}`;
+    }
+
+    function readShareParams() {
+      const p = new URLSearchParams(location.search);
+      if (!p.has('sg') && !p.has('dg')) return false;
+      const setIf = (key: string, el: HTMLSelectElement | HTMLInputElement) => {
+        const v = p.get(key);
+        if (v) el.value = v;
+      };
+      if (p.get('sg') && byId[p.get('sg')!]) {
+        srcGame.value = p.get('sg')!;
+        const g = byId[srcGame.value];
+        if (!p.get('ss')) srcSens.value = String(g.defaultSens);
+      }
+      if (p.get('dg') && byId[p.get('dg')!]) dstGame.value = p.get('dg')!;
+      setIf('ss', srcSens);
+      setIf('sd', srcDpi);
+      setIf('dd', dstDpi);
+      return true;
+    }
+
+    const shareBtn = $('share-btn');
+    shareBtn.addEventListener('click', async () => {
+      await copyText(buildShareUrl());
+      shareBtn.classList.add('copied');
+      setTimeout(() => shareBtn.classList.remove('copied'), 1800);
+    });
+
+    async function copyText(text: string) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+    }
+
+    // ---- remember last inputs (localStorage) + convert-then-share history ----
+    const LS_KEY = 'sensforge:converter';
+    const HIST_KEY = 'sensforge:converter:history';
+
+    function saveState() {
+      try {
+        localStorage.setItem(
+          LS_KEY,
+          JSON.stringify({
+            sg: srcGame.value, ss: srcSens.value, sd: srcDpi.value,
+            dg: dstGame.value, dd: dstDpi.value,
+          }),
+        );
+      } catch { /* private mode */ }
+    }
+
+    function restoreState(): boolean {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return false;
+        const s = JSON.parse(raw);
+        if (s.sg && byId[s.sg]) srcGame.value = s.sg;
+        if (s.ss) srcSens.value = s.ss;
+        if (s.sd) srcDpi.value = s.sd;
+        if (s.dg && byId[s.dg]) dstGame.value = s.dg;
+        if (s.dd) dstDpi.value = s.dd;
+        return true;
+      } catch { return false; }
+    }
+
+    function renderHistoryLine() {
+      try {
+        const raw = localStorage.getItem(HIST_KEY);
+        const arr: string[] = raw ? JSON.parse(raw) : [];
+        const el = $('history-line');
+        if (arr.length >= 2) {
+          el.hidden = false;
+          el.textContent = `Recent conversions: ${arr.slice(0, 3).join(' · ')}`;
+        }
+      } catch { /* ignore */ }
+    }
+
+    function pushHistory(desc: string) {
+      try {
+        const raw = localStorage.getItem(HIST_KEY);
+        const arr: string[] = raw ? JSON.parse(raw) : [];
+        arr.unshift(desc);
+        localStorage.setItem(HIST_KEY, JSON.stringify(arr.slice(0, 5)));
+      } catch { /* ignore */ }
+    }
+
+    let lastPushed = '';
+    const origCompute = compute;
+    compute = function () {
+      origCompute();
+      saveState();
+      const cv = (window as any).__converted;
+      const desc = cv && cv !== '—' ? `${byId[srcGame.value].short} ${srcSens.value} → ${byId[dstGame.value].short} ${cv}` : '';
+      if (desc && desc !== lastPushed) {
+        setTimeout(() => {
+          if (desc !== lastPushed) {
+            lastPushed = desc;
+            pushHistory(desc);
+            renderHistoryLine();
+          }
+        }, 1500);
+      }
+    };
+
+    if (!readShareParams()) restoreState();
+    renderHistoryLine();
+    compute();
+  </script>
+</Base>

@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../data/site';
+
+const title = 'Guides — FPS Aiming & Sensitivity Explainers | SensForge';
+const description =
+  'Short, practical guides to FPS aiming metrics: cm/360, eDPI, mouse DPI, FOV and crosshair design — written to pair with our free calculators.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides' },
+];
+
+const guides = [
+  {
+    href: '/guides/cm-360-explained/',
+    title: 'cm/360 explained',
+    desc: 'The physical distance per full turn — why it is the only sensitivity number that survives game swaps, and how to measure yours.',
+  },
+  {
+    href: '/guides/what-is-edpi/',
+    title: 'What is eDPI?',
+    desc: 'Effective DPI: what it normalizes, when 800 eDPI is not 800 eDPI, and how to use it without getting fooled.',
+  },
+  {
+    href: '/guides/how-to-choose-sensitivity/',
+    title: 'How to choose a sensitivity you can keep',
+    desc: 'A five-step method for picking your cm/360 band, testing honestly, and ending the sens-hopping loop.',
+  },
+  {
+    href: '/guides/how-to-test-mouse-dpi/',
+    title: 'How to test your mouse DPI',
+    desc: 'Driver readout, the count method with a ruler, and the cm/360 cross-check — with honest accuracy ranges for each.',
+  },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+  canonical="/guides/"
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>Guides</h1>
+      <p class="value-line">
+        Short, practical explainers for the numbers behind good aim. Each one pairs with a calculator so
+        you can act on it immediately.
+      </p>
+    </div>
+
+    <section class="section" aria-labelledby="list">
+      <h2 id="list" class="visually-hidden">All guides</h2>
+      <ul class="tool-cards">
+        {guides.map((g) => (
+          <li>
+            <a class="tool-card" href={g.href}>
+              <span class="tc-title">{g.title}</span>
+              <p class="tc-desc">{g.desc}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="soon">
+      <h2 id="soon">In the works</h2>
+      <p class="lead">
+        Coming next: a guide to choosing FOV for your monitor, and a crosshair design primer. Want a topic
+        covered? <a href="/contact/">Tell us</a>.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="reftools">
+      <h2 id="reftools">Reference</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/glossary/"><span class="tc-title">Sensitivity glossary</span><p class="tc-desc">Every term used across these guides and tools, defined in one place.</p></a></li>
+        <li><a class="tool-card" href="/methodology/"><span class="tc-title">Methodology</span><p class="tc-desc">The formulas and sources behind every calculator.</p></a></li>
+      </ul>
+    </section>
+  </div>
+</Base>

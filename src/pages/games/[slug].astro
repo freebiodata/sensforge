@@ -1,0 +1,250 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+import { gamePages, gamePageBySlug } from '../../data/gamePages';
+import { gameById, games } from '../../data/games';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return gamePages.map((g) => ({ params: { slug: g.slug } }));
+}
+
+const { slug } = Astro.params;
+const page = gamePageBySlug[slug!]!;
+const game = gameById[page.gameId as keyof typeof gameById]!;
+const DPI = 800;
+
+// Build conversion table rows with the same formula the converter runs.
+const rows = page.tableFrom.values.map((sens) => {
+  const cells = page.targets.map((tid) => {
+    const t = gameById[tid as keyof typeof gameById]!;
+    const converted = (sens * DPI * game.yaw) / (DPI * t.yaw);
+    return { name: t.name, short: t.short, value: converted.toFixed(t.sensDecimals) };
+  });
+  const cm = (360 / (sens * DPI * game.yaw)) * 2.54;
+  return { from: sens, cells, cm: cm.toFixed(1) };
+});
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    '@id': `${site.url}/games/${page.slug}/#app`,
+    name: `${page.name} Sensitivity Converter`,
+    url: `${site.url}/games/${page.slug}/`,
+    description: page.description,
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Games', href: '/games/' },
+  { name: page.name },
+];
+
+const allTargets = games.filter((g) => page.targets.includes(g.id));
+const related = page.relatedGames.map((s) => gamePageBySlug[s]).filter(Boolean);
+---
+
+<Base
+  title={page.title}
+  description={page.description}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+  canonical={`/games/${page.slug}/`}
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>{page.h1}</h1>
+      {page.intro.map((p) => <p class="value-line" set:html={p} />)}
+      <ul class="trust-microline">
+        <li class="badge badge-green">Runs in your browser</li>
+        <li class="badge">Free · No sign-up</li>
+        <li class={`badge ${game.confidence === 'confirmed' ? 'badge-green' : game.confidence === 'corroborated' ? 'badge-blue' : 'badge-amber'}`}>
+          Yaw {game.yaw} · {game.confidence}
+        </li>
+      </ul>
+    </div>
+
+    <!-- In-page preset converter -->
+    <section class="tool" aria-labelledby="tool-heading">
+      <h2 id="tool-heading" class="visually-hidden">{page.name} converter</h2>
+      <div class="tool-grid cols-3">
+        <div class="field">
+          <label for="g-sens">Your {page.name} sensitivity</label>
+          <input type="number" id="g-sens" inputmode="decimal" min="0.001" step="0.001" value={game.defaultSens} />
+          <span class="helper">Typical range: {game.typicalSens}</span>
+          <span class="error" role="alert">Enter a sensitivity greater than 0.</span>
+        </div>
+        <div class="field">
+          <label for="g-dpi">Mouse DPI</label>
+          <input type="number" id="g-dpi" inputmode="numeric" min="50" max="12000" step="50" value="800" />
+          <span class="error" role="alert">Enter a DPI between 50 and 12,000.</span>
+        </div>
+        <div class="field">
+          <label for="g-target">Convert to</label>
+          <select id="g-target">
+            {allTargets.map((t) => (
+              <option value={t.id}>{t.name}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div class="result-panel" aria-live="polite">
+        <div class="small muted" id="g-caption">Your converted sensitivity</div>
+        <div class="result-value" id="g-value">—</div>
+        <div class="result-meta">
+          <div class="kv"><div class="k">cm/360</div><div class="v" id="g-cm">—</div></div>
+          <div class="kv"><div class="k">eDPI</div><div class="v" id="g-edpi">—</div></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-primary" type="button" id="g-copy"><span class="normal-label">Copy converted value</span><span class="copied-label">✓ Copied</span></button>
+          <a class="btn btn-secondary" href={`/sensitivity-converter/?sg=${page.gameId}`}>Full converter (13 games) →</a>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:12px">
+        Local math only — nothing is uploaded. Need a different target DPI or more games? Use the
+        <a href={`/sensitivity-converter/?sg=${page.gameId}`}>full sensitivity converter</a>.
+      </p>
+    </section>
+
+    <!-- Static conversion table -->
+    <section class="section" aria-labelledby="table">
+      <h2 id="table">{page.name} conversion table ({DPI} DPI)</h2>
+      <p>Pre-computed with the same formulas the tools run. All rows keep cm/360 identical between games.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="num">{page.tableFrom.label}</th>
+              {page.targets.map((tid) => (
+                <th class="num">{gameById[tid as keyof typeof gameById]!.short} sens</th>
+              ))}
+              <th class="num">cm/360</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <td class="num">{r.from}</td>
+                {r.cells.map((c) => <td class="num">{c.value}</td>)}
+                <td class="num">{r.cm} cm</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Key facts -->
+    <section class="section" aria-labelledby="facts">
+      <h2 id="facts">{page.name} sensitivity facts</h2>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            {page.facts.map((f) => (
+              <tr>
+                <th scope="row" style="white-space:nowrap">{f.label}</th>
+                <td>{f.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">
+        Yaw source and confidence: <a href="/methodology/">methodology page</a>.
+      </p>
+    </section>
+
+    <Faq items={page.faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        <strong>Accuracy note:</strong> conversions use {page.name}'s yaw constant ({game.yaw}, {game.confidence}).
+        Values are exact within the yaw model; feel differences from movement, scopes and FOV are yours to tune.
+        Spotted a wrong constant? <a href="/contact/">Report it</a> — corrections ship with credit.
+      </p>
+    </TrustBlock>
+
+    <section class="section" aria-labelledby="related">
+      <h2 id="related">More game converters</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        {related.map((r) => (
+          <li>
+            <a class="tool-card" href={`/games/${r.slug}/`}>
+              <span class="tc-title">{r.name} converter</span>
+              <p class="tc-desc">Convert to and from {r.name} with sourced yaw maths.</p>
+            </a>
+          </li>
+        ))}
+        <li>
+          <a class="tool-card" href="/games/">
+            <span class="tc-title">All game converters →</span>
+            <p class="tc-desc">Every supported game with its own worked tables.</p>
+          </a>
+        </li>
+        <li>
+          <a class="tool-card" href="/sensitivity-converter/">
+            <span class="tc-title">Full sensitivity converter</span>
+            <p class="tc-desc">Any game to any game, dual DPI, share links.</p>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <script define:vars={{ SOURCE_ID: page.gameId, SOURCE_YAW: game.yaw, SOURCE_NAME: page.name, SOURCE_DECIMALS: game.sensDecimals, TARGETS: allTargets.map((t) => ({ id: t.id, name: t.name, yaw: t.yaw, decimals: t.sensDecimals })) }}>
+    const $ = (id) => document.getElementById(id);
+
+    function compute() {
+      const sens = parseFloat($('g-sens').value);
+      const dpi = parseFloat($('g-dpi').value);
+      const target = TARGETS.find((t) => t.id === $('g-target').value);
+      const validS = Number.isFinite(sens) && sens > 0;
+      const validD = Number.isFinite(dpi) && dpi >= 50 && dpi <= 12000;
+      document.querySelectorAll('.field').forEach((f) => f.classList.remove('invalid'));
+      if (!validS) $('g-sens').closest('.field').classList.add('invalid');
+      if (!validD) $('g-dpi').closest('.field').classList.add('invalid');
+      if (!validS || !validD || !target) {
+        $('g-value').textContent = '—';
+        return;
+      }
+      const converted = (sens * SOURCE_YAW) / target.yaw;
+      const cm = (360 / (sens * dpi * SOURCE_YAW)) * 2.54;
+      $('g-caption').textContent = `Your ${target.name} sensitivity`;
+      $('g-value').textContent = converted.toFixed(target.decimals);
+      $('g-cm').textContent = `${cm.toFixed(1)} cm`;
+      $('g-edpi').textContent = (sens * dpi).toFixed(0);
+      window.__gResult = converted.toFixed(target.decimals);
+    }
+
+    ['g-sens', 'g-dpi', 'g-target'].forEach((id) => $(id).addEventListener('input', compute));
+
+    $('g-copy').addEventListener('click', async () => {
+      const v = window.__gResult;
+      if (!v) return;
+      try {
+        await navigator.clipboard.writeText(v);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = v;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      const btn = $('g-copy');
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1800);
+    });
+
+    compute();
+  </script>
+</Base>

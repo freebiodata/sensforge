@@ -1,0 +1,115 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { games } from '../../data/games';
+import { site } from '../../data/site';
+
+const title = 'Methodology — Sources & Formulas Behind Every Calculator';
+const description =
+  'Every formula and game constant used by SensForge tools, with source labels and confidence levels: yaw values, cm/360, eDPI, FOV maths and DPI measurement.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Methodology' },
+];
+
+const confidenceLabel: Record<string, string> = {
+  confirmed: 'Confirmed (game documentation or multiple independent sources)',
+  corroborated: 'Corroborated (2+ independent technical/community sources)',
+  'single-source': 'Single-source (treat as a starting point)',
+};
+---
+
+<Base title={title} description={description} breadcrumbs={breadcrumbs} canonical="/methodology/">
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>Methodology &amp; editorial policy</h1>
+    <p class="lead">
+      What follows is the exact maths and data provenance behind every SensForge calculator — written so
+      you can verify, replicate, or challenge any number we publish.
+    </p>
+    <p class="small muted">Last updated: 07 Oct 2026</p>
+
+    <section class="section">
+      <h2 id="formulas">Core formulas</h2>
+      <ul>
+        <li><strong>cm/360</strong> = <code>360 ÷ (sensitivity × DPI × yaw) × 2.54</code></li>
+        <li><strong>eDPI</strong> = <code>sensitivity × DPI</code></li>
+        <li><strong>Sensitivity conversion (A → B)</strong> = <code>(sensA × DPI_A × yawA) ÷ (DPI_B × yawB)</code></li>
+        <li><strong>Horizontal FOV from vertical</strong> = <code>2 × atan( tan(vFOV ÷ 2) × aspect )</code></li>
+        <li><strong>Monitor-match factor</strong> = <code>tan(hFOV₁ ÷ 2) ÷ tan(hFOV₂ ÷ 2)</code></li>
+        <li><strong>Effective DPI (measured)</strong> = <code>mouse counts ÷ physical distance in inches</code></li>
+      </ul>
+      <p>
+        The yaw table below is what the converters actually load. Values come from the game's own
+        documented constant where one exists, or from cross-referenced independent measurements otherwise.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="yaw-table">Yaw values &amp; provenance</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Game</th><th class="num">Yaw</th><th>Confidence</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            {games.map((g) => (
+              <tr>
+                <td>{g.name}</td>
+                <td class="num">{g.yaw}</td>
+                <td>{g.confidence}</td>
+                <td class="small">{g.yawNote}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">
+        Primary references consulted (accessed 07 Oct 2026): Valve's documented <code>m_yaw</code> default
+        for CS2/CS:GO; the DCPROSENS complete yaw reference table which cross-checks multiple independent
+        technical sources; and the MIT-licensed fps-sensitivity-formulas reference tables. Where sources
+        disagree we ship the best-corroborated value and label it, rather than silently picking one.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="known-limits">Known limits &amp; cases we flag</h2>
+      <ul>
+        <li><strong>Scope sensitivity is separate.</strong> Conversions here match hipfire/turn feel. Games with per-scope multipliers (e.g., Rainbow Six Siege ADS scopes) need their scope sens tuned in-game.</li>
+        <li><strong>Some games are non-linear.</strong> Titles with acceleration curves or unusual pipelines (a few single-source entries) are marked lower-confidence and should be treated as starting points.</li>
+        <li><strong>Feel is personal.</strong> A mathematically matched conversion is the correct starting point, not a mandate; small deliberate deviations are normal.</li>
+        <li><strong>Sensor variance.</strong> DPI measurements carry up to ~3% sensor variance; test twice and average.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="testing">Testing &amp; QA process</h2>
+      <ol>
+        <li>Every formula gets a hand-calculation test case (e.g., CS2 2.0 @ 800 DPI = 26.0 cm/360) that must pass before deploy.</li>
+        <li>Example tables on tool pages are generated from the same functions the live tool uses.</li>
+        <li>Constants change only with a changelog entry and a source link.</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 id="ai">AI use disclosure</h2>
+      <p>
+        Pages are drafted with tooling assistance and reviewed by the SensForge team before publishing;
+        every formula, constant and claim is verified against the sources above. We do not publish
+        unreviewed generated content, and no invented statistics appear on this site — anything we could
+        not verify is labelled as a convention, an approximation or excluded.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="corrections">Corrections policy</h2>
+      <p>
+        Found an error? <a href="/contact/">Report it</a> with a source. Confirmed corrections ship within
+        a week, are listed in the <a href="/changelog/">changelog</a>, and credit is given where the
+        reporter wants it.
+      </p>
+    </section>
+  </div>
+</Base>

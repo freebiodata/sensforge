@@ -1,0 +1,256 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+import { games } from '../../data/games';
+import { site } from '../../data/site';
+
+const title = 'eDPI Calculator — Effective DPI for FPS Games | SensForge';
+const description =
+  'Calculate your eDPI (effective DPI) from sensitivity and DPI, see your cm/360, and compare against typical FPS ranges. Free, instant, in-browser.';
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    '@id': `${site.url}/edpi-calculator/#app`,
+    name: 'eDPI Calculator',
+    url: `${site.url}/edpi-calculator/`,
+    description: 'Calculate effective DPI (eDPI) for any FPS game from in-game sensitivity and mouse DPI.',
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Converters', href: '/tools/' },
+  { name: 'eDPI calculator' },
+];
+
+const faq = [
+  {
+    q: 'What is eDPI in gaming?',
+    a: 'eDPI (effective dots per inch) is your in-game sensitivity multiplied by your mouse DPI. It shows how far your cursor or crosshair travels per inch of mouse movement. Two players with different DPI can have the same eDPI — which is why eDPI is the fair way to compare aim settings. See the full <a href="/guides/what-is-edpi/">eDPI guide</a>.',
+  },
+  {
+    q: 'Is eDPI the same as cm/360?',
+    a: 'No. eDPI depends on the game\'s yaw constant, so the same eDPI means different physical turns in different games. cm/360 is the cross-game number. This calculator shows both so you have the complete picture.',
+  },
+  {
+    q: 'What is a good eDPI for Valorant or CS2?',
+    a: 'Common competitive ranges: Valorant roughly 200–450 eDPI, CS2 roughly 600–1,600 eDPI at 400–800 DPI. These are starting ranges — the right eDPI is the one that keeps your cm/360 stable between games and comfortable on your mousepad.',
+  },
+  {
+    q: 'Why do pros use low eDPI?',
+    a: 'Lower sensitivity magnifies small mouse adjustments, which helps precision aim. Higher eDPI trades some precision for faster clearing and less mousepad space. Most competitive players land in the 25–55 cm/360 range.',
+  },
+  {
+    q: 'Does changing DPI change my eDPI?',
+    a: 'Yes — if you double DPI and halve sensitivity, eDPI stays the same and in-game feel is unchanged (assuming raw input). This calculator lets you confirm the exact numbers before deviating.',
+  },
+];
+
+const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defaultSens: g.defaultSens }));
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+  canonical="/edpi-calculator/"
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>eDPI Calculator</h1>
+      <p class="value-line">
+        Enter your sensitivity and DPI to get your <strong>eDPI</strong> — plus cm/360 and a band
+        comparison showing how your settings sit against typical competitive ranges.
+      </p>
+      <ul class="trust-microline">
+        <li class="badge badge-green">Runs in your browser</li>
+        <li class="badge">Free · No sign-up</li>
+        <li class="badge">13 games supported</li>
+      </ul>
+    </div>
+
+    <section class="tool" aria-labelledby="tool-heading">
+      <h2 id="tool-heading" class="visually-hidden">eDPI calculator tool</h2>
+
+      <div class="tool-grid cols-3">
+        <div class="field">
+          <label for="game">Game</label>
+          <select id="game">
+            {gameOptions.map((g) => (
+              <option value={g.id} selected={g.id === 'valorant'}>{g.name}</option>
+            ))}
+          </select>
+          <span class="helper">Sets the yaw constant used for cm/360.</span>
+        </div>
+
+        <div class="field">
+          <label for="sens">In-game sensitivity</label>
+          <input type="number" id="sens" inputmode="decimal" min="0.001" step="0.001" value="0.35" />
+          <span class="helper" id="sens-helper">Typical: 0.1 – 1.0</span>
+          <span class="error" id="sens-error" role="alert">Enter a sensitivity greater than 0.</span>
+        </div>
+
+        <div class="field">
+          <label for="dpi">Mouse DPI</label>
+          <input type="number" id="dpi" inputmode="numeric" min="50" max="12000" step="50" value="800" />
+          <span class="helper">Common: 400 / 800 / 1600</span>
+          <span class="error" id="dpi-error" role="alert">Enter a DPI between 50 and 12,000.</span>
+        </div>
+      </div>
+
+      <div class="result-panel" id="result" aria-live="polite">
+        <div class="result-empty" id="result-empty">Enter your settings to see your eDPI instantly.</div>
+        <div id="result-body" hidden>
+          <div class="small muted">Your effective DPI (eDPI)</div>
+          <div class="result-value" id="result-value">—</div>
+          <div class="result-meta">
+            <div class="kv"><div class="k">cm/360</div><div class="v" id="out-cm360">—</div></div>
+            <div class="kv"><div class="k">360° type</div><div class="v" id="out-type">—</div></div>
+            <div class="kv"><div class="k">Band</div><div class="v" id="out-band">—</div></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-primary" type="button" id="copy-btn">
+              <span class="normal-label">Copy eDPI</span><span class="copied-label">✓ Copied</span>
+            </button>
+            <a class="btn btn-secondary" href="/sensitivity-converter/">Convert to another game →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="how">
+      <h2 id="how">How eDPI is calculated</h2>
+      <p><code>eDPI = in-game sensitivity × mouse DPI</code></p>
+      <p>
+        eDPI normalizes DPI differences: 1600 DPI at 0.5 sens and 800 DPI at 1.0 sens both equal
+        800 eDPI. Because it ignores the game's yaw constant, always pair eDPI with cm/360 when
+        comparing across games — this tool shows both.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="ranges">
+      <h2 id="ranges">Typical eDPI ranges (reference)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Playstyle</th><th class="num">eDPI band</th><th>What it feels like</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Very low</td><td class="num">Under 200</td><td>Large arm sweeps; heavy reliance on arm aim</td></tr>
+            <tr><td>Low</td><td class="num">200 – 450</td><td>Typical tactical-shooter band (Valorant, CS2 at low DPI)</td></tr>
+            <tr><td>Medium</td><td class="num">450 – 900</td><td>Balanced wrist + arm aim; most common overall</td></tr>
+            <tr><td>High</td><td class="num">900 – 1,600</td><td>Wrist-dominant; faster turns, less precision margin</td></tr>
+            <tr><td>Very high</td><td class="num">1,600+</td><td>Small mousepad friendly; rare in precision shooters</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">
+        Bands are approximate reference points, not rules — aim feel is personal and pros exist in most bands.
+      </p>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        <strong>Privacy:</strong> this calculator runs 100% in your browser. Your sensitivity and DPI values
+        are never sent anywhere. Formula and sources: see the <a href="/methodology/">methodology page</a>.
+      </p>
+    </TrustBlock>
+
+    <section class="section" aria-labelledby="related">
+      <h2 id="related">Related tools</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/sensitivity-converter/"><span class="tc-title">Sensitivity Converter</span><p class="tc-desc">Move your aim between 13 games without losing muscle memory.</p></a></li>
+        <li><a class="tool-card" href="/cm-360-calculator/"><span class="tc-title">cm/360 Calculator</span><p class="tc-desc">Turn any sensitivity into physical mouse distance per turn.</p></a></li>
+        <li><a class="tool-card" href="/guides/what-is-edpi/"><span class="tc-title">Guide: What is eDPI?</span><p class="tc-desc">Why eDPI exists, and when it misleads you.</p></a></li>
+        <li><a class="tool-card" href="/dpi-analyzer/"><span class="tc-title">DPI Analyzer</span><p class="tc-desc">Find your mouse DPI without driver software.</p></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    import { games } from '../../data/games';
+    const byId = Object.fromEntries(games.map((g) => [g.id, g]));
+    const $ = (id: string) => document.getElementById(id)!;
+
+    const gameEl = $('game') as HTMLSelectElement;
+    const sensEl = $('sens') as HTMLInputElement;
+    const dpiEl = $('dpi') as HTMLInputElement;
+
+    const bands: Array<[number, string, string]> = [
+      [200, 'Very low', 'Arm-dominant; large sweeps'],
+      [450, 'Low', 'Typical tactical-shooter band'],
+      [900, 'Medium', 'Balanced wrist + arm'],
+      [1600, 'High', 'Wrist-dominant'],
+      [Infinity, 'Very high', 'Small-pad friendly'],
+    ];
+
+    function compute() {
+      const g = byId[gameEl.value];
+      const sens = parseFloat(sensEl.value);
+      const dpi = parseFloat(dpiEl.value);
+
+      $('sens-helper').textContent = `Typical: ${g.typicalSens}`;
+
+      const sensValid = Number.isFinite(sens) && sens > 0;
+      const dpiValid = Number.isFinite(dpi) && dpi >= 50 && dpi <= 12000;
+      document.querySelectorAll('.field').forEach((f) => f.classList.remove('invalid'));
+      if (!sensValid) sensEl.closest('.field')!.classList.add('invalid');
+      if (!dpiValid) dpiEl.closest('.field')!.classList.add('invalid');
+
+      if (!sensValid || !dpiValid) {
+        $('result-empty').hidden = false;
+        $('result-body').hidden = true;
+        return;
+      }
+
+      const edpi = sens * dpi;
+      const cm = (360 / (sens * dpi * g.yaw)) * 2.54;
+      const band = bands.find((b) => edpi < b[0])!;
+
+      $('result-empty').hidden = true;
+      $('result-body').hidden = false;
+      $('result-value').textContent = edpi.toFixed(0);
+      $('out-cm360').textContent = `${cm.toFixed(1)} cm`;
+      $('out-type').textContent = cm >= 60 ? 'Low sens' : cm >= 30 ? 'Mid sens' : cm >= 15 ? 'High sens' : 'Very high';
+      $('out-band').textContent = `${band[1]} (eDPI)`;
+      (window as any).__edpi = edpi.toFixed(0);
+    }
+
+    gameEl.addEventListener('change', () => {
+      sensEl.value = String(byId[gameEl.value].defaultSens);
+      compute();
+    });
+    [sensEl, dpiEl].forEach((el) => el.addEventListener('input', compute));
+
+    $('copy-btn').addEventListener('click', async () => {
+      const v = (window as any).__edpi;
+      if (!v) return;
+      try {
+        await navigator.clipboard.writeText(v);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = v;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      const btn = $('copy-btn');
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1800);
+    });
+
+    compute();
+  </script>
+</Base>

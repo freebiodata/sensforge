@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Build output (dist/ is shipped via DELIVERY tarball; keep repo source-only)
+dist/
+
+# Astro
+.astro/
+.dom-test-cache/
+
+# OS / editor
+.DS_Store
+*.log

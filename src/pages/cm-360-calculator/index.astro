@@ -1,0 +1,237 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+import { games } from '../../data/games';
+import { site } from '../../data/site';
+
+const title = 'cm/360 Calculator — Mouse Distance Per Turn | SensForge';
+const description =
+  'Calculate your cm/360 from any FPS: how far your mouse travels per 360° turn. Compare across 13 games and fit your mousepad. Free, in-browser.';
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    '@id': `${site.url}/cm-360-calculator/#app`,
+    name: 'cm/360 Calculator',
+    url: `${site.url}/cm-360-calculator/`,
+    description: 'Convert sensitivity and DPI into cm/360 — the physical mouse distance per full turn — across 13 FPS games.',
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Converters', href: '/tools/' },
+  { name: 'cm/360 calculator' },
+];
+
+const faq = [
+  {
+    q: 'What is cm/360?',
+    a: 'cm/360 is the physical distance your mouse must travel to rotate your in-game camera one full 360° turn. It is measured in centimetres and is the only sensitivity metric that means the same thing in every game. Read the full <a href="/guides/cm-360-explained/">cm/360 guide</a>.',
+  },
+  {
+    q: 'How do I measure my cm/360?',
+    a: 'Enter your sensitivity, DPI and game above — or measure it physically: place your mouse on a mousepad, do a slow full 360° turn, and mark where the mouse started and ended with a ruler.',
+  },
+  {
+    q: 'What cm/360 should I use?',
+    a: 'Competitive FPS players usually land between 25 and 55 cm/360. Lower (60 cm+) favours arm aim precision; higher (under 20 cm) favours fast turns and small mousepads. Your ideal value depends on mousepad size and role.',
+  },
+  {
+    q: 'Why does my cm/360 change between games?',
+    a: 'Because each game applies its own yaw constant to the same slider number. Keeping cm/360 constant when switching games is exactly what the sensitivity converter solves.',
+  },
+  {
+    q: 'Does DPI affect cm/360?',
+    a: 'Yes. cm/360 is inversely proportional to (sens × DPI × yaw). If you double your DPI without changing in-game sensitivity, your cm/360 halves — that is why conversions must always include DPI.',
+  },
+];
+
+const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defaultSens: g.defaultSens }));
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+  canonical="/cm-360-calculator/"
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>cm/360 Calculator</h1>
+      <p class="value-line">
+        Find the exact physical distance your mouse travels for a full 360° turn in any of 13 FPS games —
+        and check it against your mousepad before you blame your aim.
+      </p>
+      <ul class="trust-microline">
+        <li class="badge badge-green">Runs in your browser</li>
+        <li class="badge">Free · No sign-up</li>
+        <li class="badge">13 games · instant</li>
+      </ul>
+    </div>
+
+    <section class="tool" aria-labelledby="tool-heading">
+      <h2 id="tool-heading" class="visually-hidden">cm/360 calculator tool</h2>
+
+      <div class="tool-grid cols-3">
+        <div class="field">
+          <label for="game">Game</label>
+          <select id="game">
+            {gameOptions.map((g) => (
+              <option value={g.id} selected={g.id === 'cs2'}>{g.name}</option>
+            ))}
+          </select>
+          <span class="helper">You can convert the result to other games below.</span>
+        </div>
+        <div class="field">
+          <label for="sens">In-game sensitivity</label>
+          <input type="number" id="sens" inputmode="decimal" min="0.001" step="0.001" value="2.0" />
+          <span class="error" role="alert">Enter a sensitivity greater than 0.</span>
+        </div>
+        <div class="field">
+          <label for="dpi">Mouse DPI</label>
+          <input type="number" id="dpi" inputmode="numeric" min="50" max="12000" step="50" value="800" />
+          <span class="error" role="alert">Enter a DPI between 50 and 12,000.</span>
+        </div>
+      </div>
+
+      <div class="result-panel" id="result" aria-live="polite">
+        <div class="result-empty" id="result-empty">Enter your settings to see your cm/360.</div>
+        <div id="result-body" hidden>
+          <div class="small muted">Your cm/360 (physical distance per full turn)</div>
+          <div class="result-value" id="result-value">—</div>
+          <div class="result-meta">
+            <div class="kv"><div class="k">Inches/360</div><div class="v" id="out-inches">—</div></div>
+            <div class="kv"><div class="k">eDPI</div><div class="v" id="out-edpi">—</div></div>
+            <div class="kv"><div class="k">Mousepad coverage</div><div class="v" id="out-pad">—</div></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-primary" type="button" id="copy-btn"><span class="normal-label">Copy result</span><span class="copied-label">✓ Copied</span></button>
+            <a class="btn btn-secondary" href="/sensitivity-converter/">Convert to another game →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn" id="pad-warn" hidden>
+        <div class="callout-title">Mousepad warning</div>
+        <p class="mb-0" id="pad-warn-text"></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="how">
+      <h2 id="how">How cm/360 is calculated</h2>
+      <p><code>cm/360 = 360 ÷ (sensitivity × DPI × yaw) × 2.54</code></p>
+      <p>
+        The numerator (360) is one full rotation; the denominator converts your mouse movement into
+        degrees rotated, and 2.54 converts inches to centimetres. Invert it and you get the formula used
+        by the <a href="/sensitivity-converter/">sensitivity converter</a> to match your aim across games.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="pad">
+      <h2 id="pad">Mousepad coverage reference</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>cm/360</th><th>Example setting (CS2 / 800 DPI)</th><th>Mousepad need</th></tr></thead>
+          <tbody>
+            <tr><td>20 cm</td><td>~2.60 sens</td><td>Small pad (25×21 cm) is enough — standard office pad</td></tr>
+            <tr><td>30 cm</td><td>~1.73 sens</td><td>Medium pad (32×27 cm) comfortable</td></tr>
+            <tr><td>40 cm</td><td>~1.30 sens</td><td>Medium–large pad recommended</td></tr>
+            <tr><td>52 cm</td><td>~1.0 sens</td><td>Large pad (45×40 cm) recommended</td></tr>
+            <tr><td>70 cm+</td><td>~0.74 sens or lower</td><td>XL desk-size pad needed for unrestricted turns</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">CS2 examples assume m_yaw 0.022 and 800 DPI. Verify your own numbers with the calculator above.</p>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        <strong>Nothing leaves your browser.</strong> Calculations are client-side JavaScript only. Formula
+        documentation and yaw source list: <a href="/methodology/">methodology page</a>.
+      </p>
+    </TrustBlock>
+
+    <section class="section" aria-labelledby="related">
+      <h2 id="related">Related tools</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/sensitivity-converter/"><span class="tc-title">Sensitivity Converter</span><p class="tc-desc">Keep this exact cm/360 when you switch games.</p></a></li>
+        <li><a class="tool-card" href="/edpi-calculator/"><span class="tc-title">eDPI Calculator</span><p class="tc-desc">The DPI-normalized comparison metric, in one click.</p></a></li>
+        <li><a class="tool-card" href="/dpi-analyzer/"><span class="tc-title">DPI Analyzer</span><p class="tc-desc">Locate your real DPI without any driver software.</p></a></li>
+        <li><a class="tool-card" href="/fov-calculator/"><span class="tc-title">FOV Calculator</span><p class="tc-desc">Match field of view across games and aspect ratios.</p></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    import { games } from '../../data/games';
+    const byId = Object.fromEntries(games.map((g) => [g.id, g]));
+    const $ = (id: string) => document.getElementById(id)!;
+
+    function compute() {
+      const g = byId[($('game') as HTMLSelectElement).value];
+      const sens = parseFloat(($('sens') as HTMLInputElement).value);
+      const dpi = parseFloat(($('dpi') as HTMLInputElement).value);
+
+      const sensValid = Number.isFinite(sens) && sens > 0;
+      const dpiValid = Number.isFinite(dpi) && dpi >= 50 && dpi <= 12000;
+      document.querySelectorAll('.field').forEach((f) => f.classList.remove('invalid'));
+      if (!sensValid) ($('sens') as HTMLInputElement).closest('.field')!.classList.add('invalid');
+      if (!dpiValid) ($('dpi') as HTMLInputElement).closest('.field')!.classList.add('invalid');
+
+      const warn = $('pad-warn');
+      if (!sensValid || !dpiValid) {
+        $('result-empty').hidden = false;
+        $('result-body').hidden = true;
+        warn.hidden = true;
+        return;
+      }
+
+      const cm = (360 / (sens * dpi * g.yaw)) * 2.54;
+      $('result-empty').hidden = true;
+      $('result-body').hidden = false;
+      $('result-value').textContent = `${cm.toFixed(1)} cm`;
+      $('out-inches').textContent = `${(cm / 2.54).toFixed(1)} in`;
+      $('out-edpi').textContent = (sens * dpi).toFixed(0);
+      $('out-pad').textContent = cm >= 55 ? 'XL pad' : cm >= 38 ? 'Large pad' : cm >= 26 ? 'Medium pad' : 'Small pad fine';
+      (window as any).__cm = `${cm.toFixed(1)} cm`;
+
+      if (cm >= 55) {
+        warn.hidden = false;
+        $('pad-warn-text').textContent = `At ${cm.toFixed(0)} cm/360 you need a desk-sized pad (or to lift and re-center mid-turn) to do a full turn in one sweep.`;
+      } else {
+        warn.hidden = true;
+      }
+    }
+
+    ($('game') as HTMLSelectElement).addEventListener('change', () => {
+      ($('sens') as HTMLInputElement).value = String(byId[($('game') as HTMLSelectElement).value].defaultSens);
+      compute();
+    });
+    [$('sens'), $('dpi')].forEach((el) => el!.addEventListener('input', compute));
+
+    $('copy-btn').addEventListener('click', async () => {
+      const v = (window as any).__cm;
+      if (!v) return;
+      try { await navigator.clipboard.writeText(v); } catch {
+        const ta = document.createElement('textarea');
+        ta.value = v; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+      }
+      const btn = $('copy-btn');
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1800);
+    });
+
+    compute();
+  </script>
+</Base>

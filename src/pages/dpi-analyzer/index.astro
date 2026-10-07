@@ -1,0 +1,308 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+import { site } from '../../data/site';
+
+const title = 'Mouse DPI Analyzer — Find Your Real DPI | SensForge';
+const description =
+  'Find your mouse\'s true DPI without drivers: move a measured distance and the tool counts sensor steps. No uploads, no sign-up — runs in your browser.';
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    '@id': `${site.url}/dpi-analyzer/#app`,
+    name: 'Mouse DPI Analyzer',
+    url: `${site.url}/dpi-analyzer/`,
+    description:
+      'Measure your mouse\'s actual DPI in the browser by tracking mouse counts over a measured physical distance.',
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Aiming & display', href: '/tools/' },
+  { name: 'DPI analyzer' },
+];
+
+const faq = [
+  {
+    q: 'How does this DPI analyzer work?',
+    a: 'The tool counts every mouse step (count) your sensor reports while you move the mouse in a straight line, then divides by the physical distance you measured with a ruler: DPI = counts ÷ inches. That gives your effective mouse DPI as the operating system reports it.',
+  },
+  {
+    q: 'Why is my measured DPI different from the advertised DPI?',
+    a: 'Three common reasons: (1) your driver is set to a different DPI step than you thought; (2) Windows pointer acceleration ("Enhance pointer precision") is still on and skews the count rate; (3) sensors have small variance (±1–3%) from the nominal value. That is why measuring beats trusting the label.',
+  },
+  {
+    q: 'Do I need to disable mouse acceleration first?',
+    a: 'Yes. On Windows: Settings → Bluetooth & devices → Mouse → Additional mouse settings → Pointer Options → uncheck "Enhance pointer precision". With acceleration on, your counts depend on how fast you move, and the measurement will be wrong.',
+  },
+  {
+    q: 'How accurate is the result?',
+    a: 'With a ruler, a slow steady drag, and acceleration off, typical accuracy is within ±2–3% — good enough to confirm whether you are really on 400/800/1600 DPI. Repeat the measurement three times and average for the best number.',
+  },
+  {
+    q: 'Does this work with my brand of mouse?',
+    a: 'Yes — any mouse works, because the tool reads counts the operating system reports. It measures effective DPI (post-driver). Logitech, Razer, SteelSeries, Pulsar, Zowie and generic mice are all fine.',
+  },
+  {
+    q: 'Why does the counter need to keep the pointer locked?',
+    a: 'Pointer lock keeps your cursor from hitting the screen edge — the classic problem when measuring long distances. While measuring, your cursor is hidden and the tool tallies every step; press Stop (or Esc) to finish.',
+  },
+];
+
+const wired = [
+  ['400 / 800', 'Common tournament defaults for tacticals (CS2, Valorant)'],
+  ['800 / 1600', 'Most common gaming defaults from drivers'],
+  ['1600 / 3200', 'High-DPI players who lower in-game sensitivity instead'],
+  ['4000+', 'Mainly for desktop use or macro work; rare in competitive FPS'],
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+  canonical="/dpi-analyzer/"
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>Mouse DPI Analyzer</h1>
+      <p class="value-line">
+        Find out what DPI your mouse <em>actually</em> outputs — no driver software, no downloads.
+        Count sensor steps over a measured distance and get your real value.
+      </p>
+      <ul class="trust-microline">
+        <li class="badge badge-green">Runs in your browser</li>
+        <li class="badge">Free · No sign-up</li>
+        <li class="badge">Works with any mouse</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-title">Before you start (30 seconds)</div>
+      <ul class="mb-0">
+        <li>Turn <strong>off</strong> mouse acceleration: Windows → Mouse settings → Pointer Options → uncheck "Enhance pointer precision".</li>
+        <li>Keep in-game sensitivity out of it — this measures hardware, not software settings.</li>
+        <li>Have a ruler or tape measure ready (cm or inches).</li>
+      </ul>
+    </div>
+
+    <section class="tool" aria-labelledby="tool-heading">
+      <h2 id="tool-heading" class="visually-hidden">DPI analyzer tool</h2>
+
+      <div class="tool-grid cols-2">
+        <div>
+          <div class="field">
+            <label for="measure-dir">Measure along</label>
+            <select id="measure-dir">
+              <option value="x" selected>Horizontal (left → right)</option>
+              <option value="y">Vertical (top → bottom)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Step 1 — Record the movement</label>
+            <div class="chips" style="margin:0">
+              <button class="btn btn-primary" type="button" id="start-btn">● Start measuring</button>
+              <button class="btn btn-secondary" type="button" id="stop-btn" disabled>■ Stop</button>
+            </div>
+            <span class="helper" id="live-status">Click Start, then drag your mouse steadily in a straight line. Press Stop when done.</span>
+          </div>
+          <div class="field">
+            <label for="counts-readout">Step 2 — Counts recorded</label>
+            <input type="text" id="counts-readout" readonly value="—" style="font-family:var(--font-mono)" />
+            <span class="helper">Sensor steps captured (system-reported counts).</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label for="distance">Step 3 — Physical distance moved</label>
+            <input type="number" id="distance" inputmode="decimal" min="1" max="1000" step="0.1" placeholder="e.g. 30" />
+            <span class="helper" id="dist-unit-hint">Distance in centimetres (measure start → end with a ruler).</span>
+          </div>
+          <div class="field">
+            <label for="unit">Distance unit</label>
+            <select id="unit">
+              <option value="cm" selected>centimetres (cm)</option>
+              <option value="in">inches (in)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Result — your effective DPI</label>
+            <div class="result-value" id="dpi-out" style="font-size:2rem">—</div>
+            <span class="helper" id="dpi-hint">Appears once counts and distance are entered.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-panel">
+        <div class="small muted">Repeat test for accuracy</div>
+        <div class="result-meta">
+          <div class="kv"><div class="k">Measurement 1</div><div class="v" id="m1">—</div></div>
+          <div class="kv"><div class="k">Measurement 2</div><div class="v" id="m2">—</div></div>
+          <div class="kv"><div class="k">Measurement 3</div><div class="v" id="m3">—</div></div>
+          <div class="kv"><div class="k">Average</div><div class="v" id="mavg" style="color:var(--green)">—</div></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-secondary" type="button" id="save-btn">Save current as measurement</button>
+          <button class="btn btn-ghost" type="button" id="reset-btn">Reset all</button>
+        </div>
+      </div>
+
+      <p class="small muted" style="margin-top:12px">
+        Privacy: reading mouse counts happens locally in your browser; nothing is uploaded or stored after you leave.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="how">
+      <h2 id="how">How the measurement works</h2>
+      <p>
+        <code>effective DPI = total mouse counts ÷ distance in inches</code>
+      </p>
+      <p>
+        A mouse reporting 800 DPI sends 800 counts per inch of physical travel. The browser's pointer
+        lock exposes the counts your operating system receives (movementX/Y), so a straight measured drag
+        gives you a direct read of effective DPI. With acceleration off, this matches the number your mouse
+        driver reports — and reveals what it actually is when the label and driver disagree.
+      </p>
+      <p class="small muted">Common reasons a measured value differs from the box: wrong driver profile, acceleration on, or sensor variance (≤ ±3%).</p>
+    </section>
+
+    <section class="section" aria-labelledby="typical">
+      <h2 id="typical">Typical DPI settings</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>DPI</th><th>Who uses it</th></tr></thead>
+          <tbody>
+            {wired.map(([dpi, who]) => (
+              <tr><td class="num" style="text-align:left">{dpi}</td><td>{who}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        <strong>Client-side only.</strong> Counts are tallied in JavaScript; no data leaves your device.
+        Formula documented on the <a href="/methodology/">methodology page</a>.
+      </p>
+    </TrustBlock>
+
+    <section class="section" aria-labelledby="related">
+      <h2 id="related">Related tools</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/cm-360-calculator/"><span class="tc-title">cm/360 Calculator</span><p class="tc-desc">Now that you know your DPI, check your turn distance.</p></a></li>
+        <li><a class="tool-card" href="/edpi-calculator/"><span class="tc-title">eDPI Calculator</span><p class="tc-desc">Combine the real DPI with your in-game sens.</p></a></li>
+        <li><a class="tool-card" href="/sensitivity-converter/"><span class="tc-title">Sensitivity Converter</span><p class="tc-desc">Move your aim to another game with both numbers verified.</p></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    const $ = (id: string) => document.getElementById(id)!;
+    let counting = false;
+    let counts = 0;
+    let canvas: HTMLCanvasElement;
+
+    const saved: number[] = [];
+
+    function fmt(n: number, d = 0) {
+      return n.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
+    }
+
+    function updateResult() {
+      const c = counts;
+      const dist = parseFloat(($('distance') as HTMLInputElement).value);
+      const unit = ($('unit') as HTMLSelectElement).value;
+      if (!(c > 0) || !(dist > 0)) {
+        $('dpi-out').textContent = '—';
+        return;
+      }
+      const inches = unit === 'cm' ? dist / 2.54 : dist;
+      const dpi = c / inches;
+      $('dpi-out').textContent = fmt(dpi);
+      $('dpi-hint').textContent = `≈ ${fmt(dpi, 0)} DPI effective (counts ÷ ${inches.toFixed(2)} in)`;
+      (window as any).__dpi = dpi;
+    }
+
+    function refreshSaved() {
+      for (let i = 0; i < 3; i++) {
+        $('m' + (i + 1)).textContent = saved[i] ? fmt(saved[i]) : '—';
+      }
+      if (saved.length) {
+        const avg = saved.reduce((a, b) => a + b, 0) / saved.length;
+        $('mavg').textContent = `${fmt(avg)} (n=${saved.length})`;
+      } else {
+        $('mavg').textContent = '—';
+      }
+    }
+
+    function onMove(e: MouseEvent) {
+      if (!counting) return;
+      const dir = ($('measure-dir') as HTMLSelectElement).value;
+      counts += Math.abs(dir === 'x' ? e.movementX : e.movementY);
+      $('counts-readout').value = fmt(counts) + ' counts';
+    }
+
+    $('start-btn').addEventListener('click', async () => {
+      counts = 0;
+      $('counts-readout').value = '0 counts';
+      counting = true;
+      $('start-btn').setAttribute('disabled', 'true');
+      $('stop-btn').removeAttribute('disabled');
+      $('live-status').textContent = 'Recording… drag the mouse steadily. Press Stop when done.';
+      document.addEventListener('mousemove', onMove);
+      try {
+        await (document.body as any).requestPointerLock?.();
+      } catch {
+        /* pointer lock optional */
+      }
+    });
+
+    $('stop-btn').addEventListener('click', () => {
+      counting = false;
+      document.removeEventListener('mousemove', onMove);
+      document.exitPointerLock?.();
+      $('start-btn').removeAttribute('disabled');
+      $('stop-btn').setAttribute('disabled', 'true');
+      $('live-status').textContent = 'Done — now measure the physical distance you moved and enter it in Step 3.';
+      updateResult();
+    });
+
+    ['distance', 'unit'].forEach((id) => $(id).addEventListener('input', updateResult));
+
+    $('save-btn').addEventListener('click', () => {
+      const dpi = (window as any).__dpi;
+      if (!dpi) {
+        $('dpi-hint').textContent = 'Record a measurement first (Start → Stop → enter distance).';
+        return;
+      }
+      if (saved.length >= 3) saved.shift();
+      saved.push(dpi);
+      refreshSaved();
+    });
+
+    $('reset-btn').addEventListener('click', () => {
+      saved.length = 0;
+      counts = 0;
+      $('counts-readout').value = '—';
+      $('dpi-out').textContent = '—';
+      ($('distance') as HTMLInputElement).value = '';
+      refreshSaved();
+    });
+
+    refreshSaved();
+  </script>
+</Base>

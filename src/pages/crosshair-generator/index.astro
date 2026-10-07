@@ -1,0 +1,334 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+import { site } from '../../data/site';
+
+const title = 'Crosshair Generator — Design & Export | SensForge';
+const description =
+  'Design a custom FPS crosshair: dot, lines, gap, thickness and color with live preview. Copy values or export PNG. Free, no sign-up, in-browser.';
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    '@id': `${site.url}/crosshair-generator/#app`,
+    name: 'Crosshair Generator',
+    url: `${site.url}/crosshair-generator/`,
+    description:
+      'Design FPS crosshairs with live canvas preview; copy style values for games or export a transparent PNG overlay.',
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Aiming & display', href: '/tools/' },
+  { name: 'Crosshair generator' },
+];
+
+const faq = [
+  {
+    q: 'How do I use this crosshair generator?',
+    a: 'Adjust dot, line gap, thickness, length and color on the left and watch the live preview. When you are happy, copy the style values out — or download a transparent PNG you can use as a desktop overlay.',
+  },
+  {
+    q: 'Will these settings transfer to my game?',
+    a: 'The values map to the common crosshair settings most shooters expose (center dot, inner lines gap/thickness/length, outline). Field names differ per game (Valorant: "Inner Lines / Outer Lines"; CS2: "cl_crosshairsize" etc.), but the visual grammar is the same — use the copy button and match the numbers in your game settings.',
+  },
+  {
+    q: 'What is the best crosshair color?',
+    a: 'The one with the most contrast against your maps. Competitive players most often pick green or cyan because those hues appear least in natural map palettes; outlines (black) are the standard fix for bright scenes.',
+  },
+  {
+    q: 'Dot vs cross — which is better?',
+    a: 'Dots give an exact aim reference for precision weapons; lines give more peripheral guidance and are the default for spray-heavy games. Many pros use a cross with a subtle dot or a small cross with a gap.',
+  },
+  {
+    q: 'Can I download my crosshair as a picture?',
+    a: 'Yes — the Download PNG button renders your crosshair at 512×512 with a transparent background, ready for use as a custom overlay or a thumbnail.',
+  },
+];
+
+const presets = [
+  { name: 'Valorant • small cross', dot: false, gap: 4, thick: 2, length: 6, color: '#00ff88', outline: false, dotSize: 2 },
+  { name: 'CS2 • classic 4:3', dot: false, gap: 3, thick: 0.5, length: 4, color: '#00ff00', outline: true, dotSize: 2 },
+  { name: 'Tiny dot', dot: true, gap: 6, thick: 1, length: 0, color: '#00ffff', outline: true, dotSize: 2 },
+  { name: 'Wide cross', dot: false, gap: 8, thick: 2, length: 10, color: '#ffffff', outline: true, dotSize: 2 },
+  { name: 'Apex thin', dot: false, gap: 5, thick: 1, length: 7, color: '#00ff00', outline: false, dotSize: 2 },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={jsonLd}
+  breadcrumbs={breadcrumbs}
+  canonical="/crosshair-generator/"
+>
+  <div class="wrap">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="hero">
+      <h1>Crosshair Generator</h1>
+      <p class="value-line">
+        Build a crosshair with a live preview, tune every line and dot to your taste, then copy the values
+        into your game or export a transparent PNG.
+      </p>
+      <ul class="trust-microline">
+        <li class="badge badge-green">Live canvas preview</li>
+        <li class="badge">Free · No sign-up</li>
+        <li class="badge">PNG export</li>
+      </ul>
+    </div>
+
+    <section class="tool" aria-labelledby="tool-heading">
+      <h2 id="tool-heading" class="visually-hidden">Crosshair generator tool</h2>
+
+      <div class="tool-grid cols-2">
+        <div>
+          <div class="field">
+            <label>Presets</label>
+            <div class="chips" id="preset-chips" style="margin:0">
+              {presets.map((p, i) => (
+                <button class="chip" type="button" data-preset={i}>{p.name}</button>
+              ))}
+            </div>
+          </div>
+
+          <div class="field">
+            <label style="display:flex;justify-content:space-between">
+              <span>Line gap <code id="gap-val">4</code></span>
+            </label>
+            <input type="range" id="gap" min="0" max="20" step="1" value="4" />
+          </div>
+          <div class="field">
+            <label style="display:flex;justify-content:space-between">
+              <span>Line thickness <code id="thick-val">2</code></span>
+            </label>
+            <input type="range" id="thick" min="1" max="8" step="1" value="2" />
+          </div>
+          <div class="field">
+            <label style="display:flex;justify-content:space-between">
+              <span>Line length <code id="len-val">6</code></span>
+            </label>
+            <input type="range" id="len" min="0" max="20" step="1" value="6" />
+          </div>
+          <div class="field">
+            <label style="display:flex;justify-content:space-between">
+              <span>Center dot size <code id="dot-val">2</code></span>
+            </label>
+            <input type="range" id="dot-size" min="0" max="6" step="1" value="0" />
+            <span class="helper">Set to 0 to hide the dot.</span>
+          </div>
+          <div class="field" style="flex-direction:row;gap:20px;align-items:center">
+            <label style="display:flex;gap:8px;align-items:center">
+              <input type="checkbox" id="outline" /> Outline (black)
+            </label>
+          </div>
+          <div class="field">
+            <label for="color">Color</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <input type="color" id="color" value="#00ff88" style="width:56px;height:44px;padding:2px" />
+              <div class="chips" style="margin:0">
+                <button class="chip" type="button" data-color="#00ff88">Green</button>
+                <button class="chip" type="button" data-color="#00ffff">Cyan</button>
+                <button class="chip" type="button" data-color="#ff00ff">Magenta</button>
+                <button class="chip" type="button" data-color="#ffffff">White</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>Live preview</label>
+            <div id="preview-wrap" style="position:relative;border:1px solid var(--border-strong);border-radius:var(--radius);overflow:hidden;background:
+              linear-gradient(45deg,#1a2030 25%,transparent 25%,transparent 75%,#1a2030 75%),
+              linear-gradient(45deg,#1a2030 25%,#141926 25%,#141926 75%,#1a2030 75%);
+              background-size:28px 28px;background-position:0 0,14px 14px;">
+              <canvas id="preview" width="480" height="360" style="display:block;width:100%;height:auto"></canvas>
+            </div>
+          </div>
+          <div class="field">
+            <label for="values-out">Style values (copy into your game)</label>
+            <textarea id="values-out" readonly rows="6" style="font-family:var(--font-mono);font-size:0.85rem;background:var(--bg-inset);color:var(--text);border:1px solid var(--border-strong);border-radius:var(--radius);padding:10px 12px;width:100%;resize:vertical"></textarea>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-primary" type="button" id="copy-values"><span class="normal-label">Copy style values</span><span class="copied-label">✓ Copied</span></button>
+            <button class="btn btn-secondary" type="button" id="download-png">Download PNG</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="small muted" style="margin-top:12px">
+        Preview runs fully in your browser. Nothing you design is uploaded.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="how">
+      <h2 id="how">How crosshair design maps to game settings</h2>
+      <p>
+        Nearly every modern shooter exposes the same crosshair grammar, just with different names.
+        Here is how this generator's controls translate:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Generator control</th><th>Valorant</th><th>CS2</th><th>Apex / others</th></tr></thead>
+          <tbody>
+            <tr><td>Line gap</td><td>Inner Lines → Offset</td><td>Gap (<code>cl_crosshairgap</code>)</td><td>Gap / Offset</td></tr>
+            <tr><td>Thickness</td><td>Inner Lines → Thickness</td><td>Thickness (<code>cl_crosshairthickness</code>)</td><td>Thickness</td></tr>
+            <tr><td>Length</td><td>Inner Lines → Length</td><td>Size (<code>cl_crosshairsize</code>)</td><td>Length</td></tr>
+            <tr><td>Center dot</td><td>Center Dot</td><td><code>cl_crosshairdot</code></td><td>Dot settings</td></tr>
+            <tr><td>Outline</td><td>Outlines</td><td><code>cl_crosshair_outlinethickness</code></td><td>Outline</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">Names are representative; check your current patch's settings screen. Values do not map 1:1 numerically — match visually with the preview next to the settings menu.</p>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        <strong>No data collection.</strong> The canvas and export run locally. Design references and
+        method notes: <a href="/methodology/">methodology page</a>.
+      </p>
+    </TrustBlock>
+
+    <section class="section" aria-labelledby="related">
+      <h2 id="related">Related tools</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        <li><a class="tool-card" href="/sensitivity-converter/"><span class="tc-title">Sensitivity Converter</span><p class="tc-desc">Pair your new crosshair with matched aim across games.</p></a></li>
+        <li><a class="tool-card" href="/fov-calculator/"><span class="tc-title">FOV Calculator</span><p class="tc-desc">Crosshairs look different at every FOV — check your view first.</p></a></li>
+        <li><a class="tool-card" href="/edpi-calculator/"><span class="tc-title">eDPI Calculator</span><p class="tc-desc">Round out your settings with your effective DPI.</p></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    const $ = (id: string) => document.getElementById(id)!;
+    const canvas = $('preview') as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d')!;
+
+    const PRESETS = [
+      { dot: false, gap: 4, thick: 2, length: 6, color: '#00ff88', outline: false, dotSize: 0 },
+      { dot: false, gap: 3, thick: 1, length: 4, color: '#00ff00', outline: true, dotSize: 0 },
+      { dot: true, gap: 6, thick: 1, length: 0, color: '#00ffff', outline: true, dotSize: 2 },
+      { dot: false, gap: 8, thick: 2, length: 10, color: '#ffffff', outline: true, dotSize: 0 },
+      { dot: false, gap: 5, thick: 1, length: 7, color: '#00ff00', outline: false, dotSize: 0 },
+    ];
+
+    function getState() {
+      return {
+        gap: parseInt(($('gap') as HTMLInputElement).value),
+        thick: parseInt(($('thick') as HTMLInputElement).value),
+        length: parseInt(($('len') as HTMLInputElement).value),
+        dotSize: parseInt(($('dot-size') as HTMLInputElement).value),
+        color: ($('color') as HTMLInputElement).value,
+        outline: ($('outline') as HTMLInputElement).checked,
+      };
+    }
+
+    function drawCrosshair(ctx: CanvasRenderingContext2D, w: number, h: number, s: ReturnType<typeof getState>, scale = 1) {
+      const cx = w / 2;
+      const cy = h / 2;
+      const gap = s.gap * scale;
+      const thick = s.thick * scale;
+      const length = s.length * scale;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const draw = (color: string, offset: number) => {
+        ctx.fillStyle = color;
+        if (length > 0) {
+          // left
+          ctx.fillRect(cx - gap - length - offset, cy - thick / 2 - offset, length + offset, thick + offset * 2);
+          // right
+          ctx.fillRect(cx + gap - offset, cy - thick / 2 - offset, length + offset, thick + offset * 2);
+          // top
+          ctx.fillRect(cx - thick / 2 - offset, cy - gap - length - offset, thick + offset * 2, length + offset);
+          // bottom
+          ctx.fillRect(cx - thick / 2 - offset, cy + gap - offset, thick + offset * 2, length + offset);
+        }
+        if (s.dotSize > 0) {
+          const ds = s.dotSize * scale;
+          ctx.fillRect(cx - ds / 2 - offset, cy - ds / 2 - offset, ds + offset * 2, ds + offset * 2);
+        }
+      };
+
+      if (s.outline) draw('#000000', 1 * scale);
+      draw(s.color, 0);
+    }
+
+    function render() {
+      const s = getState();
+      $('gap-val').textContent = String(s.gap);
+      $('thick-val').textContent = String(s.thick);
+      $('len-val').textContent = String(s.length);
+      $('dot-val').textContent = String(s.dotSize);
+
+      drawCrosshair(ctx, canvas.width, canvas.height, s, 2);
+
+      ($('values-out') as HTMLTextAreaElement).value = [
+        `Gap / Offset: ${s.gap}`,
+        `Thickness: ${s.thick}`,
+        `Length / Size: ${s.length}`,
+        `Center dot: ${s.dotSize > 0 ? `on (${s.dotSize})` : 'off'}`,
+        `Outline: ${s.outline ? 'on' : 'off'}`,
+        `Color: ${s.color.toUpperCase()}`,
+      ].join('\n');
+    }
+
+    ['gap', 'thick', 'len', 'dot-size', 'outline'].forEach((id) => $(id).addEventListener('input', render));
+    ($('color') as HTMLInputElement).addEventListener('input', render);
+
+    document.querySelectorAll('[data-preset]').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const p = PRESETS[parseInt((chip as HTMLElement).dataset.preset!)];
+        ($('gap') as HTMLInputElement).value = String(p.gap);
+        ($('thick') as HTMLInputElement).value = String(p.thick);
+        ($('len') as HTMLInputElement).value = String(p.length);
+        ($('dot-size') as HTMLInputElement).value = String(p.dotSize);
+        ($('color') as HTMLInputElement).value = p.color;
+        ($('outline') as HTMLInputElement).checked = p.outline;
+        render();
+      });
+    });
+
+    document.querySelectorAll('[data-color]').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        ($('color') as HTMLInputElement).value = (chip as HTMLElement).dataset.color!;
+        render();
+      });
+    });
+
+    $('copy-values').addEventListener('click', async () => {
+      const v = ($('values-out') as HTMLTextAreaElement).value;
+      try { await navigator.clipboard.writeText(v); } catch {
+        const ta = document.createElement('textarea');
+        ta.value = v; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+      }
+      const btn = $('copy-values');
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1800);
+    });
+
+    $('download-png').addEventListener('click', () => {
+      const s = getState();
+      const out = document.createElement('canvas');
+      out.width = 512;
+      out.height = 512;
+      const octx = out.getContext('2d')!;
+      drawCrosshair(octx, 512, 512, s, 4);
+      const a = document.createElement('a');
+      a.download = 'sensforge-crosshair.png';
+      a.href = out.toDataURL('image/png');
+      a.click();
+    });
+
+    render();
+  </script>
+</Base>

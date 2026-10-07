@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../data/site';
+
+const title = 'Changelog — What Changed and When | SensForge';
+const description = 'Real, dated updates to SensForge tools and game constants. No cosmetic date bumps — every entry lists what actually changed.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Changelog' },
+];
+
+const entries = [
+  {
+    date: '2026-10-07',
+    title: 'Initial release',
+    items: [
+      'Launched 7 tools: sensitivity converter, eDPI calculator, cm/360 calculator, DPI analyzer, FOV calculator, crosshair generator, sensitivity randomizer.',
+      'Shipped yaw values for 13 games with confidence labels on the methodology page.',
+      'Published 13 per-game converter pages (CS2, Valorant, Overwatch 2, Apex Legends, Fortnite, Marvel Rivals, Rainbow Six Siege, Deadlock, Tarkov, The Finals, Halo Infinite, Destiny 2, Call of Duty) with worked conversion tables.',
+      'Published 6 conversion-pair pages including Valorant ↔ CS2, built from the same formulas as the tools.',
+      'Added 4 guides (cm/360, eDPI, choosing a sensitivity, DPI testing) and a sensitivity glossary.',
+      'Sensitivity converter gained share links (URL-encoded state) and recent-conversion history stored locally.',
+      'All math client-side; no accounts, no uploads.',
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} breadcrumbs={breadcrumbs} canonical="/changelog/">
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>Changelog</h1>
+    <p class="lead">
+      What actually changed, when, and why. We only touch dates when there is a real update behind them.
+    </p>
+
+    {entries.map((e) => (
+      <section class="section">
+        <h2 id={e.date} style="margin-top:0">{e.date} — {e.title}</h2>
+        <ul>
+          {e.items.map((i) => <li>{i}</li>)}
+        </ul>
+      </section>
+    ))}
+
+    <section class="section">
+      <h2 id="planned">Planned</h2>
+      <ul>
+        <li>More games (community requests: Rust, PUBG, Delta Force, Battlefield 6) — pending source verification.</li>
+        <li>Scope sensitivity support for games with per-scope multipliers.</li>
+      </ul>
+      <p class="small muted">Plans are not promises; entries move to a dated release when they ship.</p>
+    </section>
+  </div>
+</Base>

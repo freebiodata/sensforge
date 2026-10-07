@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../data/site';
+
+const title = 'About SensForge — Who We Are & Why These Tools Exist';
+const description =
+  'SensForge is an independent, player-run toolset for competitive FPS aiming: who builds it, how the calculators are tested, and how the site stays free.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'About' },
+];
+---
+
+<Base title={title} description={description} breadcrumbs={breadcrumbs} canonical="/about/">
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>About SensForge</h1>
+    <p class="lead">
+      We build the aiming calculators we kept wishing existed while switching between competitive
+      shooters ourselves — precise about the maths, honest about the limits, free of clutter.
+    </p>
+
+    <section class="section">
+      <h2 id="why">Why this site exists</h2>
+      <p>
+        Converting your aim between games should not require forum archaeology or signing up for an app.
+        The maths is public: each game rotates the camera by a documented constant, and preserving physical
+        mouse distance (cm/360) is all it takes to keep your muscle memory. SensForge packages that maths
+        into fast, no-nonsense tools that run entirely in your browser.
+      </p>
+      <p>
+        We also noticed a lot of tools in this niche quietly disagree with each other about game constants,
+        with no way to tell which values are verified and which were copied from another site. So every
+        value we ship carries a source label and confidence level on our <a href="/methodology/">methodology
+        page</a>.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="how">How the tools are built &amp; tested</h2>
+      <ul>
+        <li><strong>Formulas from first principles.</strong> The converters use the yaw model documented by game developers and cross-checked against independent measurement projects; see the <a href="/methodology/">methodology page</a> for each constant's provenance.</li>
+        <li><strong>Sanity-tested against hand calculations.</strong> Every calculator's example tables are recomputed from the same formulas the tool runs, so the numbers you see are reproducible.</li>
+        <li><strong>Client-side only.</strong> No build step sends your inputs anywhere — there is no server-side component that could even receive them.</li>
+        <li><strong>Corrections are welcome and credited.</strong> If a constant or formula is wrong, <a href="/contact/">tell us</a> and we will fix it with a changelog entry.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2 id="money">How the site makes money</h2>
+      <p>
+        Right now: nothing. SensForge is independent and self-funded. If we ever add optional
+        sponsorships or affiliate links, they will be clearly labelled (<code>rel="sponsored"</code>) and
+        will never affect formulas, rankings or recommendations. Tools stay free.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="people">Who runs it</h2>
+      <p>
+        SensForge is run by a small team of competitive FPS players and software engineers. We play the
+        games we build for — currently heavy Valorant, CS2 and an unreasonable amount of aim-trainer time.
+      </p>
+      <p class="small muted">
+        For press, corrections or partnership enquiries: <a href="/contact/">contact page</a> or
+        {site.email}.
+      </p>
+    </section>
+  </div>
+</Base>

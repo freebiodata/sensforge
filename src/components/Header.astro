@@ -1,0 +1,27 @@
+---
+import { site } from '../data/site';
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-logo" href="/" aria-label={`${site.name} home`}>
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="14" stroke="#4f8cff" stroke-width="2" />
+        <circle cx="16" cy="16" r="2.5" fill="#4f8cff" />
+        <path d="M16 4v6M16 22v6M4 16h6M22 16h6" stroke="#4f8cff" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      {site.name}
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/tools/" aria-current={isActive('/tools') ? 'page' : undefined}>All tools</a>
+      <a href="/sensitivity-converter/" aria-current={isActive('/sensitivity-converter') ? 'page' : undefined}>Sensitivity converter</a>
+      <a href="/games/" aria-current={isActive('/games') ? 'page' : undefined}>Games</a>
+      <a href="/fov-calculator/" aria-current={isActive('/fov-calculator') ? 'page' : undefined}>FOV</a>
+      <a href="/crosshair-generator/" aria-current={isActive('/crosshair-generator') ? 'page' : undefined}>Crosshair</a>
+      <a href="/guides/" aria-current={isActive('/guides') ? 'page' : undefined}>Guides</a>
+    </nav>
+  </div>
+</header>

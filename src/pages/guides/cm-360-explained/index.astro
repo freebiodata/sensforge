@@ -1,0 +1,155 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import Faq from '../../../components/Faq.astro';
+import TrustBlock from '../../../components/TrustBlock.astro';
+import { site } from '../../../data/site';
+
+const title = 'cm/360 Explained: The Only Cross-Game Sensitivity Metric';
+const description =
+  'What cm/360 means, why it beats raw sensitivity numbers for muscle memory, how to measure it, and what values competitive players actually use.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides', href: '/guides/' },
+  { name: 'cm/360 explained' },
+];
+
+const faq = [
+  {
+    q: 'Is a lower cm/360 better?',
+    a: 'No. Lower cm/360 (faster sensitivity) helps fast clearing and small pads; higher cm/360 (slower) helps precision. The best value is one your mousepad can contain and your role benefits from — most competitive players sit between 25 and 55 cm.',
+  },
+  {
+    q: 'Should cm/360 be exactly the same in every game?',
+    a: 'It is the best default, yes — it preserves physical muscle memory. Some players deliberately deviate in specific games (e.g., faster in movement shooters); keep the difference small and intentional.',
+  },
+  {
+    q: 'Does my monitor or FOV change cm/360?',
+    a: 'No — cm/360 is purely about camera rotation, which is independent of resolution and FOV. FOV changes how fast the world appears to move, which is why some players tweak sens when changing FOV (see the FOV calculator\'s monitor-match factor).',
+  },
+];
+
+const related = [
+  { href: '/cm-360-calculator/', title: 'cm/360 Calculator', desc: 'Turn your in-game settings into physical distance.' },
+  { href: '/sensitivity-converter/', title: 'Sensitivity Converter', desc: 'Carry an exact cm/360 into any of 13 games.' },
+  { href: '/guides/what-is-edpi/', title: 'What is eDPI?', desc: 'The metric that strips DPI out of comparisons.' },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+  canonical="/guides/cm-360-explained/"
+  type="article"
+  jsonLd={[
+    {
+      '@type': 'Article',
+      headline: 'cm/360 Explained: The Only Cross-Game Sensitivity Metric',
+      datePublished: '2026-10-07',
+      dateModified: '2026-10-07',
+      author: { '@type': 'Organization', name: site.name, url: `${site.url}/about/` },
+    },
+  ]}
+>
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>cm/360 explained: the only cross-game sensitivity metric</h1>
+    <p class="lead">
+      Slider numbers lie across games. cm/360 — the physical distance your mouse travels for a full
+      turn — is the number that means the same thing everywhere. Here is how it works and how to use it.
+    </p>
+
+    <p class="small muted">Published 07 Oct 2026 · By the SensForge team · Applies to all supported games</p>
+
+    <section class="section">
+      <h2 id="answer">Quick answer</h2>
+      <p>
+        cm/360 is the mouse travel distance (in centimetres) for one full 360° in-game rotation. To keep
+        your aim identical across games, keep cm/360 constant — then whichever slider number a game uses
+        stops mattering. Use the <a href="/cm-360-calculator/">cm/360 calculator</a> to convert your
+        settings, or the <a href="/sensitivity-converter/">sensitivity converter</a> to apply the same
+        cm/360 in another game.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2 id="why">Why slider values fail across games</h2>
+      <p>
+        Every game multiplies your slider value by its own constant (the <strong>yaw</strong> — degrees of
+        rotation per mouse count). CS2 uses 0.022; Valorant uses 0.07. So "sensitivity 0.7" means completely
+        different physical turns in each game. Win an argument about who has "higher sens" and you have
+        learned nothing — convert to cm/360 first.
+      </p>
+      <p>Same physical feel, very different numbers:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Game</th><th class="num">Slider value</th><th class="num">cm/360 (800 DPI)</th></tr></thead>
+          <tbody>
+            <tr><td>CS2</td><td class="num">1.0</td><td class="num">52.0 cm</td></tr>
+            <tr><td>Valorant</td><td class="num">0.314</td><td class="num">52.0 cm</td></tr>
+            <tr><td>Apex Legends</td><td class="num">1.0</td><td class="num">52.0 cm</td></tr>
+            <tr><td>Overwatch 2</td><td class="num">3.33</td><td class="num">52.0 cm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">All four rows are the same physical sensitivity. The slider values share nothing.</p>
+    </section>
+
+    <section class="section">
+      <h2 id="measure">How to measure your cm/360</h2>
+      <ol class="steps">
+        <li><strong>Do it in-game or with the calculator.</strong> Fastest: enter sens + DPI + game in the <a href="/cm-360-calculator/">cm/360 calculator</a>. Physical: stand still in-game and do one slow full 360 with the mouse.</li>
+        <li><strong>Mark start and end.</strong> Put a ruler (or tape) along your mousepad; mark where the mouse is at the start, rotate 360°, mark again.</li>
+        <li><strong>Repeat three times.</strong> Average the distances — hand variance of a few mm is normal.</li>
+        <li><strong>Sanity check:</strong> if the number differs wildly from the calculator, acceleration is probably on (see the <a href="/dpi-analyzer/">DPI analyzer</a> checklist).</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 id="values">What values do players use?</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>cm/360</th><th>Profile</th><th>Typical use</th></tr></thead>
+          <tbody>
+            <tr><td>15–25 cm</td><td>Fast</td><td>Fast clearing, small mousepads, wrist aim</td></tr>
+            <tr><td>25–40 cm</td><td>Balanced</td><td>The broad competitive middle ground</td></tr>
+            <tr><td>40–60 cm</td><td>Precision</td><td>Arm aim, tactical shooters, flick stability</td></tr>
+            <tr><td>60 cm+</td><td>Very low</td><td>Extreme precision; needs XL desk pads</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">Ranges reflect common competitive usage patterns; individual pros exist outside every band.</p>
+    </section>
+
+    <section class="section">
+      <h2 id="mistakes">Common mistakes</h2>
+      <ul>
+        <li><strong>Converting without DPI.</strong> Changing DPI silently changes cm/360. Always include both numbers.</li>
+        <li><strong>Chasing a pro's exact cm/360.</strong> Your pad size, grip and role matter more than a headline number. Start at 30–40 cm, adjust consciously.</li>
+        <li><strong>Re-testing while tired.</strong> Physical aim tests drift with fatigue; calibrate when fresh.</li>
+      </ul>
+    </section>
+
+    <Faq items={faq} />
+
+    <TrustBlock>
+      <p class="mb-0">
+        Sources for yaw constants: see the <a href="/methodology/">methodology page</a> (game documentation
+        and labelled community measurements, accessed Oct 2026). This guide contains no invented statistics —
+        ranges are explained as conventions, not measured claims.
+      </p>
+    </TrustBlock>
+
+    <section class="section">
+      <h2 id="next">Next steps</h2>
+      <ul class="related-grid" style="list-style:none;padding:0">
+        {related.map((r) => (
+          <li><a class="tool-card" href={r.href}><span class="tc-title">{r.title}</span><p class="tc-desc">{r.desc}</p></a></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>

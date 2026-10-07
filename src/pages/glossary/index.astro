@@ -1,0 +1,138 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustBlock from '../../components/TrustBlock.astro';
+
+const title = 'Sensitivity Glossary — eDPI, cm/360, Yaw & More | SensForge';
+const description =
+  'Every term behind mouse sensitivity calculators, defined plainly: DPI, eDPI, cm/360, yaw, polling rate, ADS, FOV, mouse acceleration and more.';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Glossary' },
+];
+
+const terms: { id: string; term: string; def: string; link?: { href: string; label: string } }[] = [
+  {
+    id: 'dpi',
+    term: 'DPI (dots per inch)',
+    def: 'How many sensor counts your mouse reports per inch of physical movement. A hardware property set in your mouse driver. Higher DPI is not "better aim" — it just trades against in-game sensitivity.',
+    link: { href: '/dpi-analyzer/', label: 'Measure your DPI' },
+  },
+  {
+    id: 'edpi',
+    term: 'eDPI (effective dots per inch)',
+    def: 'In-game sensitivity multiplied by mouse DPI: <code>eDPI = sens × DPI</code>. Normalizes DPI differences for same-game comparisons. It does not encode the game\'s yaw, so it does not compare across games.',
+    link: { href: '/edpi-calculator/', label: 'Calculate your eDPI' },
+  },
+  {
+    id: 'cm360',
+    term: 'cm/360',
+    def: 'The physical mouse distance (in centimetres) needed for a full 360° in-game turn: <code>cm/360 = 360 ÷ (sens × DPI × yaw) × 2.54</code>. The only sensitivity metric that means the same thing in every game.',
+    link: { href: '/cm-360-calculator/', label: 'Calculate your cm/360' },
+  },
+  {
+    id: 'yaw',
+    term: 'Yaw (degrees per count)',
+    def: 'How many degrees the game camera rotates per mouse count, before the sensitivity slider multiplies it. Each game has its own constant (CS2: 0.022, Valorant: 0.07). The basis of all cross-game conversion maths.',
+    link: { href: '/methodology/', label: 'See our sourced yaw table' },
+  },
+  {
+    id: 'sensitivity',
+    term: 'In-game sensitivity',
+    def: 'The game\'s slider value multiplied against yaw to produce rotation. Meaningless to compare between games without converting — the same "2.0" can be three different physical speeds.',
+  },
+  {
+    id: 'raw-input',
+    term: 'Raw input',
+    def: 'A game mode that reads mouse movement directly, bypassing the operating system\'s pointer processing (and its acceleration). Competitive shooters use it by default; with raw input on, OS cursor speed does not affect aim.',
+  },
+  {
+    id: 'mouse-acceleration',
+    term: 'Mouse acceleration',
+    def: 'A processing layer where faster mouse movement produces disproportionately more cursor travel. It destroys the constant relationship between hand movement and rotation, so all sensitivity maths assumes it is OFF (Windows: "Enhance pointer precision" unchecked).',
+  },
+  {
+    id: 'polling-rate',
+    term: 'Polling rate',
+    def: 'How often per second your mouse reports position to the PC (500 Hz, 1000 Hz, 4000 Hz...). Affects input latency and smoothness — not DPI, not sensitivity. Convert nothing when changing it.',
+  },
+  {
+    id: 'fov',
+    term: 'FOV (field of view)',
+    def: 'The angle of the game camera — how much of the scene is visible. Changes perceived speed of motion but not rotation maths. Games define it vertically or horizontally (not always clearly), and it interacts with aspect ratio.',
+    link: { href: '/fov-calculator/', label: 'Convert FOV between aspect ratios' },
+  },
+  {
+    id: 'ads',
+    term: 'ADS (aim down sights) sensitivity',
+    def: 'A separate sensitivity scale applied when scoped/aiming, usually a multiplier on your hipfire value and/or tied to optic zoom. Not part of cross-game hipfire conversion; tuned per game by preference.',
+  },
+  {
+    id: 'hipfire',
+    term: 'Hipfire',
+    def: 'Aiming without scoping — the state all cross-game sensitivity conversions match, because it uses the base yaw × sensitivity rotation with no scope multipliers in the way.',
+  },
+  {
+    id: 'monitor-match',
+    term: 'Screen-space match factor',
+    def: 'A multiplier (<code>tan(hFOV_target ÷ 2) ÷ tan(hFOV_source ÷ 2)</code>) applied when changing aspect ratio, keeping the same on-screen mouse feel near the crosshair. For 16:9 → 4:3 it is 0.750 — the same maths behind the classic <code>m_yaw 0.0165</code> convention.',
+    link: { href: '/fov-calculator/', label: 'Get your factor' },
+  },
+  {
+    id: 'stretched',
+    term: 'Stretched resolution',
+    def: 'Running a narrower aspect (e.g. 4:3) on a wider display, so the image stretches horizontally. Makes targets appear wider; on-screen horizontal speed changes, which players compensate via the screen-space match factor.',
+  },
+  {
+    id: 'sensor-smoothing',
+    term: 'Sensor smoothing / angle snapping',
+    def: 'Driver/sensor processing that alters movement data (straightening lines, filtering jitter). Competitive setups disable these; they corrupt sensitivity measurements and raw feel.',
+  },
+  {
+    id: 'ads-time',
+    term: 'm_yaw',
+    def: 'The Source-engine console variable controlling horizontal degrees per count (CS2 default 0.022). Communities change it to 0.0165 for 4:3 stretched to equalise on-screen x/y speed — a deliberate alteration of the yaw constant itself.',
+    link: { href: '/valorant-to-cs2-sensitivity/', label: 'Valorant ↔ CS2 conversion' },
+  },
+  {
+    id: '360-distance',
+    term: 'in/360',
+    def: 'The same as cm/360 measured in inches: <code>inches/360 = cm/360 ÷ 2.54</code>. Used by US-centric communities and some tools; mathemically interchangeable with cm/360.',
+  },
+];
+---
+
+<Base title={title} description={description} breadcrumbs={breadcrumbs} canonical="/glossary/">
+  <div class="wrap-narrow">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1>Sensitivity glossary</h1>
+    <p class="lead">
+      The vocabulary behind every calculator on this site — plain definitions, the formula where one
+      exists, and the tool that uses it. Terms are alphabetical.
+    </p>
+
+    <section class="section">
+      <h2 class="visually-hidden">Terms</h2>
+      <div class="faq">
+        {terms.map((t) => (
+          <details id={t.id}>
+            <summary>{t.term}</summary>
+            <div class="faq-body">
+              <p set:html={t.def} />
+              {t.link && <p class="mb-0"><a href={t.link.href}>{t.link.label} →</a></p>}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <TrustBlock>
+      <p class="mb-0">
+        Missing a term you keep seeing in guides? <a href="/contact/">Suggest it</a> — glossary additions
+        ship with the next changelog entry.
+      </p>
+    </TrustBlock>
+  </div>
+</Base>
