@@ -29,7 +29,7 @@ Node 22+ required. No environment variables, no backend, no database.
 
 ```bash
 node scripts/test-math.mjs   # 21 formula tests (cm/360, eDPI, conversions, FOV, match factor)
-node scripts/test-dom.mjs    # 18 DOM tests (loads built pages in jsdom, runs the tools)
+node scripts/test-dom.mjs    # 24 DOM tests (loads built pages in jsdom, runs the tools)
 ```
 
 Both must pass before deploy. The DOM tests execute the actual bundled scripts and verify computed outputs (e.g. CS2 2.0 @ 800 DPI → Valorant 0.629).
@@ -73,14 +73,23 @@ scripts/
 - E-E-A-T: methodology page with sourced yaw table + confidence labels, changelog, contact, privacy; "corrections with credit" policy.
 - Privacy: zero trackers; DPI analyzer documents pointer-lock usage locally.
 
-## Deploy
+## Deploy (Cloudflare Pages)
 
-Static `dist/` — deploy to Cloudflare Pages / Netlify / Vercel / any static host.
+| Setting | Value |
+|---|---|
+| Framework preset | Astro (or None) |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Root directory | *(empty — repo root)* |
+| Node version | 22+ required; set env var `NODE_VERSION=22` if the build fails on an older default |
 
-- Build command: `npm run build`
-- Output: `dist`
-- After deploy: submit `https://<domain>/sitemap-index.xml` in Google Search Console + Bing Webmaster Tools; request indexing for `/`, `/tools/`, and the flagship `/sensitivity-converter/`.
-- Post-deploy checks: no staging noindex; canonicals point at the production domain; 404 returns 404 status (host-dependent — configure).
+Static `dist/` also deploys to Netlify / Vercel / any static host.
+
+After deploy:
+1. Add your custom domain (`sensforge.top`) in Cloudflare Pages → Custom domains, update DNS as instructed.
+2. Update `site:` in `astro.config.mjs`, `src/data/site.ts`, and `public/robots.txt` to the final domain, then redeploy (canonicals and sitemap use the `site` value).
+3. Submit `https://<domain>/sitemap-index.xml` in Google Search Console + Bing Webmaster Tools; request indexing for `/`, `/tools/`, `/sensitivity-converter/`, and `/games/`.
+4. Post-deploy checks: no staging noindex; canonicals point at the production domain; 404 returns a real 404; test one share link (`/sensitivity-converter/?sg=cs2&dg=valorant`).
 
 ## Content accuracy policy
 
