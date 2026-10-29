@@ -6,9 +6,9 @@ import TrustBlock from '../../components/TrustBlock.astro';
 import { games } from '../../data/games';
 import { site } from '../../data/site';
 
-const title = 'eDPI Calculator: Effective DPI for FPS Games | SensForge';
+const title = 'eDPI Calculator: Effective DPI for Valorant, CS2, Apex & OW2 | SensForge';
 const description =
-  'Calculate your eDPI (effective DPI) from sensitivity and DPI, see your cm/360, and compare against typical FPS ranges. Free, instant, in-browser.';
+  'Calculate your effective DPI (eDPI) from mouse DPI and in-game sensitivity. Benchmark against Valorant, CS2, and Apex pro player ranges. 100% free and client-side.';
 
 const jsonLd = [
   {
@@ -155,6 +155,64 @@ const gameOptions = games.map((g) => ({ id: g.id, name: g.name, yaw: g.yaw, defa
       </div>
       <p class="small muted" style="margin-top:10px">
         Bands are approximate reference points, not rules, aim feel is personal and pros exist in most bands.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="game-edpi">
+      <h2 id="game-edpi">Pro eDPI Benchmarks by Game</h2>
+      <p>Because each game uses a different yaw scale, eDPI numbers are only directly comparable within the same game. Here are the typical competitive eDPI ranges used by top players:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Game</th>
+              <th class="num">Pro eDPI Range</th>
+              <th class="num">Median / Average</th>
+              <th>Aim Style &amp; Focus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Valorant</strong></td>
+              <td class="num">200 – 400</td>
+              <td class="num">~280 eDPI</td>
+              <td>Crosshair placement &amp; micro-adjustments (tactical FPS)</td>
+            </tr>
+            <tr>
+              <td><strong>Counter-Strike 2</strong></td>
+              <td class="num">640 – 1,200</td>
+              <td class="num">~880 eDPI</td>
+              <td>Precision angle holding, recoil control &amp; arm aiming</td>
+            </tr>
+            <tr>
+              <td><strong>Overwatch 2</strong></td>
+              <td class="num">3,200 – 6,400</td>
+              <td class="num">~4,800 eDPI</td>
+              <td>High mobility, fast 180° turns &amp; rapid tracking (role-dependent)</td>
+            </tr>
+            <tr>
+              <td><strong>Apex Legends</strong></td>
+              <td class="num">1,000 – 2,400</td>
+              <td class="num">~1,400 eDPI</td>
+              <td>Continuous smooth tracking &amp; vertical recoil control</td>
+            </tr>
+            <tr>
+              <td><strong>Fortnite</strong></td>
+              <td class="num">32 – 80</td>
+              <td class="num">~48–56 eDPI</td>
+              <td>Fast building edits combined with shotgun flick accuracy</td>
+            </tr>
+            <tr>
+              <td><strong>Call of Duty (Warzone)</strong></td>
+              <td class="num">3,200 – 6,400</td>
+              <td class="num">~4,800 eDPI</td>
+              <td>Fast target acquisition &amp; close-quarters tracking</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">
+        Want to convert your eDPI into an exact match for another game? Use the <a href="/sensitivity-converter/">sensitivity converter</a> or check your physical <a href="/cm-360-calculator/">cm/360 turn distance</a>.
       </p>
     </section>
 

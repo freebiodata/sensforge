@@ -303,6 +303,236 @@ export const pairPages: PairPage[] = [
     tableValues: [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0],
     defaultValue: 2.0,
   },
+  {
+    slug: 'fortnite-to-valorant-sensitivity',
+    fromId: 'fortnite',
+    toId: 'valorant',
+    fromName: 'Fortnite',
+    toName: 'Valorant',
+    title: 'Fortnite to Valorant Sensitivity Converter: Exact Match | SensForge',
+    description:
+      'Convert your Fortnite sensitivity to Valorant exactly: 1:1 cm/360 turn matching, worked conversion table, and hipfire calculations. 100% free.',
+    h1: 'Fortnite to Valorant Sensitivity Converter',
+    intro: [
+      'Transitioning from Fortnite battle royale to tactical shooter Valorant? Convert your sensitivity slider so your physical hand movement (cm/360) matches precisely across both titles.',
+    ],
+    sections: [
+      {
+        heading: 'Why Fortnite numbers are much higher than Valorant',
+        body: 'Fortnite operates on Unreal Engine rotation (yaw <code>0.005555</code>) with percentage-based sliders, whereas Valorant uses a direct yaw constant of <code>0.07</code>. Because Fortnite rotates significantly less per raw count, an 8% sensitivity in Fortnite translates to approximately <strong>0.635</strong> in Valorant at the same mouse DPI.',
+      },
+      {
+        heading: 'Building speed vs crosshair placement',
+        body: 'Many Fortnite players use higher sensitivities to execute rapid 360° building and editing. In Valorant, micro-adjustments and disciplined crosshair placement at head height are paramount. If your converted Valorant sensitivity feels slightly too fast for tight angle holding, consider lowering it by 10–15% to settle into a tactical aiming style.',
+      },
+    ],
+    faq: [
+      {
+        q: 'How do I convert Fortnite sensitivity to Valorant?',
+        a: 'Multiply your Fortnite sensitivity percentage by 0.005555 ÷ 0.07 (or multiply by ≈ <strong>0.07936</strong>). For example, 8.0% in Fortnite equals roughly 0.635 in Valorant at identical DPI.',
+      },
+      {
+        q: 'What about Fortnite separate X and Y sensitivities?',
+        a: 'Valorant uses a uniform sensitivity for both horizontal (yaw) and vertical (pitch) axes. Convert using your Fortnite X (horizontal) sensitivity to preserve your horizontal aiming muscle memory.',
+      },
+      {
+        q: 'Does Fortnite Targeting (ADS) sensitivity carry over?',
+        a: 'This calculator converts your hipfire sensitivity. In Valorant, ADS sensitivity is governed by the "Scoped Sensitivity Multiplier" (default 1.0). Convert your base sensitivity first, then tune the ADS multiplier to taste.',
+      },
+    ],
+    related: ['valorant-to-fortnite-sensitivity', 'fortnite-to-cs2-sensitivity', 'valorant-to-cs2-sensitivity'],
+    tableValues: [4.0, 6.0, 7.0, 8.0, 9.0, 10.0, 12.0, 15.0],
+    defaultValue: 8.0,
+  },
+  {
+    slug: 'valorant-to-fortnite-sensitivity',
+    fromId: 'valorant',
+    toId: 'fortnite',
+    fromName: 'Valorant',
+    toName: 'Fortnite',
+    title: 'Valorant to Fortnite Sensitivity Converter: 1:1 cm/360 | SensForge',
+    description:
+      'Convert your Valorant sensitivity to Fortnite percentage: preserve your physical cm/360, worked conversion table for all common sens values. Free, instant.',
+    h1: 'Valorant to Fortnite Sensitivity Converter',
+    intro: [
+      'Take your crisp tactical aim from Valorant into Fortnite. Convert your Valorant sensitivity into the exact Fortnite percentage slider setting that maintains your exact turn distance.',
+    ],
+    sections: [
+      {
+        heading: 'Converting decimal sensitivity to Fortnite percentage',
+        body: 'Valorant expresses sensitivity as a decimal factor (typical pro range 0.2 to 0.5), while Fortnite uses a percentage slider (0% to 100%). To achieve the exact same cm/360, multiply your Valorant sensitivity by <strong>×12.600</strong> at identical mouse DPI.',
+      },
+      {
+        heading: 'Adapting to third-person battle royale movement',
+        body: 'Valorant locks your perspective in first-person with a fixed 103° horizontal FOV. Fortnite uses a third-person camera with wider dynamic FOV. While your physical mouse travel for a 180° turn will be identical, objects on-screen may appear slightly smaller due to the wider field of view.',
+      },
+    ],
+    faq: [
+      {
+        q: 'What is 0.35 Valorant sensitivity in Fortnite?',
+        a: 'A Valorant sensitivity of 0.35 equals approximately <strong>4.41%</strong> in Fortnite at the same mouse DPI (≈ 46.6 cm/360 at 800 DPI).',
+      },
+      {
+        q: 'Should I set the same X and Y sensitivity in Fortnite?',
+        a: 'Yes, setting identical X and Y sensitivity in Fortnite replicates Valorant\'s native 1:1 horizontal-to-vertical aim ratio.',
+      },
+      {
+        q: 'How do I go the other way (Fortnite to Valorant)?',
+        a: 'Use the <a href="/fortnite-to-valorant-sensitivity/">Fortnite to Valorant converter</a>, or click "Switch direction" in the tool above.',
+      },
+    ],
+    related: ['fortnite-to-valorant-sensitivity', 'valorant-to-cs2-sensitivity', 'valorant-to-overwatch-2-sensitivity'],
+    tableValues: [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.6],
+    defaultValue: 0.35,
+  },
+  {
+    slug: 'overwatch-2-to-valorant-sensitivity',
+    fromId: 'overwatch2',
+    toId: 'valorant',
+    fromName: 'Overwatch 2',
+    toName: 'Valorant',
+    title: 'Overwatch 2 to Valorant Sensitivity Converter: 1:1 Match | SensForge',
+    description:
+      'Convert Overwatch 2 sensitivity to Valorant with exact yaw maths. Full worked conversion table, 1:1 cm/360 preservation, reverse included. Free.',
+    h1: 'Overwatch 2 to Valorant Sensitivity Converter',
+    intro: [
+      'Switching from Blizzard\'s fast-paced hero shooter to Riot\'s tactical FPS? Convert your Overwatch 2 sensitivity so your muscle memory transfers seamlessly to Valorant.',
+    ],
+    sections: [
+      {
+        heading: 'Why the numbers differ by roughly 10.6×',
+        body: 'Overwatch 2 uses a camera yaw constant of <code>0.0066</code> degrees per count, while Valorant uses <code>0.07</code>. Because Valorant rotates roughly 10.6× more per count, your slider value in Valorant must be divided by <strong>10.606</strong> (or multiplied by <strong>0.0943</strong>) to maintain identical cm/360.',
+      },
+      {
+        heading: 'Tracking aim vs Crosshair placement',
+        body: 'In Overwatch 2, tracking heroes like Tracer or Genji requires frequent 180° sweeps. Valorant heavily penalizes moving while shooting and rewards disciplined crosshair placement. If your converted sensitivity feels fast for holding one-tap angles, experiment with a 10% reduction.',
+      },
+    ],
+    faq: [
+      {
+        q: 'How do I convert Overwatch 2 sensitivity to Valorant?',
+        a: 'Multiply your Overwatch 2 sensitivity by 0.0066 ÷ 0.07 (or multiply by ≈ <strong>0.0943</strong>). For instance, an Overwatch 2 sensitivity of 5.0 equals <strong>0.471</strong> in Valorant at the same DPI.',
+      },
+      {
+        q: 'Are FOVs the same in both games?',
+        a: 'Yes! Both Overwatch 2 on PC and Valorant default to an identical 103° horizontal FOV on standard 16:9 widescreen monitors, making the transition feel exceptionally natural.',
+      },
+    ],
+    related: ['valorant-to-overwatch-2-sensitivity', 'marvel-rivals-to-overwatch-2-sensitivity', 'cs2-to-valorant-sensitivity'],
+    tableValues: [3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 10.0, 12.0],
+    defaultValue: 5.0,
+  },
+  {
+    slug: 'call-of-duty-to-valorant-sensitivity',
+    fromId: 'cod',
+    toId: 'valorant',
+    fromName: 'Call of Duty (Warzone / MW)',
+    toName: 'Valorant',
+    title: 'Call of Duty to Valorant Sensitivity Converter | SensForge',
+    description:
+      'Convert Call of Duty (Warzone & Modern Warfare) sensitivity to Valorant with exact yaw maths (0.0066 → 0.07). Free, instant, in-browser.',
+    h1: 'Call of Duty to Valorant Sensitivity Converter',
+    intro: [
+      'Bringing your aim from Warzone or Modern Warfare to Valorant? Match your exact cm/360 physical turn distance with yaw-exact calculations.',
+    ],
+    sections: [
+      {
+        heading: 'Engine rotation constants (IW Engine to Unreal Engine)',
+        body: 'Modern Call of Duty titles share the IW engine yaw of <code>0.0066</code> degrees per count. Valorant rotates at <code>0.07</code> degrees per count. To transfer your hipfire rotation exactly, multiply your Call of Duty sensitivity by <strong>×0.0943</strong> (or divide by <strong>10.606</strong>) at the same DPI.',
+      },
+      {
+        heading: 'FOV and camera differences',
+        body: 'Warzone players frequently play on 115°–120° FOV with an "Affected" ADS setting. Valorant locks horizontal FOV to 103°. While the physical rotation distance remains identical, higher FOVs in CoD make targets appear smaller and peripheral motion faster. Allow a brief adjustment period.',
+      },
+    ],
+    faq: [
+      {
+        q: 'What is a 6.0 Warzone sensitivity in Valorant?',
+        a: 'A Call of Duty sensitivity of 6.0 converts to <strong>0.566</strong> in Valorant at identical mouse DPI (≈ 28.9 cm/360 at 800 DPI).',
+      },
+      {
+        q: 'Does mouse acceleration or dynamic response curve carry over?',
+        a: 'Valorant uses pure raw mouse input with linear response. In Call of Duty on mouse, ensure mouse filtering and smoothing are set to 0.0 for identical response.',
+      },
+    ],
+    related: ['valorant-to-cs2-sensitivity', 'overwatch-2-to-valorant-sensitivity', 'fortnite-to-valorant-sensitivity'],
+    tableValues: [4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 12.0],
+    defaultValue: 6.0,
+  },
+  {
+    slug: 'cs2-to-apex-legends-sensitivity',
+    fromId: 'cs2',
+    toId: 'apex',
+    fromName: 'CS2',
+    toName: 'Apex Legends',
+    title: 'CS2 to Apex Legends Sensitivity Converter: 1:1 Match | SensForge',
+    description:
+      'Convert CS2 sensitivity to Apex Legends: exact 1:1 Source engine yaw matching (0.022 = 0.022), worked conversion table, and FOV adjustments. Free.',
+    h1: 'CS2 to Apex Legends Sensitivity Converter',
+    intro: [
+      'Both Counter-Strike 2 and Apex Legends share the Source engine rotation constant (<code>m_yaw 0.022</code>). That means your sensitivity slider number is an **exact 1:1 match** at identical mouse DPI.',
+    ],
+    sections: [
+      {
+        heading: 'The Source Engine 1:1 advantage',
+        body: 'Because Valve\'s Source engine and Respawn\'s modified Source branch both use <code>0.022</code> degrees per mouse count, a 1.5 sensitivity in CS2 is identically <strong>1.5</strong> in Apex Legends. Your physical mouse distance for a 360° turn is identical to the millimeter.',
+      },
+      {
+        heading: 'Why Apex feels faster despite identical rotation (FOV explained)',
+        body: 'Even though rotation is 1:1, Apex Legends players typically use 104° or 110° FOV, whereas CS2 defaults to 90° horizontal (or 4:3 stretched). A wider FOV compresses the center of the screen, making camera motion appear faster. Your muscle memory is preserved; the perceived difference is entirely visual.',
+      },
+    ],
+    faq: [
+      {
+        q: 'Is CS2 sensitivity identical to Apex Legends?',
+        a: 'Yes! Both games share the exact same yaw constant (0.022). A CS2 sensitivity of 1.2 is 1.2 in Apex Legends at the same mouse DPI.',
+      },
+      {
+        q: 'How do scoped sensitivities compare?',
+        a: 'Apex Legends allows individual per-optic sensitivity settings (1x, 2x, 3x, etc.), whereas CS2 uses a single zoom_sensitivity_ratio. Keep your hipfire 1:1 and adjust scopes to personal comfort.',
+      },
+    ],
+    related: ['valorant-to-apex-legends-sensitivity', 'cs2-to-valorant-sensitivity', 'apex-to-valorant-sensitivity'],
+    tableValues: [0.8, 1.0, 1.2, 1.5, 1.8, 2.0, 2.5, 3.0],
+    defaultValue: 1.5,
+  },
+  {
+    slug: 'valorant-to-apex-legends-sensitivity',
+    fromId: 'valorant',
+    toId: 'apex',
+    fromName: 'Valorant',
+    toName: 'Apex Legends',
+    title: 'Valorant to Apex Legends Sensitivity Converter | SensForge',
+    description:
+      'Convert Valorant sensitivity to Apex Legends with exact yaw maths (0.07 → 0.022). Full worked conversion table and cm/360 matching. Free, instant.',
+    h1: 'Valorant to Apex Legends Sensitivity Converter',
+    intro: [
+      'Moving from Valorant to Apex Legends? Convert your slider setting so your physical turn distance (cm/360) is matched across both games.',
+    ],
+    sections: [
+      {
+        heading: 'The 3.18× multiplier explained',
+        body: 'Valorant uses a yaw of <code>0.07</code> while Apex Legends uses Source yaw of <code>0.022</code>. To achieve the same physical hand movement, multiply your Valorant sensitivity by <strong>×3.1818</strong> (0.07 ÷ 0.022) at the same mouse DPI.',
+      },
+      {
+        heading: 'Tracking and vertical recoil in Apex',
+        body: 'Unlike Valorant where engagements are decided by instant headshot micro-flicks, Apex Legends requires prolonged tracking through movement abilities, slides, and vertical zip lines. Many players who use low sensitivity in Valorant find that a slight increase in Apex helps track fast-moving targets.',
+      },
+    ],
+    faq: [
+      {
+        q: 'How do I convert Valorant sensitivity to Apex Legends?',
+        a: 'Multiply your Valorant sensitivity by 0.07 ÷ 0.022 (or multiply by ≈ <strong>3.1818</strong>). For example, 0.35 in Valorant equals <strong>1.114</strong> in Apex Legends at identical DPI.',
+      },
+      {
+        q: 'What about mouse DPI changes?',
+        a: 'If you use 800 DPI in Valorant and 1600 DPI in Apex, divide the converted value by 2. Use the interactive tool above to calculate different DPI setups automatically.',
+      },
+    ],
+    related: ['apex-to-valorant-sensitivity', 'cs2-to-apex-legends-sensitivity', 'valorant-to-cs2-sensitivity'],
+    tableValues: [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.6],
+    defaultValue: 0.35,
+  },
 ];
 
 export const pairBySlug = Object.fromEntries(pairPages.map((p) => [p.slug, p]));

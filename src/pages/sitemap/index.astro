@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { games } from '../../data/games';
+import { pairPages } from '../../data/pairs';
 import { site } from '../../data/site';
 
 const title = 'HTML Sitemap: All Pages on SensForge';
@@ -39,14 +40,8 @@ const gameLinks = [
   ['/games/call-of-duty/', 'Call of Duty converter'],
 ];
 
-const pairLinks = [
-  ['/valorant-to-cs2-sensitivity/', 'Valorant → CS2'],
-  ['/cs2-to-valorant-sensitivity/', 'CS2 → Valorant'],
-  ['/valorant-to-overwatch-2-sensitivity/', 'Valorant → Overwatch 2'],
-  ['/fortnite-to-cs2-sensitivity/', 'Fortnite → CS2'],
-  ['/apex-to-valorant-sensitivity/', 'Apex → Valorant'],
-  ['/marvel-rivals-to-overwatch-2-sensitivity/', 'Marvel Rivals → Overwatch 2'],
-];
+const pairLinks = pairPages.map((p) => [`/${p.slug}/`, `${p.fromName} → ${p.toName}`]);
+
 
 const guideLinks = [
   ['/guides/', 'Guides index'],

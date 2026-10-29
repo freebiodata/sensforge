@@ -64,6 +64,11 @@ const relatedPairs = page.related.map((s) => pairBySlug[s]).filter(Boolean);
         <li class="badge">Free · No sign-up</li>
         <li class="badge">Reverse included</li>
       </ul>
+      <div class="card" style="margin-top:16px;padding:14px 18px;border-left:4px solid var(--accent);background:var(--bg-card);text-align:left">
+        <p style="margin:0;font-size:1.05rem;line-height:1.5">
+          <strong>Quick Conversion Formula:</strong> To convert <strong>{page.fromName} to {page.toName}</strong> sensitivity, multiply your {page.fromName} sensitivity by <strong>×{ratio.toFixed(4)}</strong> (at identical mouse DPI).
+        </p>
+      </div>
     </div>
 
     <section class="tool" aria-labelledby="tool-heading">
