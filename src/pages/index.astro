@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ToolCard from '../components/ToolCard.astro';
+import Faq from '../components/Faq.astro';
 import { site } from '../data/site';
 
 const title = 'SensForge: Free Mouse Sensitivity Converter & Aim Calculators (Valorant, CS2, Apex)';
@@ -60,6 +61,33 @@ const guides = [
     desc: 'Effective DPI explained: what it normalizes, and where it quietly misleads you.',
   },
 ];
+
+const faq = [
+  {
+    q: 'How does cross-game mouse sensitivity conversion work?',
+    a: 'Every game engine multiplies raw mouse counts by a built-in rotation constant known as <strong>yaw</strong>. By calculating the physical distance your mouse travels on the pad to execute a 360-degree rotation (cm/360), our converter calculates the exact slider value needed in the target game so your physical hand movement produces the identical camera turn.',
+  },
+  {
+    q: 'Can I just copy my sensitivity number directly between games?',
+    a: 'No. In-game sensitivity sliders are engine-dependent. For example, CS2 uses a yaw of 0.022 degrees per count, whereas Valorant uses 0.07 degrees per count. A sensitivity of 1.0 in CS2 requires a sensitivity of approximately 0.314 in Valorant to maintain the exact same physical turn distance.',
+  },
+  {
+    q: 'Why does eDPI not work when comparing different games?',
+    a: 'eDPI (Effective DPI = Sensitivity × DPI) only normalizes mouse DPI within the <em>same</em> game engine. Because different games have completely different yaw rates, an eDPI of 800 in CS2 equals a 51.95 cm/360 turn distance, whereas an eDPI of 800 in Valorant equals 16.33 cm/360 (over 3 times faster!). To compare aim across different games, always use cm/360.',
+  },
+  {
+    q: 'Will matching my cm/360 protect my muscle memory?',
+    a: 'Yes. Muscle memory in first-person shooters relies on motor memory coordinates (the distance your wrist, arm, and fingers move on the mousepad to flick to a target). By keeping your physical cm/360 turn distance identical, flick distances remain consistent across different game titles.',
+  },
+  {
+    q: 'Does Field of View (FOV) affect how my sensitivity feels?',
+    a: 'Yes. While your physical 360-degree rotation remains identical with matched cm/360, games with different FOVs change the perceptual speed of targets on screen. A narrower FOV makes targets appear larger and move across screen pixels faster, which can make your aim feel subjectively faster. For extreme FOV differences, consider focal-length or monitor-distance matching via our FOV Calculator.',
+  },
+  {
+    q: 'Is SensForge free and does it track my mouse data?',
+    a: 'SensForge is 100% free and open. All mathematical calculations run entirely inside your browser using client-side JavaScript. No accounts, cookies, telemetry, or server tracking are ever used.',
+  },
+];
 ---
 
 <Base
@@ -87,8 +115,82 @@ const guides = [
       </div>
     </div>
 
+    <!-- Quick Conversion Reference Matrix -->
+    <section class="section" aria-labelledby="matrix-heading">
+      <h2 id="matrix-heading">Quick Sensitivity Reference Matrix (800 DPI)</h2>
+      <p class="lead">
+        Find your current sensitivity tier and see the equivalent in-game slider values across top competitive shooters at 800 DPI.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Aim Style / Category</th>
+              <th class="num">cm/360</th>
+              <th class="num">Valorant</th>
+              <th class="num">CS2 / Apex</th>
+              <th class="num">Overwatch 2</th>
+              <th class="num">Fortnite %</th>
+              <th class="num">CoD / Warzone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>High Sens (Speed / Tracking)</strong></td>
+              <td class="num">26.0 cm</td>
+              <td class="num">0.629</td>
+              <td class="num">2.000</td>
+              <td class="num">6.667</td>
+              <td class="num">7.92%</td>
+              <td class="num">6.667</td>
+            </tr>
+            <tr>
+              <td><strong>Medium-High (Balanced)</strong></td>
+              <td class="num">34.6 cm</td>
+              <td class="num">0.471</td>
+              <td class="num">1.500</td>
+              <td class="num">5.000</td>
+              <td class="num">5.94%</td>
+              <td class="num">5.000</td>
+            </tr>
+            <tr>
+              <td><strong>Medium-Low (Tactical Standard)</strong></td>
+              <td class="num">43.3 cm</td>
+              <td class="num">0.377</td>
+              <td class="num">1.200</td>
+              <td class="num">4.000</td>
+              <td class="num">4.75%</td>
+              <td class="num">4.000</td>
+            </tr>
+            <tr>
+              <td><strong>Low Sens (Precision Headclicks)</strong></td>
+              <td class="num">52.0 cm</td>
+              <td class="num">0.314</td>
+              <td class="num">1.000</td>
+              <td class="num">3.333</td>
+              <td class="num">3.96%</td>
+              <td class="num">3.333</td>
+            </tr>
+            <tr>
+              <td><strong>Ultra-Low (Arm Aiming)</strong></td>
+              <td class="num">64.9 cm</td>
+              <td class="num">0.251</td>
+              <td class="num">0.800</td>
+              <td class="num">2.667</td>
+              <td class="num">3.17%</td>
+              <td class="num">2.667</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:10px">
+        Need a different DPI or specific game pair? Jump to our <a href="/sensitivity-converter/">Sensitivity Converter</a> for live interactive calculations.
+      </p>
+    </section>
+
+    <!-- Toolkit Grid -->
     <section class="section" aria-labelledby="tools-heading">
-      <h2 id="tools-heading">The toolkit</h2>
+      <h2 id="tools-heading">The SensForge Toolkit</h2>
       <ul class="tool-cards">
         {tools.map((t) => (
           <ToolCard href={t.href} title={t.title} desc={t.desc} badge={t.badge} />
@@ -96,20 +198,118 @@ const guides = [
       </ul>
     </section>
 
+    <!-- Deep Educational Guide: How Cross-Game Conversion Works -->
+    <section class="section" aria-labelledby="math-heading">
+      <h2 id="math-heading">How Cross-Game Sensitivity Conversion Works: The Mathematics of Aim</h2>
+      <div class="card" style="margin-bottom:20px">
+        <p>
+          When you move your gaming mouse across your pad, the optical sensor captures surface changes and generates directional pulses known as <strong>counts</strong>. 
+          Your mouse DPI (Dots Per Inch, or more accurately Counts Per Inch) defines how many counts your sensor reports for every inch of physical travel.
+        </p>
+        <p>
+          However, game engines do not speak "inches" or "centimeters"—they speak 3D camera angles. Every game engine multiplies your incoming mouse counts by an internal constant called <strong>yaw</strong> (horizontal rotation per count) and your in-game sensitivity multiplier.
+        </p>
+        <div style="background:var(--bg-inset);border-left:4px solid var(--accent);padding:14px 18px;border-radius:4px;margin:16px 0">
+          <strong style="color:var(--text);display:block;margin-bottom:6px">The Universal Cross-Game Conversion Formula:</strong>
+          <code>Target Sens = (Source Sens × Source DPI × Source Yaw) ÷ (Target DPI × Target Yaw)</code>
+        </div>
+        <p style="margin-bottom:0">
+          Because each engine specifies a different base yaw—CS2 uses <code>0.022°</code> (Source engine heritage), Valorant uses <code>0.07°</code> (custom Unreal Engine scale), and Overwatch 2 uses <code>0.0066°</code>—simply copying the numerical slider value from one game into another produces wildly incorrect rotation speeds. SensForge solves this by calculating the underlying physical constant that never changes: <strong>cm/360</strong>.
+        </p>
+      </div>
+
+      <div class="tool-grid cols-2">
+        <div class="card">
+          <h3 style="margin-top:0">What is cm/360?</h3>
+          <p class="small muted">
+            <strong>cm/360</strong> measures the exact physical distance in centimeters your hand must move the mouse across the mousepad to complete a full 360-degree rotation in the 3D game world.
+          </p>
+          <p class="small muted" style="margin-bottom:0">
+            Unlike game-specific sensitivity numbers, cm/360 is hardware- and engine-independent. If your CS2 sensitivity gives you a 35 cm/360 turn distance, applying 35 cm/360 in Apex Legends guarantees your flick distances and arm sweeps require identical physical effort.
+          </p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">What is eDPI and its Limits?</h3>
+          <p class="small muted">
+            <strong>eDPI (Effective DPI)</strong> is calculated by multiplying your in-game sensitivity by your mouse hardware DPI (e.g. <code>2.0 sens × 400 DPI = 800 eDPI</code>).
+          </p>
+          <p class="small muted" style="margin-bottom:0">
+            eDPI is exceptional for comparing settings with teammates or pro players <em>within the exact same game</em>. However, eDPI cannot be compared across different games: 800 eDPI in Valorant is three times faster than 800 eDPI in CS2 due to divergent engine yaw values.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step-by-Step Aim Migration Guide -->
+    <section class="section" aria-labelledby="steps-heading">
+      <h2 id="steps-heading">The 4-Step Aim Migration Protocol</h2>
+      <p class="lead">Follow this structured routine whenever picking up a new first-person shooter to preserve your hard-earned muscle memory:</p>
+      <ol class="steps">
+        <li>
+          <strong>Lock your hardware mouse DPI:</strong> Choose a stable native DPI on your mouse sensor (typically 800 or 1600 DPI for modern optical sensors like the PixArt PAW3395 or Focus Pro) and keep it uniform in your driver software across all games.
+        </li>
+        <li>
+          <strong>Convert using exact yaw matching:</strong> Input your current primary game sensitivity and target game into the <a href="/sensitivity-converter/">Sensitivity Converter</a>. Match your cm/360 so your physical arm and wrist sweep distances remain 1:1.
+        </li>
+        <li>
+          <strong>Calibrate for Field of View (FOV) differences:</strong> If your target game has a significantly wider or narrower field of view (for example, Overwatch at 103° horizontal vs CS2 at 90° horizontal 4:3 stretched), targets will appear to move at different visual velocities. Use our <a href="/fov-calculator/">FOV Calculator</a> to check optical scaling.
+        </li>
+        <li>
+          <strong>Run a 15-minute calibration warmup:</strong> Jump into a practice range, deathmatch lobby, or aim trainer (Aim Lab / KovaaKs). Practice target switching, micro-corrections, and 180-degree emergency turns to let your subconscious motor cortex verify the new game's frame timing and render latency.
+        </li>
+      </ol>
+    </section>
+
+    <!-- Common Sensitivity Mistakes -->
+    <section class="section" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">4 Common Sensitivity Mistakes to Avoid</h2>
+      <div class="tool-grid cols-2">
+        <div class="card">
+          <h3 style="color:var(--amber);margin-top:0">1. Windows Pointer Precision Enabled</h3>
+          <p class="small muted" style="margin-bottom:0">
+            If "Enhance pointer precision" is enabled in Windows Mouse Properties, your mouse introduces non-linear hardware acceleration. Moving your mouse 5 cm quickly will rotate your camera twice as far as moving it 5 cm slowly. Ensure Windows mouse sensitivity is set to 6/11 (1:1 multiplier) and Enhanced Pointer Precision is disabled, or verify the game uses Raw Input.
+          </p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--amber);margin-top:0">2. Sensitivity Shuffling During Slumps</h3>
+          <p class="small muted" style="margin-bottom:0">
+            Changing sensitivity every time your shots aren't landing resets fine motor calibration. Slumps are almost always caused by fatigue, poor crosshair placement, or rushing shots—not your cm/360. Stick to a consistent sensitivity range for at least 2–4 weeks to build neurological consistency.
+          </p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--amber);margin-top:0">3. Cross-Game eDPI Confusion</h3>
+          <p class="small muted" style="margin-bottom:0">
+            Many players see a Valorant pro using "280 eDPI" and enter 0.35 sensitivity in CS2 thinking it's identical. In reality, CS2 would require an eDPI of ~890 to produce that exact physical turn distance. Always convert using cm/360, not raw eDPI numbers.
+          </p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--amber);margin-top:0">4. Ignoring Mousepad Friction &amp; Skates</h3>
+          <p class="small muted" style="margin-bottom:0">
+            Your sensitivity is only half the physical equation—the static and dynamic friction of your mousepad and PTFE/glass mouse skates dictate stopping power and micro-adjustment resistance. A 35 cm/360 on a muddy control pad feels completely different than on a low-friction glass pad.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why SensForge -->
     <section class="section" aria-labelledby="why">
-      <h2 id="why">Why SensForge</h2>
+      <h2 id="why">Why Competitive Players Choose SensForge</h2>
       <div class="card">
         <ul style="margin:0">
-          <li><strong>Yaw-based math, not guesswork.</strong> Every conversion uses each game's documented rotation constant, with confidence labels on the <a href="/methodology/">methodology page</a>.</li>
-          <li><strong>Everything runs locally.</strong> No uploads, no accounts, no tracking of the settings you enter. Close the tab and nothing persists.</li>
-          <li><strong>Built for the way players actually measure.</strong> cm/360, eDPI and DPI analysis (the metrics the aim community uses), not vanity numbers.</li>
-          <li><strong>Honest limits.</strong> Where a yaw value is only single-source or approximate, we say so instead of pretending precision.</li>
+          <li><strong>Yaw-based math, not guesswork:</strong> Every conversion uses each game's documented rotation constant, with transparency labels on our <a href="/methodology/">methodology page</a>.</li>
+          <li><strong>Zero tracking, 100% client-side:</strong> No accounts, no data harvesting, and no analytics tracking what settings you enter. Your gaming configuration is private.</li>
+          <li><strong>Built for real FPS mechanics:</strong> cm/360, true sensor DPI analysis, and aspect-ratio-aware FOV conversion designed for competitive aimers.</li>
+          <li><strong>Honest confidence ratings:</strong> Where a yaw value is approximate or proprietary, we document the source and formula openly.</li>
         </ul>
       </div>
     </section>
 
+    <!-- FAQ Section -->
+    <Faq items={faq} />
+
+    <!-- Guides Section -->
     <section class="section" aria-labelledby="guides-heading">
-      <h2 id="guides-heading">Learn the numbers</h2>
+      <h2 id="guides-heading">Deep-Dive Guides &amp; Documentation</h2>
       <ul class="related-grid" style="list-style:none;padding:0">
         {guides.map((g) => (
           <li>
@@ -122,18 +322,17 @@ const guides = [
         <li>
           <a class="tool-card" href="/guides/">
             <span class="tc-title">All guides →</span>
-            <p class="tc-desc">Short, practical explainers for FPS aiming metrics.</p>
+            <p class="tc-desc">Short, practical explainers for FPS aiming metrics, cm/360, and eDPI.</p>
           </a>
         </li>
       </ul>
     </section>
 
+    <!-- About Section -->
     <section class="section" aria-labelledby="about-summ">
-      <h2 id="about-summ">Who runs this site</h2>
+      <h2 id="about-summ">About SensForge</h2>
       <p class="lead">
-        SensForge is an independent, player-run toolset. We build the calculators we wanted while switching
-        between competitive shooters ourselves, <a href="/about/">read the full story</a> or check the
-        <a href="/methodology/">methodology</a> behind every formula.
+        SensForge is an independent, player-crafted aiming toolkit. We build the calculators and converters we needed while competing across multiple FPS titles ourselves. Learn more about our story on the <a href="/about/">about page</a> or inspect the mathematical constants in our <a href="/methodology/">methodology reference</a>.
       </p>
     </section>
   </div>
